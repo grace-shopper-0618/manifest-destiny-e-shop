@@ -1,2 +1,4 @@
 # graceshopper
+Teammates
+Alicia
 Amy
