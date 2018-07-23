@@ -1,3 +1,0 @@
-# graceshopper
-Teammates
--Alicia Dinkel
