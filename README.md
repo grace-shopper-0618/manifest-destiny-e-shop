@@ -1,3 +1,0 @@
-# graceshopper
-
-Shelby Smitherman
