@@ -15,6 +15,7 @@ What does this group do when we merge our work together?
 Do we do it together? Do we require sign off from someone else?
 
 --All PR will require sign off from someone else. We will also stop to walk full team through our overall big picture functionality when we have time (before lunch or end of day). In stand-up meeting we will discuss who will need to be communciating closely during the day. (ex: if both people are writing API routes or working with a lot of the same files)
+--If submitting a PR, notify team via Slack. If reviewing PR, notify team to pull and merge with their current branch. 
 
 When does this group ask for help?
 After 10 minutes? 15? 20? After everybody's tried to solve the problem? What strategies do we use before we ask for help?
