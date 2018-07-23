@@ -1,4 +1,7 @@
 # manifest-destiny-e-shop
-Amy
-Kara
-Shelby
+
+CONTRIBUTORS:
+-Amy
+-Kara
+-Shelby
+-Alicia
