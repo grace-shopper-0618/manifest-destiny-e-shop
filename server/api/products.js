@@ -11,3 +11,20 @@ router.get('/', async (req, res, next) => {
         next(err)
     }
 })
+
+//get single product
+router.get('/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id,
+    product = await Product.findById(id)
+
+    if(!product) {
+      const err = new Error(`No product found with id of ${id}.`)
+      err.status = 404
+      return next(err)
+    }
+    res.json(product)
+  } catch (err) {
+    next(err)
+  }
+})

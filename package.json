@@ -13,7 +13,6 @@
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint-fix": "npm run lint -- --fix",
     "precommit": "# lint-staged # un-comment to enable",
-    "prepare": "npm-merge-driver install",
     "prettify": "prettier --write \"**/*.{js,jsx,json,css,scss,md}\"",
     "postinstall": "touch secrets.js",
     "seed": "node script/seed.js",
@@ -36,6 +35,7 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
+    "ajv": "^6.5.2",
     "axios": "^0.15.3",
     "compression": "^1.7.1",
     "connect-session-sequelize": "^4.1.0",
