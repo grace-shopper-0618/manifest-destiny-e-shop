@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getProductsFromDb} from '../store/products'
+import {Link} from 'react-router-dom'
 
 // COMPONENT
 class AllProducts extends React.Component {
@@ -15,8 +16,8 @@ class AllProducts extends React.Component {
       <div id="all-products">
         {
           products.map(product => (
-            <div className="product-card" >
-              <h3>{product.title}</h3>
+            <div className="product-card" key={product.id} >
+              <Link to={`/shop/${product.id}`} >{product.title}</Link>
               <img className="product-card-image" src={product.photoUrl} />
               {/* does product.price give the correct price? also show part of description? show 'sold out' or similar comments to shopper based on inventory? */}
               <h4>${product.price}</h4>
