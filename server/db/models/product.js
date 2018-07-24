@@ -50,3 +50,5 @@ Product.beforeValidate(product => {
   product.category = product.category.split(', ')
 })
 
+module.exports = Product
+
