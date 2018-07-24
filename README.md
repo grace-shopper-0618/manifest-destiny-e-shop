@@ -1,4 +1,4 @@
-# manifest-destiny-e-shop
+# oregon-trail-outfitters
 
 CONTRIBUTORS:
 -Amy
