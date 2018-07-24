@@ -12,7 +12,7 @@ Order.belongsTo(User)
 User.hasMany(Order)
 
 Product.belongsToMany(Category)
-Category.belongsToMany(Order)
+Category.belongsToMany(Product)
 
 Review.belongsTo(User)
 User.hasMany(Review)
