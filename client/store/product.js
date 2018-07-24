@@ -14,6 +14,16 @@ export const getProduct = product => ({
 })
 
 // THUNK CREATORS
+export const getProductFromDb = (id) => {
+  return async (dispatch) => {
+    try {
+      const {data} = await axios.get(`/api/products/${id}`)
+      dispatch(getProduct(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
 
 // REDUCER
 const reducer = (state = initialState, action) => {
