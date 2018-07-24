@@ -32,10 +32,6 @@ const Product = db.define('product', {
       [Op.gte]: 0
     }
   },
-  category: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    allowNull: false
-  },
   photoUrl: {
     type: Sequelize.STRING,
     defaultValue: 'http://www.crystalinks.com/wagonwheel.jpg',
@@ -43,11 +39,6 @@ const Product = db.define('product', {
       isUrl: true
     }
   }
-}
-)
-
-Product.beforeValidate(product => {
-  product.category = product.category.split(', ')
 })
 
 module.exports = Product
