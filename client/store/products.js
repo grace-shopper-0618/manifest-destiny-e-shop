@@ -14,13 +14,23 @@ const getProducts = (products) => ({
 })
 
 //THUNK CREATORS
+export const getProductsFromDb = () => {
+  return async (dispatch) => {
+    try {
+      const {data} = await axios.get('/api/products')
+      dispatch(getProducts(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
 
 //REDUCER
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_PRODUCTS:
             return action.products
-        default: 
+        default:
             return state
     }
 }
