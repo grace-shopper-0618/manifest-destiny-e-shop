@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const { User, Product } = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -15,21 +15,55 @@ const {User} = require('../server/db/models')
  * Now that you've got the main idea, check it out in practice below!
  */
 
+const products = [
+  {
+    title: 'Conestoga Wagon',
+    description: 'I pledge allegiance to the flag',
+    price: 99999,
+    inventory: 15
+  },
+  {
+    title: 'Wagon Wheel',
+    description: 'rusty wheel',
+    price: 2000,
+    inventory: 100
+  },
+  {
+    title: 'Soap',
+    description: 'clean yourself!',
+    price: 50,
+    inventory: 1000
+  },
+  {
+    title: 'Washboard',
+    description: 'clean yourself!',
+    price: 150,
+    inventory: 200
+  },
+  {
+    title: 'Flour',
+    description: 'eat',
+    price: 30,
+    inventory: 2000
+  }
+]
+
 async function seed() {
-  await db.sync({force: true})
+  await db.sync({ force: true })
   console.log('db synced!')
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  const newProducts = await Promise.all(products.map(product => Product.create(product)))
+  // const users = await Promise.all([
+  //   User.create({email: 'cody@email.com', password: '123'}),
+  //   User.create({email: 'murphy@email.com', password: '123'})
+  // ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
-  console.log(`seeded ${users.length} users`)
+  // console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${newProducts.length} products`)
   console.log(`seeded successfully`)
 }
-
 // We've separated the `seed` function from the `runSeed` function.
 // This way we can isolate the error handling and exit trapping.
 // The `seed` function is concerned only with modifying the database.
