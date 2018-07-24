@@ -11,8 +11,8 @@ Order.belongsToMany(Product, {through: 'line-item'})
 Order.belongsTo(User)
 User.hasMany(Order)
 
-Product.belongsToMany(Category)
-Category.belongsToMany(Product)
+Product.belongsToMany(Category, {through: 'tags'})
+Category.belongsToMany(Product, {through: 'tags'})
 
 Review.belongsTo(User)
 User.hasMany(Review)
