@@ -11,9 +11,10 @@ class SingleProduct extends Component {
   }
 
   render () {
-    const {product} = this.props
+    const {product, user} = this.props
     return (
       <div key={product.id}>
+      <p>{hellokitty.email}</p>
         <h3>{product.title}</h3>
         <h1>${product.price}</h1>
         <img src={product.photoUrl} />
@@ -43,7 +44,8 @@ class SingleProduct extends Component {
 }
 
 const mapState = state => ({
-  product: state.product
+  product: state.product,
+  user: state.user
 })
 
 const mapDispatch = dispatch => ({
