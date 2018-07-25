@@ -1,18 +1,25 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {getProductsFromDb} from '../store/products'
-import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getProductsFromDb } from '../store/products'
+import { Link } from 'react-router-dom'
 import CategoryList from './category-list'
 
 // COMPONENT
 class AllProducts extends React.Component {
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchProducts()
   }
 
-  render () {
-    const { products } = this.props
+  //may need refactoring to remove use of var
+  render() {
+    const selectedCategory = this.props.selectedCategory
+    if (selectedCategory.name) {
+      var { products } = selectedCategory
+    }
+    else {
+      products = this.props.products
+    }
     return (
       <div id="all-products">
         <CategoryList />
@@ -33,7 +40,8 @@ class AllProducts extends React.Component {
 }
 
 const mapState = state => ({
-  products: state.products
+  products: state.products,
+  selectedCategory: state.selectedCategory
 })
 
 const mapDispatch = (dispatch) => ({
