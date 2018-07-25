@@ -10,11 +10,22 @@ class SingleProduct extends Component {
     this.props.getProduct(id)
   }
 
+  renderButtons () {
+    const {user} = this.props
+    if (user.isAdmin) {
+      return (
+        <div id='buttons'>
+          <button type="button">Edit</button>
+          <button type="button">Delete</button>
+        </div>
+      )
+    }
+  }
+
   render () {
-    const {product, user} = this.props
+    const {product} = this.props
     return (
       <div key={product.id}>
-      <p>{hellokitty.email}</p>
         <h3>{product.title}</h3>
         <h1>${product.price}</h1>
         <img src={product.photoUrl} />
@@ -38,10 +49,13 @@ class SingleProduct extends Component {
             )
           })
         }
+        {this.renderButtons()}
       </div>
     )
   }
 }
+
+// can we use a higher-order component here?
 
 const mapState = state => ({
   product: state.product,
