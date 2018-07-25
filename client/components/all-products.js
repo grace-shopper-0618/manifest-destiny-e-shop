@@ -1,17 +1,23 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {getProductsFromDb} from '../store/products'
-import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getProductsFromDb } from '../store/products'
+import { Link } from 'react-router-dom'
 
 // COMPONENT
 class AllProducts extends React.Component {
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchProducts()
   }
 
-  render () {
-    const { products } = this.props
+  render() {
+    const { selectedCategory } = this.props
+    if (selectedCategory) {
+      const { products } = selectedCategory
+    }
+    else {
+      const { products } = this.props
+    }
     return (
       <div id="all-products">
         {
@@ -31,7 +37,8 @@ class AllProducts extends React.Component {
 }
 
 const mapState = state => ({
-  products: state.products
+  products: state.products,
+  selectedCategory: state.selectedCategory
 })
 
 const mapDispatch = (dispatch) => ({
