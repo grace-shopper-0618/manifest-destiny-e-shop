@@ -19,7 +19,7 @@ class SingleProduct extends Component {
         <img src={product.photoUrl} />
         <p>{product.description}</p>
         {
-          product.categories.map(category => {
+          product.categories && product.categories.map(category => {
             return (
               <div key={category.name}>
                 <p>{category.name}</p>
@@ -29,7 +29,7 @@ class SingleProduct extends Component {
         }
         <p>{product.inventory} in stock</p>
         {
-          product.reviews.map(review => {
+          product.reviews && product.reviews.map(review => {
             return (
               <div key={review.id}>
                 <p>{review.text}</p>
@@ -41,7 +41,6 @@ class SingleProduct extends Component {
     )
   }
 }
-// may need to add check to reviews map JSX to check for truthiness
 
 const mapState = state => ({
   product: state.product
