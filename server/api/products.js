@@ -5,8 +5,11 @@ module.exports = router
 //get all products
 router.get('/', async (req, res, next) => {
     try {
-        const products = await Product.findAll()
-        res.json(products)
+        const products = await Product.findAll({
+          include: [{model: Category}]
+        })
+        res.status(200).json(products)
+        // do we need special error handling here?
     } catch (err) {
         next(err)
     }
