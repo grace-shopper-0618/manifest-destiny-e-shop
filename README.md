@@ -1,39 +1,27 @@
-# oregon-trail-outfitters
+#Welcome to Oregon Trail Outfitters!
 
-CONTRIBUTORS:
--Amy
--Kara
--Shelby
--Alicia
-# Boilermaker
+#Description:
+An e-commerce store for all of your Oregon Trail needs!
 
-_Good things come in pairs_
+#Instructions
+To run this locally, follow the below instructions: 
+1. Run 'npm install' to install required packages 
+2. Run 'create db oregon-trail' to create database
+3. Run 'npm run seed' to seed the database
+4. Run 'npm run start-dev' to run the program locally
+5. Navigate to localhost:8080 in your browser 
 
-Looking to mix up a backend with express/sequelize and a frontend with react/redux? That's `boilermaker`!
+#Deployed app:
+https://oregon-trail-outfitters.herokuapp.com/
 
-Follow along with the workshop to make your own! This canonical version can serve as a reference, or a starting point all on its own.
+#Contributors:
+-Amy Berg
+-Kara Hirschman
+-Shelby Smitherman
+-Alicia Dinkel
 
-## Setup
 
-To use this boilerplate, you'll need to take the following steps:
-
-* Don't fork or clone this repo! Instead, create a new, empty directory on your machine and `git init` (or create an empty repo on Github and clone it to your local machine)
-* Run the following commands:
-
-```
-git remote add boilermaker https://github.com/FullstackAcademy/boilermaker.git
-git fetch boilermaker
-git merge boilermaker/master
-```
-
-Why did we do that? Because every once in a while, `boilermaker` may be updated with additional features or bug fixes, and you can easily get those changes from now on by entering:
-
-```
-git fetch boilermaker
-git merge boilermaker/master
-```
-
-## Customize
+## Customize - DELETE BELOW LATER! 
 
 Now that you've got the code, follow these steps to get acclimated:
 
@@ -58,23 +46,6 @@ Now that you've got the code, follow these steps to get acclimated:
   * You can get them here: https://console.developers.google.com/apis/credentials
 * Finally, complete the section below to set up your linter
 
-## Linting
-
-Linters are fundamental to any project - they ensure that your code has a consistent style, which is critical to writing readable code.
-
-Boilermaker comes with a working linter (ESLint, with `eslint-config-fullstack`) "out of the box." However, everyone has their own style, so we recommend that you and your team work out yours and stick to it. Any linter rule that you object to can be "turned off" in `.eslintrc.json`. You may also choose an entirely different config if you don't like ours:
-
-* [Standard style guide](https://standardjs.com/)
-* [Airbnb style guide](https://github.com/airbnb/javascript)
-* [Google style guide](https://google.github.io/styleguide/jsguide.html)
-
-## Start
-
-`npm run start-dev` will make great things happen!
-
-If you want to run the server and/or webpack separately, you can also `npm run start-server` and `npm run build-client`.
-
-From there, just follow your bliss.
 
 ## Deployment
 
