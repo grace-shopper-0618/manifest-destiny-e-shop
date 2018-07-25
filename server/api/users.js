@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const { User } = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ['id', 'email']
     })
-    res.json(users)
+    res.status(200).json(users)
   } catch (err) {
     next(err)
   }
