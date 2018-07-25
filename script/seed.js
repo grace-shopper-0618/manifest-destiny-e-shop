@@ -120,6 +120,41 @@ const users = [
   }
 ]
 
+const tags = [
+  {
+    productId: 1,
+    categoryId: 3
+  },
+  {
+    productId: 2,
+    categoryId: 3
+  },
+  {
+    productId: 3,
+    categoryId: 1
+  },
+  {
+    productId: 4,
+    categoryId: 1
+  },
+  {
+    productId: 5,
+    categoryId: 2
+  },
+  {
+    productId: 6,
+    categoryId: 2
+  },
+  {
+    productId: 7,
+    categoryId: 5
+  },
+  {
+    productId: 8,
+    categoryId: 5
+  }
+]
+
 async function seed() {
   await db.sync({ force: true })
   console.log('db synced!')
@@ -129,6 +164,7 @@ async function seed() {
   const newCategories = await Promise.all(categories.map(category => Category.create(category)))
   const newUsers = await Promise.all(users.map(user => User.create(user)))
   const newReviews = await Promise.all(reviews.map(review => Review.create(review)))
+
   // const users = await Promise.all([
   //   User.create({email: 'cody@email.com', password: '123'}),
   //   User.create({email: 'murphy@email.com', password: '123'})
@@ -136,6 +172,7 @@ async function seed() {
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
   // console.log(`seeded ${users.length} users`)
+
   console.log(`seeded ${newProducts.length} products`)
   console.log(`seeded ${newCategories.length} categories`)
   console.log(`seeded ${newReviews.length} reviews`)
@@ -143,10 +180,29 @@ async function seed() {
   console.log(`seeded successfully`)
 
   const conestogaWagon = await Product.findById(1)
-  const transportation = await Category.findById(3)
-  await conestogaWagon.setCategories(transportation)
   const wagonWheel = await Product.findById(2)
+  const soap = await Product.findById(3)
+  const washboard = await Product.findById(4)
+  const flour = await Product.findById(5)
+  const oats = await Product.findById(6)
+  const oxen = await Product.findById(7)
+  const palomino = await Product.findById(8)
+  const rations = await Category.findById(1)
+  const pastimes = await Category.findById(2)
+  const transportation = await Category.findById(3)
+  const cleanliness = await Category.findById(4)
+  const livestock = await Category.findById(5)
+  await conestogaWagon.setCategories(transportation)
   await wagonWheel.setCategories(transportation)
+  await soap.setCategories(cleanliness)
+  await washboard.setCategories(cleanliness)
+  await flour.setCategories(rations)
+  await oats.setCategories(rations)
+  await oxen.setCategories(livestock)
+  await palomino.setCategories(livestock)
+  await oxen.setCategories(transportation)
+  await palomino.setCategories(transportation)
+  // let updatedWagon = await Product.findOne({where: {id: 1}}, {include: [{model: Category}]})
 
 }
 // We've separated the `seed` function from the `runSeed` function.
