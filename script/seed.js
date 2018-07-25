@@ -94,7 +94,9 @@ const reviews = [
 
 const users = [
   {
-
+    email: "admin@oregontrailoutfitters.com",
+    password: "password",
+    isAdmin: true
   }
 ]
 
