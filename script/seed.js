@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const { User, Product } = require('../server/db/models')
+const { User, Product, Category } = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -18,34 +18,60 @@ const { User, Product } = require('../server/db/models')
 const products = [
   {
     title: 'Conestoga Wagon',
-    description: 'I pledge allegiance to the flag',
+    description: 'For getting where you need to go',
     price: 99999,
     inventory: 15
   },
   {
     title: 'Wagon Wheel',
-    description: 'rusty wheel',
+    description: 'Great condition--good as new & free of rust!',
     price: 2000,
     inventory: 100
   },
   {
     title: 'Soap',
-    description: 'clean yourself!',
+    description: 'Stay clean',
     price: 50,
     inventory: 1000
   },
   {
     title: 'Washboard',
-    description: 'clean yourself!',
+    description: 'Keep your clothes fresh',
     price: 150,
     inventory: 200
   },
   {
     title: 'Flour',
-    description: 'eat',
+    description: 'For your baking needs',
     price: 30,
     inventory: 2000
+  },
+  {
+    title: 'Oats',
+    description: 'For people and livestock',
+    price: 20,
+    inventory: 2000
+  },
+  {
+    title: 'Team of Oxen',
+    description: 'Trained with the same model of wagon we sell in order to maximize compatibility',
+    price: 99999,
+    inventory: 5
+  }, 
+  {
+    title: 'Palomino Horse',
+    description: 'Short in the teeth or your money back',
+    price: 99999,
+    inventory: 3
   }
+]
+
+const categories = [
+  {name: "Wagon & Transportation Needs"},
+  {name: "Cleanliness is Next to Godliness"},
+  {name: "Food & Rations"},
+  {name: "Pastimes & Entertainment"},
+  {name: "Livestock"}
 ]
 
 async function seed() {
@@ -54,6 +80,7 @@ async function seed() {
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
   const newProducts = await Promise.all(products.map(product => Product.create(product)))
+  const newCategories = await Promise.all(categories.map(category => Category.create(category)))
   // const users = await Promise.all([
   //   User.create({email: 'cody@email.com', password: '123'}),
   //   User.create({email: 'murphy@email.com', password: '123'})
