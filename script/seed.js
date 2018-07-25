@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const { User, Product, Category } = require('../server/db/models')
+const { User, Product, Category, Review } = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -60,18 +60,42 @@ const products = [
   }, 
   {
     title: 'Palomino Horse',
-    description: 'Short in the teeth or your money back',
+    description: 'Short in the tooth or your money back',
     price: 99999,
     inventory: 3
   }
 ]
 
 const categories = [
-  {name: "Wagon & Transportation Needs"},
-  {name: "Cleanliness is Next to Godliness"},
-  {name: "Food & Rations"},
-  {name: "Pastimes & Entertainment"},
-  {name: "Livestock"}
+  {name: 'Wagon & Transportation Needs'},
+  {name: 'Cleanliness is Next to Godliness'},
+  {name: 'Food & Rations'},
+  {name: 'Pastimes & Entertainment'},
+  {name: 'Livestock'}
+]
+
+const reviews = [
+  {
+    text: "5 stars: My family's wagon wheel fell off in a treacherous Rocky Mountain path! Luckily we brought extra wheels, purchased from Oregon Trail Outfitters. Highly recommended."
+  },
+  {
+    text: "1 star: The flour was infested with mites."
+  },
+  {
+    text: "3 stars: The oxen healthy and strong but don't respond well to direction."
+  },
+  {
+    text: "4 stars: The soap works but it gave me dandruff."
+  },
+  {
+    text: "5 stars: Delicious oats and great price!"
+  }
+]
+
+const users = [
+  {
+
+  }
 ]
 
 async function seed() {
@@ -81,6 +105,8 @@ async function seed() {
   // executed until that promise resolves!
   const newProducts = await Promise.all(products.map(product => Product.create(product)))
   const newCategories = await Promise.all(categories.map(category => Category.create(category)))
+  const newReviews = await Promise.all(reviews.map(review => Review.create(review)))
+  const newUsers = await Promise.all(users.map(user => User.create(user)))
   // const users = await Promise.all([
   //   User.create({email: 'cody@email.com', password: '123'}),
   //   User.create({email: 'murphy@email.com', password: '123'})
@@ -89,6 +115,9 @@ async function seed() {
   // and store the result that the promise resolves to in a variable! This is nice!
   // console.log(`seeded ${users.length} users`)
   console.log(`seeded ${newProducts.length} products`)
+  console.log(`seeded ${newCategories.length} categories`)
+  console.log(`seeded ${newReviews.length} reviews`)
+  console.log(`seeded ${newUsers.length} users`)
   console.log(`seeded successfully`)
 }
 // We've separated the `seed` function from the `runSeed` function.
