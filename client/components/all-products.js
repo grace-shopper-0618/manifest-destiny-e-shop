@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { getProductsFromDb } from '../store/products'
 import { Link } from 'react-router-dom'
+import CategoryList from './category-list'
 
 // COMPONENT
 class AllProducts extends React.Component {
@@ -10,16 +11,18 @@ class AllProducts extends React.Component {
     this.props.fetchProducts()
   }
 
+  //may need refactoring to remove use of var
   render() {
-    const { selectedCategory } = this.props
-    if (selectedCategory) {
-      const { products } = selectedCategory
+    const selectedCategory = this.props.selectedCategory
+    if (selectedCategory.name) {
+      var { products } = selectedCategory
     }
     else {
-      const { products } = this.props
+      products = this.props.products
     }
     return (
       <div id="all-products">
+        <CategoryList />
         {
           products.map(product => (
             <div className="product-card" key={product.id} >
