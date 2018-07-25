@@ -67,28 +67,48 @@ const products = [
 ]
 
 const categories = [
-  {name: 'Wagon & Transportation Needs'},
-  {name: 'Cleanliness is Next to Godliness'},
-  {name: 'Food & Rations'},
-  {name: 'Pastimes & Entertainment'},
-  {name: 'Livestock'}
+  {
+    name: 'Wagon & Transportation Needs'
+  },
+  {
+    name: 'Cleanliness is Next to Godliness'
+  },
+  {
+    name: 'Food & Rations'
+  },
+  {
+    name: 'Pastimes & Entertainment'
+  },
+  {
+    name: 'Livestock'
+  }
 ]
 
 const reviews = [
   {
-    text: "5 stars: My family's wagon wheel fell off in a treacherous Rocky Mountain path! Luckily we brought extra wheels, purchased from Oregon Trail Outfitters. Highly recommended."
+    text: "5 stars: My family's wagon wheel fell off on a treacherous Rocky Mountain path! Luckily we brought extra wheels, purchased from Oregon Trail Outfitters. Highly recommended.",
+    productId: 2,
+    userId: 1
   },
   {
-    text: "1 star: The flour was infested with mites."
+    text: "1 star: The flour was infested with mites.",
+    productId: 5,
+    userId: 1
   },
   {
-    text: "3 stars: The oxen healthy and strong but don't respond well to direction."
+    text: "3 stars: The oxen healthy and strong but don't respond well to direction.",
+    productId: 7,
+    userId: 1
   },
   {
-    text: "4 stars: The soap works but it gave me dandruff."
+    text: "4 stars: The soap works but it gave me dandruff.",
+    productId: 3,
+    userId: 1
   },
   {
-    text: "5 stars: Delicious oats and great price!"
+    text: "5 stars: Delicious oats and great price!",
+    productId: 6,
+    userId: 1
   }
 ]
 
@@ -107,8 +127,8 @@ async function seed() {
   // executed until that promise resolves!
   const newProducts = await Promise.all(products.map(product => Product.create(product)))
   const newCategories = await Promise.all(categories.map(category => Category.create(category)))
-  const newReviews = await Promise.all(reviews.map(review => Review.create(review)))
   const newUsers = await Promise.all(users.map(user => User.create(user)))
+  const newReviews = await Promise.all(reviews.map(review => Review.create(review)))
   // const users = await Promise.all([
   //   User.create({email: 'cody@email.com', password: '123'}),
   //   User.create({email: 'murphy@email.com', password: '123'})
@@ -121,6 +141,13 @@ async function seed() {
   console.log(`seeded ${newReviews.length} reviews`)
   console.log(`seeded ${newUsers.length} users`)
   console.log(`seeded successfully`)
+
+  const conestogaWagon = await Product.findById(1)
+  const transportation = await Category.findById(3)
+  await conestogaWagon.setCategories(transportation)
+  const wagonWheel = await Product.findById(2)
+  await wagonWheel.setCategories(transportation)
+
 }
 // We've separated the `seed` function from the `runSeed` function.
 // This way we can isolate the error handling and exit trapping.
