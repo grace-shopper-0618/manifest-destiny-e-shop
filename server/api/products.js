@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product, Category} = require('../db/models')
+const {Product, Category, Review} = require('../db/models')
 module.exports = router
 
 //get all products
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id,
     product = await Product.findById(id, {
-      include: [{model: Category}]
+      include: [{model: Category}, {model: Review}]
     })
 
     if(!product) {

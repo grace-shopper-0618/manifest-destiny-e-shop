@@ -13,17 +13,35 @@ class SingleProduct extends Component {
   render () {
     const {product} = this.props
     return (
-      <div>
+      <div key={product.id}>
         <h3>{product.title}</h3>
-        <h1>{product.price}</h1>
+        <h1>${product.price}</h1>
         <img src={product.photoUrl} />
-        <p>{product.descriiption}</p>
+        <p>{product.description}</p>
+        {
+          product.categories.map(category => {
+            return (
+              <div key={category.name}>
+                <p>{category.name}</p>
+              </div>
+            )
+          })
+        }
         <p>{product.inventory} in stock</p>
-        {/* ADD REVIEWS TO THIS COMPONENT */}
+        {
+          product.reviews.map(review => {
+            return (
+              <div key={review.id}>
+                <p>{review.text}</p>
+              </div>
+            )
+          })
+        }
       </div>
     )
   }
 }
+// may need to add check to reviews map JSX to check for truthiness
 
 const mapState = state => ({
   product: state.product
