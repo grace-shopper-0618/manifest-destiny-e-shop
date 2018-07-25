@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Category} = require('../db/models')
+const {Category, Product} = require('../db/models')
 module.exports = router
 
 //get for path /api/categories
@@ -16,7 +16,9 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const id = +req.params.id
-    const category = Category.findById(id)
+    const category = await Category.findById(id, {
+      include: [{model: Product}]
+    })
 
     if(!category) {
       const err = new Error(`No category found with id of ${id}.`)

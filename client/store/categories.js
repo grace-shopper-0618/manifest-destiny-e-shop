@@ -14,7 +14,7 @@ const getCategories = (categories) => ({
 })
 
 //THUNK CREATORS
-export const getProductsFromDb = () => {
+export const getCategoriesFromDb = () => {
   return async (dispatch) => {
     try {
       const {data} = await axios.get('/api/categories')
