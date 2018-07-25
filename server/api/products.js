@@ -19,14 +19,16 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id,
-    product = await Product.findById(id)
+    product = await Product.findById(id, {
+      include: [{model: Category}]
+    })
 
     if(!product) {
       const err = new Error(`No product found with id of ${id}.`)
       err.status = 404
       return next(err)
     }
-    res.json(product)
+    res.status(200).json(product)
   } catch (err) {
     next(err)
   }
