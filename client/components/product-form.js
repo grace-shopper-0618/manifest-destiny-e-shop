@@ -2,22 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { editProductInDb, getProductFromDb } from '../store/product'
 import { addProductToState } from '../store/products'
-import { store } from '../store'
+import store from '../store'
 
 class ProductForm extends Component {
   constructor(props) {
     super(props)
-    // const { title, description, price, inventory, photoUrl, categories, edit } = this.props
-    // if (edit) {
-    //   this.state = {
-    //     title,
-    //     description,
-    //     price,
-    //     inventory,
-    //     photoUrl,
-    //     categories
-    //   }
-    // } else {
     this.state = {
       title: '',
       description: '',
@@ -42,11 +31,11 @@ class ProductForm extends Component {
         console.log('PRODUCT ON STATE', store.getState())
         this.setState({
           title: store.getState().product.title || '',
-          description,
-          price,
-          inventory,
-          photoUrl,
-          categories
+          description: store.getState().product.description || '',
+          price: store.getState().product.price || '',
+          inventory: store.getState().product.inventory || '',
+          photoUrl: store.getState().product.photoUrl || '',
+          categories: store.getState().product.photoUrl || '',
         })
       })
     }
@@ -67,10 +56,10 @@ class ProductForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault()
     if (this.props.edit === true) {
-      this.props.editProduct(this.state, this.props.history)
+      this.props.editProduct(this.state, Number(this.props.match.params.id)) //passes in local state and product id
     }
     else {
-      this.props.addProduct(this.state, this.props.history)
+      this.props.addProduct(this.state)
     }
   }
 
@@ -80,7 +69,7 @@ class ProductForm extends Component {
         <form id="product-form" onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="title">Title</label>
-            <input name="title" type="text" onChange={this.handleChange} value={this.props.title} />
+            <input name="title" type="text" onChange={this.handleChange} value={this.state.title} />
           </div>
           <div>
             <label htmlFor="description">Description</label>
@@ -144,10 +133,10 @@ const mapPropsForAdd = state => {
 const mapDispatch = (dispatch) => {
   return {
     getProduct: (id) => dispatch(getProductFromDb(id)),
-    editProduct: (product, history) => dispatch(editProductInDb(product, history)),
-    addProduct: (product, history) => dispatch(addProductToState(product, history))
+    editProduct: (product, id) => dispatch(editProductInDb(product, id)),
+    addProduct: (product) => dispatch(addProductToState(product))
   }
 }
 
-export const EditForm = connect(mapEdit, mapDispatch)(ProductForm)
-export const AddForm = connect(mapAdd, mapDispatch)(ProductForm)
+export const EditForm = connect(mapPropsForEdit, mapDispatch)(ProductForm)
+export const AddForm = connect(mapPropsForAdd, mapDispatch)(ProductForm)

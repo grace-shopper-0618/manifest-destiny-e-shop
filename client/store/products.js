@@ -12,8 +12,8 @@ const initialState = []
 
 //ACTION CREATORS
 const getProducts = (products) => ({
-    type: GET_PRODUCTS,
-    products
+  type: GET_PRODUCTS,
+  products
 })
 
 const addProduct = product => ({
@@ -23,8 +23,8 @@ const addProduct = product => ({
 
 const deleteProduct = (productId) => {
   return {
-  type: DELETE_PRODUCT,
-  productId
+    type: DELETE_PRODUCT,
+    productId
   }
 }
 
@@ -33,7 +33,7 @@ const deleteProduct = (productId) => {
 export const getProductsFromDb = () => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get('/api/products')
+      const { data } = await axios.get('/api/products')
       dispatch(getProducts(data))
     } catch (error) {
       console.error(error)
@@ -42,12 +42,12 @@ export const getProductsFromDb = () => {
 }
 
 
-export const addProductToState = (product, historyProp) => {
+export const addProductToState = (product) => {
   return async dispatch => {
     try {
-      const {data} = await axios.post('/api/products', product)
+      const { data } = await axios.post('/api/products', product)
       dispatch(addProduct(data))
-      historyProp.push(`/shop/${product.id}`)
+      history.push(`/shop/${data.id}`)
     } catch (error) {
       console.log(error)
     }
@@ -68,20 +68,20 @@ export const removeProductFromDb = (productId) => {
 
 //REDUCER
 const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case GET_PRODUCTS:
-            return action.products
-        case ADD_PRODUCT:
-            return [...state, action.product]
-        case DELETE_PRODUCT:
-            return state.filter(product => product.id !== action.productId)
-        case EDIT_PRODUCT:
-            return state.filter(product => {
-              return product.id === action.product.id ? action.product : product
-            })
-        default:
-            return state
-    }
+  switch (action.type) {
+    case GET_PRODUCTS:
+      return action.products
+    case ADD_PRODUCT:
+      return [...state, action.product]
+    case DELETE_PRODUCT:
+      return state.filter(product => product.id !== action.productId)
+    case EDIT_PRODUCT:
+      return state.filter(product => {
+        return product.id === action.product.id ? action.product : product
+      })
+    default:
+      return state
+  }
 }
 
 export default reducer
