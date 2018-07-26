@@ -25,6 +25,8 @@ export const getCategoriesFromDb = () => {
   }
 }
 
+// can we add/update/delete categories?
+
 //REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {

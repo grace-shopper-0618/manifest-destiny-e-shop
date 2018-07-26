@@ -6,28 +6,24 @@ import { logout } from '../store'
 
 const Navbar = ({ handleClick, isLoggedIn, email }) => (
   <div>
-    <h1>Oregon Trail Outfitters</h1>
-    <nav>
-      <Link to="/shop">See Our Shop!</Link>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          {/* this is the home page for the specific user */}
-          <Link to="/">Home</Link>
-          <p>Welcome,<Link to="/home">{email}</Link></p>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-          <div>
-            {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </div>
+    <nav id='navbar'>
+      <ul>
+        <li><Link to='/'>Home</Link></li>
+        <li><Link to='/shop'>Shop</Link></li>
+        <li><h2>Oregon Trail Outfitters</h2></li>
+        {isLoggedIn ? (
+          <li id='loggedIn'>
+            <p>Welcome,<Link to='/home'>{email}</Link></p>
+            <a href='#' onClick={handleClick}>Logout</a>
+          </li>
+        ) : (
+          <li id='loggedOut'>
+            <Link to='/login'>Login</Link>
+            <Link to='/signup'>Sign Up</Link>
+          </li>
         )}
+      </ul>
     </nav>
-    <hr />
   </div>
 )
 

@@ -20,10 +20,8 @@ class AllProducts extends React.Component {
   }
 
   handleDelete(evt, productId) {
-    console.log('inside handledelete')
     evt.preventDefault()
     this.props.deleteProduct(productId)
-    this.props.history.push(`/shop`) // redirects back to all products view
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -58,7 +56,6 @@ class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.fetchProducts()
-    // need to fetch the user from the store? how does user get put on the store for us?
   }
 
   //may need refactoring to remove use of var
@@ -71,21 +68,23 @@ class AllProducts extends React.Component {
       products = this.props.products
     }
     return (
-      <div id="all-products">
-        <CategoryList />
-        {this.renderAdd()}
-        {
-          products.map(product => (
-            <div className="product-card" key={product.id} >
-              <Link to={`/shop/${product.id}`} >{product.title}</Link>
-              <img className="product-card-image" src={product.photoUrl} />
-              {/* does product.price give the correct price? also show part of description? show 'sold out' or similar comments to shopper based on inventory? */}
-              <h4>${product.price}</h4>
-              <h4>Number in stock: {product.inventory}</h4>
-              { this.renderButtons(product.id) }
-            </div>
-          ))
-        }
+      <div className='wholePage'>
+          <CategoryList />
+          <div id="all-products">
+            {this.renderAdd()}
+            {
+              products.map(product => (
+                <div className="product-card" key={product.id} >
+                  <Link to={`/shop/${product.id}`} >{product.title}</Link>
+                  <img className="product-card-image" src={product.photoUrl} />
+                  {/* does product.price give the correct price? also show part of description? show 'sold out' or similar comments to shopper based on inventory? */}
+                  <h4>${product.price}</h4>
+                  <h4>Number in stock: {product.inventory}</h4>
+                  { this.renderButtons(product.id) }
+                </div>
+              ))
+            }
+          </div>
       </div>
     )
   }

@@ -19,3 +19,58 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#navbar {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  border: 2px solid black;
+  font-size: 22px;
+  list-style-type: none;
+  overflow: hidden;
+  font-weight: bold;
+  height: 120px;
+}
+
+#navbar #loggedIn, #loggedOut {
+  font-size: 14px;
+}
+
+#navbar li {
+  display: flex;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  float: left;
+}
+
+#categoryList {
+  display: flex;
+  border: 2px solid black;
+  left: 20px;
+  width: 20%;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+#category-list {
+  list-style-type: none;
+}
+
+#all-products {
+  display: flex;
+  border: 2px solid black;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 79.33%;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.wholePage {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
