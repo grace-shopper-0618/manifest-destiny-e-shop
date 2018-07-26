@@ -2,30 +2,60 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { editProductInDb, getProductFromDb } from '../store/product'
 import { addProductToState } from '../store/products'
+import { store } from '../store'
 
 class ProductForm extends Component {
   constructor(props) {
-    super()
-    const { title, description, price, inventory, photoUrl, categories } = props
+    super(props)
+    // const { title, description, price, inventory, photoUrl, categories, edit } = this.props
+    // if (edit) {
+    //   this.state = {
+    //     title,
+    //     description,
+    //     price,
+    //     inventory,
+    //     photoUrl,
+    //     categories
+    //   }
+    // } else {
     this.state = {
-      title: title ? title : '',
-      description: description ? description : '',
-      price: price ? price : '',
-      inventory: inventory ? inventory : '',
-      photoUrl: photoUrl ? photoUrl : '',
-      categories: categories ? categories : ''
+      title: '',
+      description: '',
+      price: '',
+      inventory: '',
+      photoUrl: '',
+      categories: ''
     }
+
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
     console.log('COMPONENT DID MOUNT', 'ID:', this.props.match.params.id)
+    if (this.props.edit) {
+      const { title, description, price, inventory, photoUrl, categories } = this.props
+
+      this.props.getProduct(Number(this.props.match.params.id))
+
+      this.unsubscribe = store.subscribe(() => {
+        console.log('PRODUCT ON STATE', store.getState())
+        this.setState({
+          title: store.getState().product.title || '',
+          description,
+          price,
+          inventory,
+          photoUrl,
+          categories
+        })
+      })
+    }
     console.log('STATE:', this.state)
 
-    this.props.getProduct(Number(this.props.match.params.id))
-    console.log('2nd STATE:', this.state)
+  }
 
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   handleChange(evt) {
@@ -50,7 +80,7 @@ class ProductForm extends Component {
         <form id="product-form" onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="title">Title</label>
-            <input name="title" type="text" onChange={this.handleChange} value={this.state.title} />
+            <input name="title" type="text" onChange={this.handleChange} value={this.props.title} />
           </div>
           <div>
             <label htmlFor="description">Description</label>
@@ -82,8 +112,9 @@ class ProductForm extends Component {
 
 }
 
-const mapEdit = state => {
+const mapPropsForEdit = state => {
   console.log('mapEdit', state)
+
   return {
     title: state.product.title,
     description: state.product.description,
@@ -96,9 +127,15 @@ const mapEdit = state => {
   }
 }
 
-const mapAdd = state => {
+const mapPropsForAdd = state => {
   console.log('mapAdd', state)
   return {
+    // title: '',
+    // description: '',
+    // price: '',
+    // inventory: '',
+    // photoUrl: '',
+    // categories: '',
     error: state.products.error,
     edit: false
   }
