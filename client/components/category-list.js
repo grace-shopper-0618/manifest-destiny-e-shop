@@ -13,16 +13,17 @@ class CategoryList extends React.Component {
     const { categories, selectedCategory, resetCategory, setCategory } = this.props
     return (
       <div id='categoryList'>
-        <h3>Displaying: {selectedCategory.name ? selectedCategory.name : 'All Products'}</h3>
-          <ul>
-            <li onClick={resetCategory} > Show All </li>
-            <li> Filter by: </li>
-            {
-              categories && categories.map(category => (
-                <li key={category.id} onClick={() => setCategory(category.id)} >{category.name}</li>
-              ))
-            }
-          </ul>
+        <ul id='category-list'>
+          <li className='title'>Displaying:</li>
+          <li>{selectedCategory.name ? selectedCategory.name : 'All Products'}</li>
+          { selectedCategory.name? <li onClick={resetCategory} > Show All </li> : <li />}
+          <li className='title'> Filter by: </li>
+          {
+            categories && categories.map(category => (
+              <li key={category.id} onClick={() => setCategory(category.id)} >{category.name}</li>
+            ))
+          }
+        </ul>
       </div>
     )
   }

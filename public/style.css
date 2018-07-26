@@ -25,12 +25,11 @@ form div {
   flex-wrap: wrap;
   flex-direction: row;
   border: 2px solid black;
-  margin: 10px;
   font-size: 22px;
   list-style-type: none;
   overflow: hidden;
-  top: 0;
   font-weight: bold;
+  height: 120px;
 }
 
 #navbar #loggedIn, #loggedOut {
@@ -48,21 +47,26 @@ form div {
 #categoryList {
   display: flex;
   border: 2px solid black;
-  width: 300px;
-  position: relative;
-  top: 0px;
-  left: 10px;
+  left: 20px;
+  width: 20%;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+#category-list {
+  list-style-type: none;
 }
 
 #all-products {
   display: flex;
   border: 2px solid black;
-  margin: 20px;
-  width: 800px;
-  top: 0px;
-  left: 0px;
   flex-wrap: wrap;
   flex-direction: row;
+  width: 79.33%;
+}
+
+.title {
+  font-weight: bold;
 }
 
 .wholePage {
