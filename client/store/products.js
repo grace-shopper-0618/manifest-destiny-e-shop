@@ -38,11 +38,12 @@ export const getProductsFromDb = () => {
   }
 }
 
-export const addProductToState = (product) => {
+export const addProductToState = (product, historyProp) => {
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/products', product)
       dispatch(addProduct(data))
+      historyProp.push(`/shop/${product.id}`)
     } catch (error) {
       console.log(error)
     }

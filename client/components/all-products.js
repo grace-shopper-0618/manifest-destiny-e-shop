@@ -9,6 +9,7 @@ class AllProducts extends React.Component {
   constructor() {
     super()
     this.renderButtons = this.renderButtons.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   renderButtons(productId) {
@@ -29,10 +30,15 @@ class AllProducts extends React.Component {
     if (user && user.isAdmin) {
       return (
         <div id="add">
-          <button type="button" >Add New Product</button>
+          <button type="button" onClick={this.handleClick} >Add New Product</button>
         </div>
       )
     }
+  }
+
+  handleClick (evt) {
+    evt.preventDefault()
+    this.props.history.push('/shop/add')
   }
 
   componentDidMount() {
