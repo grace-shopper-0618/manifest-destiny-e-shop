@@ -9,6 +9,12 @@ class AllProducts extends React.Component {
   constructor() {
     super()
     this.renderButtons = this.renderButtons.bind(this)
+    this.handleEditClick = this.handleEditClick.bind(this)
+  }
+
+  handleEditClick(evt, productId) {
+    evt.preventDefault()
+    this.props.history.push(`/products/${productId}/edit`) // will make the edit form render
   }
 
   renderButtons(productId) {
@@ -17,7 +23,7 @@ class AllProducts extends React.Component {
     if (user && user.isAdmin) {
       return (
         <div>
-          <button type="button" >Edit</button>
+          <button type="button" onClick={(evt) => this.handleEditClick(evt, productId)}>Edit</button>
           <button type="button" >Delete</button>
         </div>
       )
