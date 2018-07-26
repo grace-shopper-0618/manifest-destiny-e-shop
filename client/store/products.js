@@ -4,6 +4,7 @@ import { EDIT_PRODUCT } from './product'
 
 //ACTION TYPES
 const GET_PRODUCTS = 'GET_PRODUCTS'
+const ADD_PRODUCT = 'ADD_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 //INITIAL STATE
@@ -13,6 +14,11 @@ const initialState = []
 const getProducts = (products) => ({
     type: GET_PRODUCTS,
     products
+})
+
+const addProduct = product => ({
+  type: ADD_PRODUCT,
+  product
 })
 
 const deleteProduct = (productId) => ({
@@ -28,6 +34,19 @@ export const getProductsFromDb = () => {
       dispatch(getProducts(data))
     } catch (error) {
       console.error(error)
+    }
+  }
+}
+
+
+export const addProductToState = (product, historyProp) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post('/api/products', product)
+      dispatch(addProduct(data))
+      historyProp.push(`/shop/${product.id}`)
+    } catch (error) {
+      console.log(error)
     }
   }
 }
@@ -48,6 +67,8 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_PRODUCTS:
             return action.products
+        case ADD_PRODUCT:
+            return [...state, action.product]
         case DELETE_PRODUCT:
             return state.filter(product => product.id !== action.productId)
         case EDIT_PRODUCT:

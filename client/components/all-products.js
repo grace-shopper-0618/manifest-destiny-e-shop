@@ -11,6 +11,7 @@ class AllProducts extends React.Component {
     this.renderButtons = this.renderButtons.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleEdit(evt, productId) {
@@ -23,6 +24,7 @@ class AllProducts extends React.Component {
     evt.preventDefault()
     this.props.deleteProduct(productId)
     this.props.history.push(`/shop`) // redirects back to all products view
+    this.handleClick = this.handleClick.bind(this)
   }
 
   renderButtons(productId) {
@@ -36,6 +38,22 @@ class AllProducts extends React.Component {
         </div>
       )
     }
+  }
+
+  renderAdd() {
+    const {user} = this.props
+    if (user && user.isAdmin) {
+      return (
+        <div id="add">
+          <button type="button" onClick={this.handleClick} >Add New Product</button>
+        </div>
+      )
+    }
+  }
+
+  handleClick (evt) {
+    evt.preventDefault()
+    this.props.history.push('/shop/add')
   }
 
   componentDidMount() {
@@ -55,6 +73,7 @@ class AllProducts extends React.Component {
     return (
       <div id="all-products">
         <CategoryList />
+        {this.renderAdd()}
         {
           products.map(product => (
             <div className="product-card" key={product.id} >
