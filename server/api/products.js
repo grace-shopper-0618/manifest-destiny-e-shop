@@ -77,3 +77,20 @@ router.delete('/:id', async (req, res, next) => {
     next(err)
   }
 })
+
+//GET reviews for a single product
+router.get('/:id/reviews', async (req, res, next) => {
+  try {
+      const productId = req.params.id
+      const reviews = await Review.findAll({
+          where: {productId}
+      })
+      if (!reviews) {
+          const err = new Error(`Unable to find any reviews for the product with ID ${productId}.`)
+          err.sendStatus(404)
+      }
+      res.status(200).json(reviews)
+  } catch (err) {
+      next(err)
+  }
+})
