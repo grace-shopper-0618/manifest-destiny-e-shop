@@ -57,7 +57,7 @@ const products = [
     description: 'Trained with the same model of wagon we sell in order to maximize compatibility',
     price: 99999,
     inventory: 5
-  }, 
+  },
   {
     title: 'Palomino Horse',
     description: 'Short in the tooth or your money back',
