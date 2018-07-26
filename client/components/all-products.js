@@ -20,10 +20,8 @@ class AllProducts extends React.Component {
   }
 
   handleDelete(evt, productId) {
-    console.log('inside handledelete')
     evt.preventDefault()
     this.props.deleteProduct(productId)
-    this.props.history.push(`/shop`) // redirects back to all products view
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -58,7 +56,6 @@ class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.fetchProducts()
-    // need to fetch the user from the store? how does user get put on the store for us?
   }
 
   //may need refactoring to remove use of var
