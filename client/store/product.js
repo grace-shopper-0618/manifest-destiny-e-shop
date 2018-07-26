@@ -34,7 +34,7 @@ export const getProductFromDb = (id) => {
 export const editProductInDb = (product, historyProp) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.put(`products/${product.id}`, product)
+      const {data} = await axios.put(`/products/${product.id}`, product)
       dispatch(editProduct(data))
       historyProp.push(`/products/${product.id}`)
     } catch (error) {
