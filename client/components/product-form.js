@@ -1,19 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { editProductInDb } from '../store/product'
+import { editProductInDb, getProductFromDb } from '../store/product'
+import { addProductToState } from '../store/products'
 
 class ProductForm extends Component {
-  constructor() {
+  constructor(props) {
     super()
+    const { title, description, price, inventory, photoUrl, categories } = props
     this.state = {
-      title: this.props.title,
-      description: this.props.description,
-      price: this.props.price,
-      inventory: this.props.inventory,
-      photoUrl: this.props.photoUrl
+      title: title ? title : '',
+      description: description ? description : '',
+      price: price ? price : '',
+      inventory: inventory ? inventory : '',
+      photoUrl: photoUrl ? photoUrl : '',
+      categories: categories ? categories : ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  componentDidMount() {
+    console.log('COMPONENT DID MOUNT', 'ID:', this.props.match.params.id)
+    console.log('STATE:', this.state)
+
+    this.props.getProduct(Number(this.props.match.params.id))
+    console.log('2nd STATE:', this.state)
+
   }
 
   handleChange(evt) {
@@ -24,9 +36,13 @@ class ProductForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault()
-
+    if (this.props.edit === true) {
+      this.props.editProduct(this.state, this.props.history)
+    }
+    else {
+      this.props.addProduct(this.state, this.props.history)
+    }
   }
-
 
   render() {
     return (
@@ -53,6 +69,10 @@ class ProductForm extends Component {
             <input name="photoUrl" type="text" onChange={this.handleChange} value={this.state.photoUrl} />
           </div>
           <div>
+            <label htmlFor="categories">Categories</label>
+            <input name="categories" type="text" onChange={this.handleChange} value={this.state.categories} />
+          </div>
+          <div>
             <button type="submit">Submit</button>
           </div>
         </form>
@@ -63,31 +83,32 @@ class ProductForm extends Component {
 }
 
 const mapEdit = state => {
+  console.log('mapEdit', state)
   return {
     title: state.product.title,
     description: state.product.description,
     price: state.product.price,
     inventory: state.product.inventory,
-    photoUrl: state.product.photoUrl
+    photoUrl: state.product.photoUrl,
+    categories: state.product.categories,
+    error: state.product.error,
+    edit: true
   }
-
-}
 }
 
 const mapAdd = state => {
+  console.log('mapAdd', state)
   return {
-    title: '',
-    description: '',
-    price: 0,
-    inventory: 0,
-    photoUrl: ''
+    error: state.products.error,
+    edit: false
   }
-
 }
 
 const mapDispatch = (dispatch) => {
   return {
-    editProductInDb: (product, history) => dispatch(editProductInDb(product, history))
+    getProduct: (id) => dispatch(getProductFromDb(id)),
+    editProduct: (product, history) => dispatch(editProductInDb(product, history)),
+    addProduct: (product, history) => dispatch(addProductToState(product, history))
   }
 }
 
