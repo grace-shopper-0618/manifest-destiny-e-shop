@@ -12,7 +12,7 @@ class CategoryList extends React.Component {
   render () {
     const { categories, selectedCategory, resetCategory, setCategory } = this.props
     return (
-      <div>
+      <div id='categoryList'>
         <h3>Displaying: {selectedCategory.name ? selectedCategory.name : 'All Products'}</h3>
           <ul>
             <li onClick={resetCategory} > Show All </li>

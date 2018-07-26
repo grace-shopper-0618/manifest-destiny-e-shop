@@ -19,3 +19,49 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#navbar {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  border: 2px solid black;
+  margin: 10px;
+  position: relative;
+  width: 98%;
+  font-size: 22px;
+  list-style-type: none;
+  overflow: hidden;
+  top: 0;
+  font-weight: bold;
+}
+
+#navbar #loggedIn, #loggedOut {
+  font-size: 14px;
+}
+
+#navbar li {
+  display: flex;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  float: left;
+}
+
+#categoryList {
+  display: flex;
+  border: 2px solid black;
+  width: 300px;
+  position: relative;
+  top: 0px;
+  left: 10px;
+}
+
+#all-products {
+  display: flex;
+  border: 2px solid black;
+  width: 800px;
+  position: relative;
+  z-index: 1;
+  top: 0px;
+  left: 400px;
+}
