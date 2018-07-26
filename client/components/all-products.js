@@ -6,9 +6,27 @@ import CategoryList from './category-list'
 
 // COMPONENT
 class AllProducts extends React.Component {
+  constructor() {
+    super()
+    this.renderButtons = this.renderButtons.bind(this)
+  }
+
+  renderButtons() {
+    // add id to the buttons div? there is an id in shelby's code
+    const { user } = this.props
+    if (user && user.isAdmin) {
+      return (
+        <div>
+          <button type="button" >Edit</button>
+          <button type="button" >Delete</button>
+        </div>
+      )
+    }
+  }
 
   componentDidMount() {
     this.props.fetchProducts()
+    // need to fetch the user from the store? how does user get put on the store for us?
   }
 
   //may need refactoring to remove use of var
@@ -31,6 +49,7 @@ class AllProducts extends React.Component {
               {/* does product.price give the correct price? also show part of description? show 'sold out' or similar comments to shopper based on inventory? */}
               <h4>${product.price}</h4>
               <h4>Number in stock: {product.inventory}</h4>
+              { this.renderButtons() }
             </div>
           ))
         }
@@ -41,7 +60,8 @@ class AllProducts extends React.Component {
 
 const mapState = state => ({
   products: state.products,
-  selectedCategory: state.selectedCategory
+  selectedCategory: state.selectedCategory,
+  user: state.user
 })
 
 const mapDispatch = (dispatch) => ({
