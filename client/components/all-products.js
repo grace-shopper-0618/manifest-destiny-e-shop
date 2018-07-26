@@ -96,9 +96,7 @@ const mapState = state => ({
 
 const mapDispatch = (dispatch) => ({
   fetchProducts: () => dispatch(getProductsFromDb()),
-  deleteProduct: (productId) => {
-    dispatch(removeProductFromDb(productId))
-  }
+  deleteProduct: (productId) => dispatch(removeProductFromDb(productId))
 })
 
 export default connect(mapState, mapDispatch)(AllProducts)

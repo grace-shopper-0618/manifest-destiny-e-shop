@@ -33,7 +33,6 @@ const deleteProduct = (productId) => {
 export const getProductsFromDb = () => {
   return async (dispatch) => {
     try {
-      console.log('** getting products thunk creator')
       const {data} = await axios.get('/api/products')
       dispatch(getProducts(data))
     } catch (error) {
