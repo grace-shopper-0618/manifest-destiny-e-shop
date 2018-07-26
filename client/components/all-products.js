@@ -24,6 +24,17 @@ class AllProducts extends React.Component {
     }
   }
 
+  renderAdd() {
+    const {user} = this.props
+    if (user && user.isAdmin) {
+      return (
+        <div id="add">
+          <button type="button" >Add New Product</button>
+        </div>
+      )
+    }
+  }
+
   componentDidMount() {
     this.props.fetchProducts()
     // need to fetch the user from the store? how does user get put on the store for us?
@@ -41,6 +52,7 @@ class AllProducts extends React.Component {
     return (
       <div id="all-products">
         <CategoryList />
+        {this.renderAdd()}
         {
           products.map(product => (
             <div className="product-card" key={product.id} >
