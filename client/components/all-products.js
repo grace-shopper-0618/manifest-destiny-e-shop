@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getProductsFromDb } from '../store/products'
+import { getProductsFromDb, removeProductFromDb } from '../store/products'
 import { Link } from 'react-router-dom'
 import CategoryList from './category-list'
 
@@ -9,6 +9,21 @@ class AllProducts extends React.Component {
   constructor() {
     super()
     this.renderButtons = this.renderButtons.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleEdit(evt, productId) {
+    evt.preventDefault()
+    this.props.history.push(`/shop/${productId}/edit`) // will redirect to make the edit form for that product
+  }
+
+  handleDelete(evt, productId) {
+    console.log('inside handledelete')
+    evt.preventDefault()
+    this.props.deleteProduct(productId)
+    this.props.history.push(`/shop`) // redirects back to all products view
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -18,8 +33,8 @@ class AllProducts extends React.Component {
     if (user && user.isAdmin) {
       return (
         <div>
-          <button type="button" >Edit</button>
-          <button type="button" >Delete</button>
+          <button type="button" onClick={(evt) => this.handleEdit(evt, productId)}>Edit</button>
+          <button type="button" onClick={(evt) => this.handleDelete(evt, productId)} >Delete</button>
         </div>
       )
     }
@@ -83,7 +98,8 @@ const mapState = state => ({
 })
 
 const mapDispatch = (dispatch) => ({
-  fetchProducts: () => dispatch(getProductsFromDb())
+  fetchProducts: () => dispatch(getProductsFromDb()),
+  deleteProduct: (productId) => dispatch(removeProductFromDb(productId))
 })
 
 export default connect(mapState, mapDispatch)(AllProducts)
