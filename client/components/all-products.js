@@ -9,18 +9,20 @@ class AllProducts extends React.Component {
   constructor() {
     super()
     this.renderButtons = this.renderButtons.bind(this)
-    this.handleEditClick = this.handleEditClick.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
   }
 
   handleEdit(evt, productId) {
     evt.preventDefault()
-    this.props.history.push(`/products/${productId}/edit`) // will redirect to make the edit form for that product render
+    this.props.history.push(`/shop/${productId}/edit`) // will redirect to make the edit form for that product
   }
 
   handleDelete(evt, productId) {
+    console.log('inside handledelete')
     evt.preventDefault()
     this.props.deleteProduct(productId)
+    this.props.history.push(`/shop`) // redirects back to all products view
   }
 
   renderButtons(productId) {
@@ -76,9 +78,9 @@ const mapState = state => ({
   user: state.user
 })
 
-const mapDispatch = (dispatch, ownProps) => ({
+const mapDispatch = (dispatch) => ({
   fetchProducts: () => dispatch(getProductsFromDb()),
-  deleteProduct: (productId) => dispatch(removeProductFromDb(productId, ownProps.history))
+  deleteProduct: (productId) => dispatch(removeProductFromDb(productId))
 })
 
 export default connect(mapState, mapDispatch)(AllProducts)
