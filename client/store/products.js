@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import { EDIT_PRODUCT } from './product'
 
 //ACTION TYPES
 const GET_PRODUCTS = 'GET_PRODUCTS'
@@ -31,11 +32,12 @@ export const getProductsFromDb = () => {
   }
 }
 
-export const removeProductFromDb = (productId) => {
+export const removeProductFromDb = (productId, historyProp) => {
   return async (dispatch) => {
     try {
       await axios.delete(`/api/products/${productId}`)
       dispatch(deleteProduct(productId))
+      historyProp.push('/products') // so we return to the all products view after deleting
     } catch (error) {
       console.error(error)
     }
@@ -49,6 +51,11 @@ const reducer = (state = initialState, action) => {
             return action.products
         case DELETE_PRODUCT:
             return action.products.filter(product => product.id !== action.productId)
+        case EDIT_PRODUCT:
+            // action creator and thunk for this are in product.js
+            return action.products.filter(product => {
+              return product.id === action.product.id ? action.product : product
+            })
         default:
             return state
     }
