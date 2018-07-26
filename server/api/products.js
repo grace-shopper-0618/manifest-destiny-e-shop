@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
 //get single product from the db
 router.get('/:id', async (req, res, next) => {
   try {
-    const id = +req.params.id
+    const id = req.params.id
     const product = await Product.findById(id, {
       include: [{model: Category}, {model: Review}]
     })
@@ -61,7 +61,7 @@ router.put('/:id', async (req, res, next) => {
       return next(err)
     }
     await product.update(req.body)
-    res.status(200).json(product)
+    res.status(201).json(product)
   } catch (err) {
     next(err)
   }
