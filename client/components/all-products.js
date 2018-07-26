@@ -11,7 +11,7 @@ class AllProducts extends React.Component {
     this.renderButtons = this.renderButtons.bind(this)
   }
 
-  renderButtons() {
+  renderButtons(productId) {
     // add id to the buttons div? there is an id in shelby's code
     const { user } = this.props
     if (user && user.isAdmin) {
@@ -61,7 +61,7 @@ class AllProducts extends React.Component {
               {/* does product.price give the correct price? also show part of description? show 'sold out' or similar comments to shopper based on inventory? */}
               <h4>${product.price}</h4>
               <h4>Number in stock: {product.inventory}</h4>
-              { this.renderButtons() }
+              { this.renderButtons(product.id) }
             </div>
           ))
         }
