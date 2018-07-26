@@ -8,11 +8,11 @@ router.get('/', async (req, res, next) => {
         const products = await Product.findAll({
           include: [{model: Category}]
         })
-        res.status(200).json(products)
         if (!products) {
           const err = new Error('Unable to find any products.')
           err.sendStatus(404) //should this be a different error code? it will throw if multiple filters are applied or the db is empty
         }
+        res.status(200).json(products)
     } catch (err) {
         next(err)
     }
