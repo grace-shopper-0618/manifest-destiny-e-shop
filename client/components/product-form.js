@@ -6,11 +6,11 @@ class ProductForm extends Component {
   constructor() {
     super()
     this.state = {
-      title: '',
-      description: '',
-      price: 0,
-      inventory: 0,
-      photoUrl: ''
+      title: this.props.title,
+      description: this.props.description,
+      price: this.props.price,
+      inventory: this.props.inventory,
+      photoUrl: this.props.photoUrl
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -64,13 +64,23 @@ class ProductForm extends Component {
 
 const mapEdit = state => {
   return {
-
+    title: state.product.title,
+    description: state.product.description,
+    price: state.product.price,
+    inventory: state.product.inventory,
+    photoUrl: state.product.photoUrl
   }
+
+}
 }
 
 const mapAdd = state => {
   return {
-
+    title: '',
+    description: '',
+    price: 0,
+    inventory: 0,
+    photoUrl: ''
   }
 
 }
