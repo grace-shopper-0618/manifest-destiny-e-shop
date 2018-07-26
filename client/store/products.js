@@ -21,15 +21,19 @@ const addProduct = product => ({
   product
 })
 
-const deleteProduct = (productId) => ({
+const deleteProduct = (productId) => {
+  return {
   type: DELETE_PRODUCT,
   productId
-})
+  }
+}
+
 
 //THUNK CREATORS
 export const getProductsFromDb = () => {
   return async (dispatch) => {
     try {
+      console.log('** getting products thunk creator')
       const {data} = await axios.get('/api/products')
       dispatch(getProducts(data))
     } catch (error) {
@@ -56,6 +60,7 @@ export const removeProductFromDb = (productId) => {
     try {
       await axios.delete(`/api/products/${productId}`)
       dispatch(deleteProduct(productId))
+      history.push('/shop')
     } catch (error) {
       console.error(error)
     }
