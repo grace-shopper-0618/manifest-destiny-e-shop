@@ -13,15 +13,17 @@ export const UserHome = props => {
     <div id="userHome">
       <h2>Welcome, {email}</h2>
       <div id="userReviews">
-        <h4>Your Reviews</h4>
+        <h4>Your Reviews:</h4>
         {
+          reviews.length ?
           reviews.map(review => {
             return (
               <div id="review" key={review.id}>
                 <p>{review.text}</p>
               </div>
             )
-          })
+          }) :
+          <h5>You have not reviewed any products.</h5>
         }
       </div>
     </div>
