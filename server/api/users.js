@@ -9,11 +9,11 @@ router.get('/:id/cart', async (req, res, next) => {
         isActiveCart: true,
         userId: req.params.id
       },
-      include: [{model: Product}]
+      include: [{ model: Product }, { model: LineItem }]
       // products: as an array on cart model, is it populating with line items??
     })
 
-    if(!activeCart) {
+    if (!activeCart) {
       const err = new Error(`No active cart for user with id of ${req.params.id}.`)
       err.status = 404
       return next(err)
@@ -73,7 +73,7 @@ router.post('/:id/cart', async (req, res, next) => {
     if (!lineItem) {
       const newLineItem = await LineItem.create(req.body)
       // req.body needs to include productId, orderId, quantity, price, etc.
-      if(!newLineItem) {
+      if (!newLineItem) {
         const err = new Error(`Unable to add item to the order.`)
         err.status = 400
         return next(err)
@@ -83,7 +83,7 @@ router.post('/:id/cart', async (req, res, next) => {
     } else {
       // line item already exists-- lets update the quantity
       const quantity = +req.body.quantity + lineItem.quantity
-      const updated = await lineItem.update({quantity})
+      const updated = await lineItem.update({ quantity })
       res.status(201).json(updated)
     }
 
