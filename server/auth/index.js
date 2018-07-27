@@ -1,6 +1,5 @@
 const router = require('express').Router()
-const User = require('../db/models/user')
-const Order = require('../db/models/order')
+const {User, Order, Review} = require('../db/models')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -11,6 +10,9 @@ router.post('/login', async (req, res, next) => {
         { model: Order,
           where: { isActiveCart: true },
           required: false
+        },
+        {
+          model: Review
         }
       ]
     })
@@ -65,6 +67,9 @@ router.get('/me', async (req, res) => {
       { model: Order,
         where: { isActiveCart: true },
         required: false
+      },
+      {
+        model: Review
       }
     ]
   })
