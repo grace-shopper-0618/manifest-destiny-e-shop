@@ -13,7 +13,9 @@ class Cart extends React.Component {
 
     componentDidMount() {
         const userId = this.props.match.params.id
-        const cartLineItems = this.props.getCart(userId).lineItems
+        const cart = this.props.getCart(userId)
+        console.log('cart', cart)
+        const cartLineItems = cart.lineItem
         this.setState(cartLineItems, userId)
     }
 
@@ -29,9 +31,9 @@ class Cart extends React.Component {
         const cartLineItems = this.state.cartLineItems
         const userId = this.state.userId
         return (
-            <div>
+            <div id='shopping-cart'>
                 <h3>Your Cart</h3>
-                <ul>
+                <ul id='cart-items'>
                     {
                         cartLineItems.map((lineItem) => {
                             return (
@@ -45,9 +47,9 @@ class Cart extends React.Component {
     }
 }
 
-const mapState = state => {
+// const mapState = state => {
 
-}
+// }
 
 const mapDispatch = (dispatch) => ({
     getCart: (id) => {
@@ -56,4 +58,4 @@ const mapDispatch = (dispatch) => ({
 })
 
 
-export default connect(mapState, mapDispatch)(Cart)
+export default connect(null, mapDispatch)(Cart)
