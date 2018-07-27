@@ -5,14 +5,17 @@ const LineItem = require('./lineItem')
 const Order = require('./order')
 const Category = require('./category')
 
-Product.belongsToMany(Order, {through: 'line-item'})
-Order.belongsToMany(Product, {through: 'line-item'})
+Product.belongsToMany(Order, { through: 'line-item' })
+Order.belongsToMany(Product, { through: 'line-item' })
+
+Order.hasMany(LineItem)
+LineItem.belongsTo(Order)
 
 Order.belongsTo(User)
 User.hasMany(Order)
 
-Product.belongsToMany(Category, {through: 'tags'})
-Category.belongsToMany(Product, {through: 'tags'})
+Product.belongsToMany(Category, { through: 'tags' })
+Category.belongsToMany(Product, { through: 'tags' })
 
 Review.belongsTo(User)
 User.hasMany(Review)
