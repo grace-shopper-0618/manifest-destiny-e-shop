@@ -19,13 +19,13 @@ class Cart extends React.Component {
         this.setState(cartLineItems, userId)
     }
 
-    handleDelete() {
+    // handleDelete() {
 
-    }
+    // }
 
-    handleQuantityChange() {
+    // handleQuantityChange() {
 
-    }
+    // }
 
     render() {
         const cartLineItems = this.state.cartLineItems
