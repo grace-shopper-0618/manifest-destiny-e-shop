@@ -56,8 +56,21 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
+router.get('/me', async (req, res) => {
+  // res.json(req.user)
+
+  const user = await User.findOne({
+    where: { email: req.user.email },
+    include: [
+      { model: Order,
+        where: { isActiveCart: true },
+        required: false
+      }
+    ]
+  })
+
+  res.json(user)
+
 })
 
 router.use('/google', require('./google'))

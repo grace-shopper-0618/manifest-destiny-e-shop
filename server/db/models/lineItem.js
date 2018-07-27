@@ -10,7 +10,7 @@ const LineItem = db.define('line-item', {
       [Op.gt]: 0
     }
   },
-  priceAtCheckout: {
+  price: {
     type: Sequelize.INTEGER,
     validate: {
       [Op.gt]: 0

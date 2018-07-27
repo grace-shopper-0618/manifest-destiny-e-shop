@@ -2,15 +2,22 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getProductFromDb} from '../store/product'
 import { removeProductFromDb } from '../store/products';
+import { addItemToCart } from '../store/cart'
 
 //COMPONENT
 
 class SingleProduct extends Component {
   constructor() {
     super()
+    this.state = {
+      quantity: 1
+    }
     this.renderButtons = this.renderButtons.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.renderDropDown = this.renderDropDown.bind(this)
+    this.handleAddToCart = this.handleAddToCart.bind(this)
   }
 
   componentDidMount () {
@@ -30,6 +37,14 @@ class SingleProduct extends Component {
     this.props.deleteProduct(productId)
   }
 
+  handleChange(evt) {
+    evt.preventDefault()
+    console.log('** value we are submitting for quantity', evt.target.value)
+    this.setState({
+      quantity: +evt.target.value
+    })
+  }
+
   renderButtons () {
     const {user} = this.props
     if (user.isAdmin) {
@@ -42,8 +57,32 @@ class SingleProduct extends Component {
     }
   }
 
+  renderDropDown (inventory) {
+    const quantities = []
+    for (let i = 1; i <= inventory; i++) {
+      if (i > 5) {
+        break;
+      }
+      quantities.push(i)
+    }
+    return quantities
+  }
+
+  handleAddToCart(evt) {
+    evt.preventDefault()
+    console.log(this.props.cart)
+    const item = {
+      productId: +this.props.match.params.id,
+      quantity: this.state.quantity,
+      orderId: this.props.user.orders[0].id,
+      price: this.props.product.price
+    }
+    this.props.addToCart(item, this.props.user.id)
+  }
+
   render () {
-    const {product} = this.props
+    const {product, user} = this.props
+    console.log('eagerly loaded user', user)
     return (
       <div key={product.id}>
         <h3>{product.title}</h3>
@@ -60,6 +99,18 @@ class SingleProduct extends Component {
           })
         }
         <p>{product.inventory} in stock</p>
+
+        <form id="add-to-cart-form" onSubmit={this.handleAddToCart} >
+          <select value={this.state.value} onChange={this.handleChange} >
+            {
+             this.renderDropDown(product.inventory).map(quantity => {
+               return <option value={quantity} key={quantity} > {quantity} </option>
+             })
+            }
+          </select>
+          <button type="submit">Add to cart</button>
+        </form>
+
         {
           product.reviews && product.reviews.map(review => {
             return (
@@ -79,15 +130,17 @@ class SingleProduct extends Component {
 
 const mapState = state => ({
   product: state.product,
-  user: state.user
+  user: state.user,
+  cart: state.cart
 })
 
 const mapDispatch = (dispatch) => ({
   getProduct: (id) => dispatch(getProductFromDb(id)),
-  deleteProduct: (productId) => dispatch(removeProductFromDb(productId))
+  deleteProduct: (productId) => dispatch(removeProductFromDb(productId)),
+  addToCart: (item, userId) => dispatch(addItemToCart(item, userId))
 })
 
 export default connect(mapState, mapDispatch)(SingleProduct)
 
+// adding a product to the cart must create a new line item with the right information
 
-// after deleting from the single page view, the allproducts view still displays it... why isn't store getting updated and then rerendering the correct list of products?
