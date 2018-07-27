@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { editProductInDb, getProductFromDb } from '../store/product'
 import { addProductToState } from '../store/products'
 import store from '../store'
+import { Redirect } from 'react-router'
 
 class ProductForm extends Component {
   constructor(props) {
@@ -13,11 +14,12 @@ class ProductForm extends Component {
       price: '',
       inventory: '',
       photoUrl: '',
-      categories: ''
+      // categories: ''
     }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.renderRequiredFlag = this.renderRequiredFlag.bind(this)
   }
 
   componentDidMount() {
@@ -35,7 +37,7 @@ class ProductForm extends Component {
           price: store.getState().product.price || '',
           inventory: store.getState().product.inventory || '',
           photoUrl: store.getState().product.photoUrl || '',
-          categories: store.getState().product.photoUrl || '',
+          // categories: store.getState().product.categories || '',
         })
       })
     }
@@ -44,7 +46,11 @@ class ProductForm extends Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe()
+    if (this.state.edit) {
+      this.unsubscribe()
+      // for some reason this is throwing errors when we submit for add but not for edit
+      // being kind of hacky right now with the conditional to sidestep this bug...
+    }
   }
 
   handleChange(evt) {
@@ -55,48 +61,91 @@ class ProductForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault()
+    const updates = Object.assign({}, this.state, { price: Number(this.state.price) * 100 })
+
     if (this.props.edit === true) {
-      this.props.editProduct(this.state, Number(this.props.match.params.id)) //passes in local state and product id
+      this.props.editProduct(updates, Number(this.props.match.params.id)) //passes in local state and product id
     }
     else {
-      this.props.addProduct(this.state)
+      this.props.addProduct(updates)
     }
   }
 
+  renderRequiredFlag(field) {
+    // we pass this method the part of state we are checking
+    return field ? null : <span>required</span>
+  }
+
   render() {
-    return (
-      <div>
-        <form id="product-form" onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="title">Title</label>
-            <input name="title" type="text" onChange={this.handleChange} value={this.state.title} />
-          </div>
-          <div>
-            <label htmlFor="description">Description</label>
-            <input name="description" type="text" onChange={this.handleChange} value={this.state.description} />
-          </div>
-          <div>
-            <label htmlFor="price">Price</label>
-            <input name="price" type="text" onChange={this.handleChange} value={this.state.price} />
-          </div>
-          <div>
-            <label htmlFor="inventory">Inventory</label>
-            <input name="inventory" type="text" onChange={this.handleChange} value={this.state.inventory} />
-          </div>
-          <div>
-            <label htmlFor="photoUrl">Photo Url</label>
-            <input name="photoUrl" type="text" onChange={this.handleChange} value={this.state.photoUrl} />
-          </div>
-          <div>
-            <label htmlFor="categories">Categories</label>
-            <input name="categories" type="text" onChange={this.handleChange} value={this.state.categories} />
-          </div>
-          <div>
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
-    )
+    if (this.props.isAdmin) {
+      return (
+        <div>
+          <form id="product-form" onSubmit={this.handleSubmit}>
+            <div>
+              <label htmlFor="title">
+                Title {this.renderRequiredFlag(this.state.title)}
+              </label>
+              <input
+                name="title"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.title}
+              />
+            </div>
+            <div>
+              <label htmlFor="description">Description</label>
+              <input name="description" type="text" onChange={this.handleChange} value={this.state.description} />
+            </div>
+            <div>
+              <label htmlFor="price">
+                Price {this.renderRequiredFlag(this.state.price)}
+              </label>
+              <input
+                name="price"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.price}
+              />
+            </div>
+            <div>
+              <label htmlFor="inventory">
+                Inventory {this.renderRequiredFlag(this.state.inventory)}
+                </label>
+              <input
+                name="inventory"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.inventory}
+              />
+            </div>
+            <div>
+              <label htmlFor="photoUrl">Photo Url</label>
+              <input
+                name="photoUrl"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.photoUrl}
+              />
+            </div>
+            {/* <div>
+              <label htmlFor="categories">Categories</label>
+              <input
+                name="categories"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.categories}
+              />
+            </div> */}
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+      )
+    } else {
+      // redirect away from this page? say that the user doesn't have access?
+      return <Redirect to="/" />
+    }
   }
 
 }
@@ -112,7 +161,8 @@ const mapPropsForEdit = state => {
     photoUrl: state.product.photoUrl,
     categories: state.product.categories,
     error: state.product.error,
-    edit: true
+    edit: true,
+    isAdmin: state.user.isAdmin
   }
 }
 
@@ -126,7 +176,8 @@ const mapPropsForAdd = state => {
     // photoUrl: '',
     // categories: '',
     error: state.products.error,
-    edit: false
+    edit: false,
+    isAdmin: state.user.isAdmin
   }
 }
 
@@ -140,3 +191,8 @@ const mapDispatch = (dispatch) => {
 
 export const EditForm = connect(mapPropsForEdit, mapDispatch)(ProductForm)
 export const AddForm = connect(mapPropsForAdd, mapDispatch)(ProductForm)
+
+// note to consider: a product needs a category, but what happens if we try to submit without a category? what happens if we write a category that doesn't actually exist in the db?
+// also categories not displaying... i have commented out the categories part
+// error when trying to add a new product --> getting this.unsubscribe is not a function
+
