@@ -187,4 +187,4 @@ export const AddForm = connect(mapPropsForAdd, mapDispatch)(ProductForm)
 // note to consider: a product needs a category, but what happens if we try to submit without a category? what happens if we write a category that doesn't actually exist in the db?
 // also categories not displaying... i have commented out the categories part
 // error when trying to add a new product --> getting this.unsubscribe is not a function
-
+// also make sure this form isn't accessible to anyone other than the admins
