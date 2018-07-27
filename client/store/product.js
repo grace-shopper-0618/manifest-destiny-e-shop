@@ -23,7 +23,7 @@ const editProduct = product => ({
 export const getProductFromDb = (id) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get(`/api/products/${id}`)
+      const { data } = await axios.get(`/api/products/${id}`)
       dispatch(getProduct(data))
     } catch (error) {
       console.error(error)
@@ -31,12 +31,13 @@ export const getProductFromDb = (id) => {
   }
 }
 
-export const editProductInDb = (product, historyProp) => {
+export const editProductInDb = (product, id) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.put(`/products/${product.id}`, product)
+      const { data } = await axios.put(`/api/products/${id}`, product)
+      console.log(data)
       dispatch(editProduct(data))
-      historyProp.push(`/products/${product.id}`)
+      history.push(`/shop/${id}`)
     } catch (error) {
       console.error(error)
     }
