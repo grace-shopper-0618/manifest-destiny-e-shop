@@ -29,6 +29,7 @@ class ProductForm extends Component {
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.renderRequiredFlag = this.renderRequiredFlag.bind(this)
   }
 
   componentDidMount() {
@@ -55,7 +56,7 @@ class ProductForm extends Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe()
+    // this.unsubscribe()
   }
 
   handleChange(evt) {
@@ -74,33 +75,69 @@ class ProductForm extends Component {
     }
   }
 
+  renderRequiredFlag(field) {
+    // we pass this method the part of state we are checking
+    return field ? null : <span>required</span>
+  }
+
   render() {
     return (
       <div>
         <form id="product-form" onSubmit={this.handleSubmit}>
           <div>
-            <label htmlFor="title">Title</label>
-            <input name="title" type="text" onChange={this.handleChange} value={this.props.title} />
+            <label htmlFor="title">
+              Title {this.renderRequiredFlag(this.state.title)}
+            </label>
+            <input
+              name="title"
+              type="text"
+              onChange={this.handleChange}
+              value={this.props.title}
+            />
           </div>
           <div>
             <label htmlFor="description">Description</label>
             <input name="description" type="text" onChange={this.handleChange} value={this.state.description} />
           </div>
           <div>
-            <label htmlFor="price">Price</label>
-            <input name="price" type="text" onChange={this.handleChange} value={this.state.price} />
+            <label htmlFor="price">
+              Price {this.renderRequiredFlag(this.state.price)}
+            </label>
+            <input
+              name="price"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.price}
+            />
           </div>
           <div>
-            <label htmlFor="inventory">Inventory</label>
-            <input name="inventory" type="text" onChange={this.handleChange} value={this.state.inventory} />
+            <label htmlFor="inventory">
+              Inventory {this.renderRequiredFlag(this.state.inventory)}
+              </label>
+            <input
+              name="inventory"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.inventory}
+            />
           </div>
           <div>
             <label htmlFor="photoUrl">Photo Url</label>
-            <input name="photoUrl" type="text" onChange={this.handleChange} value={this.state.photoUrl} />
+            <input
+              name="photoUrl"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.photoUrl}
+            />
           </div>
           <div>
             <label htmlFor="categories">Categories</label>
-            <input name="categories" type="text" onChange={this.handleChange} value={this.state.categories} />
+            <input
+              name="categories"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.categories}
+            />
           </div>
           <div>
             <button type="submit">Submit</button>
@@ -149,5 +186,7 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export const EditForm = connect(mapEdit, mapDispatch)(ProductForm)
-export const AddForm = connect(mapAdd, mapDispatch)(ProductForm)
+export const EditForm = connect(mapPropsForEdit, mapDispatch)(ProductForm)
+export const AddForm = connect(mapPropsForAdd, mapDispatch)(ProductForm)
+
+// note to consider: a product needs a category, but what happens if we try to submit without a category? what happens if we write a category that doesn't actually exist in the db?
