@@ -6,13 +6,15 @@ class Cart extends React.Component {
     constructor() {
         super()
         this.state = {
-            cartProducts: []
+            cartLineItems: [],
+            userId: 0
         }
     }
 
     componentDidMount() {
-        const products = getCartFromDb()
-        this.setState(products)
+        const userId = this.props.match.params.id
+        const cartLineItems = this.props.getCart(userId).lineItems
+        this.setState(cartLineItems, userId)
     }
 
     handleDelete() {
@@ -24,15 +26,16 @@ class Cart extends React.Component {
     }
 
     render() {
-        const cartProducts = this.props.cartProducts
+        const cartLineItems = this.state.cartLineItems
+        const userId = this.state.userId
         return (
             <div>
                 <h3>Your Cart</h3>
                 <ul>
                     {
-                        cartProducts.map((product) => {
+                        cartLineItems.map((lineItem) => {
                             return (
-                                <li key={product.id}>{product.title}</li>
+                                <li key={lineItem.id}>{lineItem.title}</li>
                             )
                         })
                     }
@@ -46,8 +49,11 @@ const mapState = state => {
 
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => ({
+    getCart: (id) => {
+        dispatch(getCartFromDb(id))
+    }
+})
 
-}
 
 export default connect(mapState, mapDispatch)(Cart)
