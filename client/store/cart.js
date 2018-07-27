@@ -31,6 +31,7 @@ export const getCartFromDb = (userId) => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/users/${userId}/cart`)
+      console.log('cart obejct being added to store', data)
       dispatch(getCart(data))
     } catch (err) {
       console.log(err)

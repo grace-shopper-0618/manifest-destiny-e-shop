@@ -63,14 +63,30 @@ router.get('/', async (req, res, next) => {
 
 router.post('/:id/cart', async (req, res, next) => {
   try {
-    const newLineItem = await LineItem.create(req.body)
-    // req.body needs to include productId, orderId, quantity, priceAtCheckout, etc.
-    if(!newLineItem) {
-      const err = new Error(`Unable to add item to the order.`)
-      err.status = 400
-      return next(err)
+    const lineItem = await LineItem.findOne({
+      where: {
+        orderId: +req.body.orderId,
+        productId: +req.body.productId
+      }
+    })
+
+    if (!lineItem) {
+      const newLineItem = await LineItem.create(req.body)
+      // req.body needs to include productId, orderId, quantity, price, etc.
+      if(!newLineItem) {
+        const err = new Error(`Unable to add item to the order.`)
+        err.status = 400
+        return next(err)
+      }
+      res.status(201).json(newLineItem)
+
+    } else {
+      // line item already exists-- lets update the quantity
+      const quantity = +req.body.quantity + lineItem.quantity
+      const updated = await lineItem.update({quantity})
+      res.status(201).json(updated)
     }
-    res.status(201).json(newLineItem)
+
   } catch (err) {
     next(err)
   }
