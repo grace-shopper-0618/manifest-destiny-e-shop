@@ -32,7 +32,7 @@ form div {
   height: 120px;
 }
 
-#navbar #loggedIn, #loggedOut {
+#navbar #loggedIn, #loggedOut, #viewCart {
   font-size: 14px;
 }
 
