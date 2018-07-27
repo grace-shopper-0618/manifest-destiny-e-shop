@@ -2,29 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { editProductInDb, getProductFromDb } from '../store/product'
 import { addProductToState } from '../store/products'
-import { store } from '../store'
+import store from '../store'
 
 class ProductForm extends Component {
   constructor(props) {
     super(props)
-    // const { title, description, price, inventory, photoUrl, categories, edit } = this.props
-    // if (edit) {
-    //   this.state = {
-    //     title,
-    //     description,
-    //     price,
-    //     inventory,
-    //     photoUrl,
-    //     categories
-    //   }
-    // } else {
     this.state = {
       title: '',
       description: '',
       price: '',
       inventory: '',
       photoUrl: '',
-      categories: ''
+      // categories: ''
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -43,11 +32,11 @@ class ProductForm extends Component {
         console.log('PRODUCT ON STATE', store.getState())
         this.setState({
           title: store.getState().product.title || '',
-          description,
-          price,
-          inventory,
-          photoUrl,
-          categories
+          description: store.getState().product.description || '',
+          price: store.getState().product.price || '',
+          inventory: store.getState().product.inventory || '',
+          photoUrl: store.getState().product.photoUrl || '',
+          // categories: store.getState().product.categories || '',
         })
       })
     }
@@ -56,7 +45,11 @@ class ProductForm extends Component {
   }
 
   componentWillUnmount() {
-    // this.unsubscribe()
+    if (this.state.edit) {
+      this.unsubscribe()
+      // for some reason this is throwing errors when we submit for add but not for edit
+      // being kind of hacky right now with the conditional to sidestep this bug...
+    }
   }
 
   handleChange(evt) {
@@ -67,11 +60,13 @@ class ProductForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault()
+    const updates = Object.assign({}, this.state, { price: Number(this.state.price) * 100 })
+
     if (this.props.edit === true) {
-      this.props.editProduct(this.state, this.props.history)
+      this.props.editProduct(updates, Number(this.props.match.params.id)) //passes in local state and product id
     }
     else {
-      this.props.addProduct(this.state, this.props.history)
+      this.props.addProduct(updates)
     }
   }
 
@@ -92,7 +87,7 @@ class ProductForm extends Component {
               name="title"
               type="text"
               onChange={this.handleChange}
-              value={this.props.title}
+              value={this.state.title}
             />
           </div>
           <div>
@@ -130,7 +125,7 @@ class ProductForm extends Component {
               value={this.state.photoUrl}
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="categories">Categories</label>
             <input
               name="categories"
@@ -138,7 +133,7 @@ class ProductForm extends Component {
               onChange={this.handleChange}
               value={this.state.categories}
             />
-          </div>
+          </div> */}
           <div>
             <button type="submit">Submit</button>
           </div>
@@ -181,8 +176,8 @@ const mapPropsForAdd = state => {
 const mapDispatch = (dispatch) => {
   return {
     getProduct: (id) => dispatch(getProductFromDb(id)),
-    editProduct: (product, history) => dispatch(editProductInDb(product, history)),
-    addProduct: (product, history) => dispatch(addProductToState(product, history))
+    editProduct: (product, id) => dispatch(editProductInDb(product, id)),
+    addProduct: (product) => dispatch(addProductToState(product))
   }
 }
 
@@ -190,3 +185,6 @@ export const EditForm = connect(mapPropsForEdit, mapDispatch)(ProductForm)
 export const AddForm = connect(mapPropsForAdd, mapDispatch)(ProductForm)
 
 // note to consider: a product needs a category, but what happens if we try to submit without a category? what happens if we write a category that doesn't actually exist in the db?
+// also categories not displaying... i have commented out the categories part
+// error when trying to add a new product --> getting this.unsubscribe is not a function
+

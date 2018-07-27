@@ -19,8 +19,7 @@ const Product = db.define('product', {
     validate: {
       [Op.gt]: 0
     },
-    //getter to display price correctly. Come back to this if we aren't getting correct prices.
-    //may need to add a setter, but will come back to it.
+    //getter displays $1.5 for price instead of $1.50 when 150 is entered
     get() {
       return this.getDataValue('price') / 100
     }
@@ -39,6 +38,10 @@ const Product = db.define('product', {
       isUrl: true
     }
   }
+})
+
+Product.beforeValidate((instance) => {
+  instance.photoUrl = instance.photoUrl || undefined
 })
 
 module.exports = Product
