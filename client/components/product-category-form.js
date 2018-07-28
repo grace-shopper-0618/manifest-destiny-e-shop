@@ -54,9 +54,10 @@ class ProductCategoryForm extends Component {
 
   componentDidMount() {
     this.props.fetchCategories()
+    console.log('== component mounted ==')
     this.setState({
       isLoaded: true,
-      categories: this.props.productCategories
+      categories: this.props.productCategories || []
     })
   }
 
@@ -130,4 +131,4 @@ const mapDispatch = dispatch => {
 export default connect(mapState, mapDispatch)(ProductCategoryForm)
 
 
-// notes: super buggy, and when you add a category it doesn't display in the singleproduct component...
+// notes: we don't always finish fetching the categories before we try to set our state with those fetched categories...
