@@ -77,7 +77,7 @@ class SingleProduct extends Component {
       orderId: this.props.user.orders[0].id,
       price: this.props.product.price
     }
-    this.props.addToCart(item, this.props.user.id)
+    this.props.addToCart(item, this.props.user)
   }
 
   render () {
@@ -137,7 +137,7 @@ const mapState = state => ({
 const mapDispatch = (dispatch) => ({
   getProduct: (id) => dispatch(getProductFromDb(id)),
   deleteProduct: (productId) => dispatch(removeProductFromDb(productId)),
-  addToCart: (item, userId) => dispatch(addItemToCart(item, userId))
+  addToCart: (item, user) => dispatch(addItemToCart(item, user))
 })
 
 export default connect(mapState, mapDispatch)(SingleProduct)
