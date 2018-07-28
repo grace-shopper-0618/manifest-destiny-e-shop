@@ -14,20 +14,23 @@ class ProductForm extends Component {
       price: '',
       inventory: '',
       photoUrl: '',
-      // categories: ''
+      categories: [] // note: this must get filled with category objects
     }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderRequiredFlag = this.renderRequiredFlag.bind(this)
+    this.addCategory = this.addCategory.bind(this)
+    this.removeCategory = this.removeCategory.bind(this)
   }
 
   componentDidMount() {
-    console.log('COMPONENT DID MOUNT', 'ID:', this.props.match.params.id)
+    // fetch categories from database
     if (this.props.edit) {
       const { title, description, price, inventory, photoUrl, categories } = this.props
 
       this.props.getProduct(Number(this.props.match.params.id))
+      // eager load categories in the get single product?
 
       this.unsubscribe = store.subscribe(() => {
         console.log('PRODUCT ON STATE', store.getState())
@@ -64,16 +67,24 @@ class ProductForm extends Component {
     const updates = Object.assign({}, this.state, { price: Number(this.state.price) * 100 })
 
     if (this.props.edit === true) {
-      this.props.editProduct(updates, Number(this.props.match.params.id)) //passes in local state and product id
+      this.props.editProduct(updates, Number(this.props.match.params.id, this.state.categories)) //passes in local state and product id
     }
     else {
-      this.props.addProduct(updates)
+      this.props.addProduct(updates, this.state.categories)
     }
   }
 
   renderRequiredFlag(field) {
     // we pass this method the part of state we are checking
     return field ? null : <span>required</span>
+  }
+
+  addCategory(category) {
+    // add category to state
+  }
+
+  removeCategory(category) {
+    // remove category from state
   }
 
   render() {
@@ -127,15 +138,29 @@ class ProductForm extends Component {
                 value={this.state.photoUrl}
               />
             </div>
-            {/* <div>
-              <label htmlFor="categories">Categories</label>
-              <input
-                name="categories"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.categories}
-              />
-            </div> */}
+
+            <div id="product-form-categories" >
+              {
+                this.props.categories && this.props.categories.map( category => {
+                  if (this.state.categories.indexOf(category) === -1) {
+                    return (
+                    <div key={category.id} >
+                      {category.name}
+                      <button onClick={() => this.addCategory(category)} > + </button>
+                    </div>
+                    )
+                  } else {
+                    return (
+                      <div key={category.id} >
+                        {category.name}
+                        <button onClick={() => this.removeCategory(category)} > - </button>
+                      </div>
+                    )
+                  }
+                })
+              }
+            </div>
+
             <div>
               <button type="submit">Submit</button>
             </div>
@@ -143,7 +168,6 @@ class ProductForm extends Component {
         </div>
       )
     } else {
-      // redirect away from this page? say that the user doesn't have access?
       return <Redirect to="/" />
     }
   }
@@ -162,7 +186,8 @@ const mapPropsForEdit = state => {
     categories: state.product.categories,
     error: state.product.error,
     edit: true,
-    isAdmin: state.user.isAdmin
+    isAdmin: state.user.isAdmin,
+    allCategories: state.categories
   }
 }
 
@@ -177,22 +202,22 @@ const mapPropsForAdd = state => {
     // categories: '',
     error: state.products.error,
     edit: false,
-    isAdmin: state.user.isAdmin
+    isAdmin: state.user.isAdmin,
+    allCategories: state.categories
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
     getProduct: (id) => dispatch(getProductFromDb(id)),
-    editProduct: (product, id) => dispatch(editProductInDb(product, id)),
-    addProduct: (product) => dispatch(addProductToState(product))
+    editProduct: (product, id, categories) => dispatch(editProductInDb(product, id, categories)),
+    addProduct: (product, categories) => dispatch(addProductToState(product, categories))
   }
 }
 
 export const EditForm = connect(mapPropsForEdit, mapDispatch)(ProductForm)
 export const AddForm = connect(mapPropsForAdd, mapDispatch)(ProductForm)
 
-// note to consider: a product needs a category, but what happens if we try to submit without a category? what happens if we write a category that doesn't actually exist in the db?
-// also categories not displaying... i have commented out the categories part
+// note to consider: a product needs a category, but what happens if we try to submit without a category? need form validation?
 // error when trying to add a new product --> getting this.unsubscribe is not a function
 

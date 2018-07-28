@@ -11,6 +11,7 @@ router.get('/:id/cart', async (req, res, next) => {
       },
       include: [{ model: Product }, { model: LineItem }]
       // products: as an array on cart model, is it populating with line items??
+      // lineitem association works?
     })
 
     if (!activeCart) {
