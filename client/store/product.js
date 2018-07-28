@@ -31,11 +31,11 @@ export const getProductFromDb = (id) => {
   }
 }
 
-export const editProductInDb = (product, id) => {
+export const editProductInDb = (product, id, categories) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/products/${id}`, product)
-      console.log(data)
+      data.setCategories(categories) // can I do this here?
       dispatch(editProduct(data))
       history.push(`/shop/${id}`)
     } catch (error) {
