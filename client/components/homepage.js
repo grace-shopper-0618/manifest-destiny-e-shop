@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const UserHome = () => {
+export const HomePage = () => {
     return (
       <div>
-        <img src="../../public/the-oregon-trail.jpg" alt="the-oregon-trail.jpg" width="1000px" />
+        <img src="the-oregon-trail.jpg" alt="the-oregon-trail.jpg" width="1000px" />
       </div>
     )
 }
