@@ -19,7 +19,7 @@ class Cart extends React.Component {
         this.setState(cartLineItems, userId)
     }
 
-    // handleDelete() {
+    // handleDelete() { commented out so it won't crash hopefully
 
     // }
 
