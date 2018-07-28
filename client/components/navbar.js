@@ -17,12 +17,12 @@ const Navbar = ({ handleClick, isLoggedIn, email }) => (
             <a href='#' onClick={handleClick}>Logout</a>
           </li>
         ) : (
-          <li id='loggedOut'>
-            <Link to='/login'>Login</Link>
-            <Link to='/signup'>Sign Up</Link>
-          </li>
-        )}
-        <li id='viewCart'><Link to='/'>View Cart</Link></li>
+            <li id='loggedOut'>
+              <Link to='/login'>Login</Link>
+              <Link to='/signup'>Sign Up</Link>
+            </li>
+          )}
+        <li id='viewCart'><Link to='/cart'>View Cart</Link></li>
       </ul>
     </nav>
   </div>
