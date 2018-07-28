@@ -69,7 +69,7 @@ router.post('/:id', async (req, res, next) => {
     })
 
     if (!lineItem) {
-      const newLineItem = await LineItem.create({...req.body, price: req.body.price * 100})
+      const newLineItem = await LineItem.create({ ...req.body, price: req.body.price * 100 })
       if (!newLineItem) {
         const err = new Error('Unable to add item to the order')
         err.status = 400
