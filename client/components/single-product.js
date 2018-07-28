@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getProductFromDb} from '../store/product'
-import { removeProductFromDb } from '../store/products';
+import { removeProductFromDb } from '../store/products'
 import { addItemToCart } from '../store/cart'
+import ProductCategoryForm from './product-category-form'
 
 //COMPONENT
 
@@ -89,7 +90,7 @@ class SingleProduct extends Component {
         <h1>${product.price}</h1>
         <img src={product.photoUrl} />
         <p>{product.description}</p>
-        {
+        {/* {
           product.categories && product.categories.map(category => {
             return (
               <div key={category.name}>
@@ -97,7 +98,7 @@ class SingleProduct extends Component {
               </div>
             )
           })
-        }
+        } */}
         <p>{product.inventory} in stock</p>
 
         <form id="add-to-cart-form" onSubmit={this.handleAddToCart} >
@@ -120,7 +121,10 @@ class SingleProduct extends Component {
             )
           })
         }
-        {this.renderButtons()}
+        {
+          this.renderButtons()
+        }
+        <ProductCategoryForm />
       </div>
     )
   }

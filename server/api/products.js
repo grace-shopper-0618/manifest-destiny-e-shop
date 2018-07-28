@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Product, Category, Review} = require('../db/models')
+const db = require('../db')
 module.exports = router
 
 //get all products from the db
@@ -93,4 +94,57 @@ router.get('/:id/reviews', async (req, res, next) => {
   } catch (err) {
       next(err)
   }
+})
+
+router.put('/:id/categories', async (req, res, next) => {
+  // add a category-product relationship
+  // category is in req.body
+  try {
+    // find the product
+    const product = await Product.findOne({
+      where: {
+        id: +req.params.id
+      }
+    })
+
+    if (!product) {
+      const err = new Error('Unable to find product')
+      err.status = 404
+      return next(err)
+    }
+    // await product.addCategory(req.body)
+
+    const newTag = await db.model('tags').create({
+      productId: +req.params.id,
+      categoryId: +req.body.id
+    })
+    res.status(201).json(product)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+router.delete('/:productId/categories/:categoryId', async (req, res, next) => {
+
+  try {
+    const { productId, categoryId } = req.params
+
+    await db.model('tags').destroy({
+      where: {
+        productId,
+        categoryId
+      }
+    })
+
+    const product = await Product.findById(productId, {
+      include: [{model: Category}, {model: Review}]
+    })
+
+    res.json(product)
+  } catch (err) { next(err) }
+
+
+
 })

@@ -31,15 +31,35 @@ export const getProductFromDb = (id) => {
   }
 }
 
-export const editProductInDb = (product, id, categories) => {
+export const editProductInDb = (product, id) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/products/${id}`, product)
-      data.setCategories(categories) // can I do this here?
       dispatch(editProduct(data))
       history.push(`/shop/${id}`)
     } catch (error) {
       console.error(error)
+    }
+  }
+}
+
+export const addCategoryToProduct = (productId, category) => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.put(`/api/products/${productId}/categories`, category)
+      dispatch(editProduct(data))
+    } catch (err) { console.error(err)}
+  }
+}
+
+export const deleteCategoryFromProduct = (productId, categoryId) => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.delete(`/api/products/${productId}/categories/${categoryId}`)
+      dispatch(editProduct(data))
+
+    } catch (err) {
+      console.error(err)
     }
   }
 }
