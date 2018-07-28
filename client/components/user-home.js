@@ -34,7 +34,7 @@ class UserHome extends React.Component {
           }
         </div>
         <div id="userOrders">
-          <h2>Your Order History:</h2>
+          <h4>Your Order History:</h4>
           {
             userOrders.length ?
             userOrders.map(order => {
