@@ -10,19 +10,21 @@ const Navbar = ({ handleClick, isLoggedIn, email }) => (
       <ul>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/shop'>Shop</Link></li>
-        <li><h2>Oregon Trail Outfitters</h2></li>
+      </ul>
+      <h2>Oregon Trail Outfitters</h2>
+      <ul>
         {isLoggedIn ? (
-          <li id='loggedIn'>
+          <li>
             <p>Welcome,<Link to='/home'>{email}</Link></p>
             <a href='#' onClick={handleClick}>Logout</a>
           </li>
         ) : (
-            <li id='loggedOut'>
+            <li>
               <Link to='/login'>Login</Link>
               <Link to='/signup'>Sign Up</Link>
             </li>
           )}
-        <li id='viewCart'><Link to='/cart'>View Cart</Link></li>
+        <li><Link to='/cart'>View Cart</Link></li>
       </ul>
     </nav>
   </div>

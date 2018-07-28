@@ -27,21 +27,22 @@ form div {
   border: 2px solid black;
   font-size: 22px;
   list-style-type: none;
-  overflow: hidden;
   font-weight: bold;
   height: 120px;
-}
-
-#navbar #loggedIn, #loggedOut, #viewCart {
-  font-size: 14px;
+  justify-content: space-around;
 }
 
 #navbar li {
-  display: flex;
-  text-align: center;
+  /* display: flex; */
+  list-style-type: none;
   padding: 10px;
   text-decoration: none;
   float: left;
+  font-size: 16px;
+}
+
+#navbar h2 {
+  margin-top: 40px;
 }
 
 #categoryList {
@@ -89,4 +90,16 @@ form div {
  .product-card img {
    width: 175px;
    height: 175px;
+   display: block;
+   margin-left: auto;
+ }
+
+ #homepage {
+  background-color: black;
+ }
+
+ #homepage img {
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
  }
