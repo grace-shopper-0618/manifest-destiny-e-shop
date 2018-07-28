@@ -23,7 +23,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id
     const product = await Product.findById(id, {
-      include: [{model: Category}, {model: Review}, {model: Category}]
+      include: [{model: Category}, {model: Review}]
     })
     if (!product) {
       const err = new Error(`No product with id ${id} for sale.`)
