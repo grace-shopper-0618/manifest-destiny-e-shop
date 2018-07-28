@@ -2,6 +2,8 @@ const router = require('express').Router()
 module.exports = router
 const { User, Order, Product, LineItem } = require('../db/models')
 
+// find a specific user's orders is in /api/users/
+
 // getting an active order (cart) by its id
 router.get('/:id', async (req, res, next) => {
   // check req.body for userid to see if anyone is logged in
