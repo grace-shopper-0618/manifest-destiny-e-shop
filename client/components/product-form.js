@@ -73,6 +73,9 @@ class ProductForm extends Component {
 
   render() {
     if (this.props.isAdmin) {
+
+      const enableButton = (this.state.title && this.state.price && this.state.inventory)
+
       return (
         <div>
           <form id="product-form" onSubmit={this.handleSubmit}>
@@ -125,7 +128,7 @@ class ProductForm extends Component {
 
 
             <div>
-              <button type="submit">Submit</button>
+              <button type="submit" disabled={!enableButton} >Submit</button>
             </div>
           </form>
         </div>
