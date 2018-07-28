@@ -1,12 +1,14 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {getCartFromDb} from '../store/cart'
+import { connect } from 'react-redux'
+import { getCartFromDb, addItemToCart, removeItemFromCart } from '../store/cart'
+//I'm importing addItemToCart and adding a route for removeItemFromCart 
+//so we can increment and decrement quantity 
 
 class Cart extends React.Component {
     constructor() {
         super()
         this.state = {
-            cartLineItems: [],
+            lineItems: [],
             userId: 0
         }
     }
@@ -15,8 +17,11 @@ class Cart extends React.Component {
         const userId = this.props.match.params.id
         const cart = this.props.getCart(userId)
         console.log('cart', cart)
-        const cartLineItems = cart.lineItem
-        this.setState(cartLineItems, userId)
+        try {
+            this.setState(cart.lineItems)
+        } catch {
+            console.log("Couldn't find any line items")
+        }
     }
 
     // handleDelete() { commented out so it won't crash hopefully
@@ -28,14 +33,14 @@ class Cart extends React.Component {
     // }
 
     render() {
-        const cartLineItems = this.state.cartLineItems
+        const lineItems = this.state.lineItems
         const userId = this.state.userId
         return (
             <div id='shopping-cart'>
                 <h3>Your Cart</h3>
                 <ul id='cart-items'>
                     {
-                        cartLineItems.map((lineItem) => {
+                        lineItems.map((lineItem) => {
                             return (
                                 <li key={lineItem.id}>{lineItem.title}</li>
                             )
@@ -47,7 +52,7 @@ class Cart extends React.Component {
     }
 }
 
-// const mapState = state => {
+// const mapState = (state) => {
 
 // }
 

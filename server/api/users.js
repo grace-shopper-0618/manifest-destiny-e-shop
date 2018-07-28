@@ -61,6 +61,8 @@ router.get('/', async (req, res, next) => {
 //   }
 // })
 
+//should these routes be in the orders.js file?
+
 router.post('/:id/cart', async (req, res, next) => {
   try {
     const lineItem = await LineItem.findOne({
@@ -69,7 +71,6 @@ router.post('/:id/cart', async (req, res, next) => {
         productId: +req.body.productId
       }
     })
-
     if (!lineItem) {
       const newLineItem = await LineItem.create(req.body)
       // req.body needs to include productId, orderId, quantity, price, etc.
@@ -79,7 +80,6 @@ router.post('/:id/cart', async (req, res, next) => {
         return next(err)
       }
       res.status(201).json(newLineItem)
-
     } else {
       // line item already exists-- lets update the quantity
       const quantity = +req.body.quantity + lineItem.quantity
@@ -92,4 +92,31 @@ router.post('/:id/cart', async (req, res, next) => {
   }
 })
 
-
+router.delete('/:id/cart', async (req, res, next) => {
+  try {
+    const lineItem = await LineItem.findOne({
+      where: {
+        orderId: +req.body.orderId,
+        productId: +req.body.productId
+      }
+    })
+    if (!lineItem) {
+      const err = new Error(`Unable to remove the item with id ${req.params.id} from the order.`)
+      err.status = 400
+      return next(err)
+    }
+    if (lineItem.quantity > 1) {
+      const lineItemUpdates = {...lineItem, quantity: lineItem.quantity-1}
+      await lineItem.update(lineItemUpdates)
+      res.status(201).json(lineItem)
+    } else {
+      await LineItem.destroy({
+        where: {
+          id: req.params.id
+        }
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})

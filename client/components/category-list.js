@@ -1,5 +1,5 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { setSelectedCategory, deselectCategory } from '../store/selectedCategory';
 import { getCategoriesFromDb } from '../store/categories';
 
@@ -30,7 +30,7 @@ class CategoryList extends React.Component {
 }
 
 //CONNECTED COMPONENT
-const mapState = state => ({
+const mapState = (state) => ({
   categories: state.categories,
   selectedCategory: state.selectedCategory
 })
