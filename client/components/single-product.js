@@ -138,7 +138,9 @@ class SingleProduct extends Component {
             product.reviews && product.reviews.map(review => {
               return (
                 <li key={review.id}><div className="singleReview">
-                  <p>{review.rating} STARS:</p>
+                  {
+                    review.rating > 1? <p>{review.rating} STARS:</p> : <p>{review.rating} STAR:</p>
+                  }
                   <p>{review.text}</p>
                 </div></li>
               )
