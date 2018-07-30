@@ -86,27 +86,32 @@ const categories = [
 
 const reviews = [
   {
-    text: "5 stars: My family's wagon wheel fell off on a treacherous Rocky Mountain path! Luckily we brought extra wheels, purchased from Oregon Trail Outfitters. Highly recommended.",
+    text: "My family's wagon wheel fell off on a treacherous Rocky Mountain path! Luckily we brought extra wheels, purchased from Oregon Trail Outfitters. Highly recommended.",
+    rating: 5,
     productId: 2,
     userId: 1
   },
   {
-    text: "1 star: The flour was infested with mites.",
+    text: "The flour was infested with mites.",
+    rating: 1,
     productId: 5,
     userId: 1
   },
   {
-    text: "3 stars: The oxen healthy and strong but don't respond well to direction.",
+    text: "The oxen healthy and strong but don't respond well to direction.",
+    rating: 3,
     productId: 7,
     userId: 1
   },
   {
-    text: "4 stars: The soap works but it gave me dandruff.",
+    text: "The soap works but it gave me dandruff.",
+    rating: 4,
     productId: 3,
     userId: 1
   },
   {
-    text: "5 stars: Delicious oats and great price!",
+    text: "Delicious oats and great price!",
+    rating: 5,
     productId: 6,
     userId: 1
   }

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const db = require('../db')
+const Review = require('./reviews')
 
 const Product = db.define('product', {
   title: {
@@ -45,4 +46,3 @@ Product.beforeValidate((instance) => {
 })
 
 module.exports = Product
-
