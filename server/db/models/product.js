@@ -45,16 +45,4 @@ Product.beforeValidate((instance) => {
   instance.photoUrl = instance.photoUrl || undefined
 })
 
-Product.prototype.getAvgRating = async () => {
-  const productId = this.productId
-  const ratings = await Review.findAll({
-    where: productId
-  })
-  let sumOfRatings = 0
-  ratings.forEach(rating => {
-    sumOfRatings += rating
-  })
-  return sumOfRatings/ratings.length
-}
-
 module.exports = Product

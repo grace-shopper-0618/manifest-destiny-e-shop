@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {getProductFromDb} from '../store/product'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getProductFromDb } from '../store/product'
 import { removeProductFromDb } from '../store/products'
 import { addItemToCart } from '../store/cart'
 import ProductCategoryForm from './product-category-form'
@@ -11,7 +11,8 @@ class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
-      quantity: 1
+      quantity: 1,
+      avgRating: 0
     }
     this.renderButtons = this.renderButtons.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
@@ -21,9 +22,17 @@ class SingleProduct extends Component {
     this.handleAddToCart = this.handleAddToCart.bind(this)
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     const id = this.props.match.params.id
-    this.props.getProduct(id)
+    await this.props.getProduct(id)
+    const reviews = this.props.reviews
+    let sumOfRatings = 0    
+    reviews.forEach(review => {
+      sumOfRatings += review.rating
+    })
+    const avgRating = sumOfRatings / reviews.length
+    console.log('Average rating: ', avgRating)
+    this.setState(avgRating)
   }
 
   handleEdit(evt) {
@@ -82,25 +91,29 @@ class SingleProduct extends Component {
   }
 
   render () {
-    const {product, user} = this.props
-    console.log('eagerly loaded user', user)
+    const {product} = this.props
     return (
       <div key={product.id}>
         <h3>{product.title}</h3>
         <h1>${product.price}</h1>
         <img src={product.photoUrl} />
-        <p>{product.description}</p>
+        <p>Product Description: {product.description}</p>
+        <p>Categories:</p>        
+        <ul id='categories-list'>
+          {
+            product.categories && product.categories.map(category => {
+              return (
+                <li key={category.name}>
+                  <p>{category.name}</p>
+                </li>
+              )
+            })
+          }
+        </ul>
+        <p>Inventory: {product.inventory} in stock</p>
         {
-          product.categories && product.categories.map(category => {
-            return (
-              <div key={category.name}>
-                <p>{category.name}</p>
-              </div>
-            )
-          })
+          this.renderButtons()
         }
-        <p>{product.inventory} in stock</p>
-
         <form id="add-to-cart-form" onSubmit={this.handleAddToCart} >
           <select value={this.state.value} onChange={this.handleChange} >
             {
@@ -111,11 +124,10 @@ class SingleProduct extends Component {
           </select>
           <button type="submit">Add to cart</button>
         </form>
-        {
-          this.renderButtons()
-        }
+        <ProductCategoryForm />
         <div>
           <h4>Reviews</h4>
+          <p>Average Rating: {this.state.avgRating}</p>
           {
             product.reviews && product.reviews.map(review => {
               return (
@@ -127,7 +139,6 @@ class SingleProduct extends Component {
             })
           }
         </div>
-        <ProductCategoryForm />
       </div>
     )
   }
