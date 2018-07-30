@@ -34,7 +34,7 @@ router.get('/:id', async (req, res, next) => {
     // }
 
     if (order) {
-      res.status(200).json(order)
+      res.status(200).send(order)
     } else {
       const err = new Error('Unable to locate the order')
       err.status = 404
@@ -43,7 +43,26 @@ router.get('/:id', async (req, res, next) => {
 
   } catch (error) { next(error) }
 
+})
 
+router.get('/:id/total', async (req, res, next) => {
+  try {
+    const order = await Order.findById(+req.params.id)
+    console.log('ORDER', order)
+
+    if (order) {
+      const totalPrice = await Order.getTotal(order)
+
+      res.json({"totalPrice": totalPrice})
+
+    } else {
+      const err = new Error('Unable to locate the order')
+      err.status = 404
+      return next(err)
+    }
+
+
+  } catch (err) { next(err) }
 })
 
 // updating a cart by its  order id

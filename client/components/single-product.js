@@ -22,12 +22,13 @@ class SingleProduct extends Component {
     this.handleAddToCart = this.handleAddToCart.bind(this)
   }
 
-  async componentDidMount () {
+  componentDidMount () {
     const id = this.props.match.params.id
-    await this.props.getProduct(id)
+    this.props.getProduct(id)
+
     if (this.props.product.reviews) {
       const reviews = this.props.product.reviews
-      let sumOfRatings = 0    
+      let sumOfRatings = 0
       reviews.forEach(review => {
         sumOfRatings += review.rating
       })
@@ -35,7 +36,7 @@ class SingleProduct extends Component {
       console.log('Average rating: ', avgRating)
       this.setState({
         avgRating
-      })      
+      })
     }
 
   }
@@ -85,7 +86,7 @@ class SingleProduct extends Component {
 
   handleAddToCart(evt) {
     evt.preventDefault()
-    console.log(this.props.cart)
+    console.log('*****', this.state)
     const item = {
       productId: +this.props.match.params.id,
       quantity: this.state.quantity,
@@ -103,7 +104,7 @@ class SingleProduct extends Component {
         <h1>${product.price}</h1>
         <img src={product.photoUrl} />
         <p>Product Description: {product.description}</p>
-        <p>Categories:</p>        
+        <p>Categories:</p>
         <ul id='categories-list'>
           {
             product.categories && product.categories.map(category => {
