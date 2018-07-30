@@ -40,6 +40,7 @@ class Cart extends Component {
     })
   }
 
+
   // handleQuantityChange() {
   // }
 
@@ -75,7 +76,6 @@ class Cart extends Component {
 
 const mapState = state => {
   console.log('mapping state to props')
-  console.log('current user on store state', state.user)
 
   return {
     user: state.user,
