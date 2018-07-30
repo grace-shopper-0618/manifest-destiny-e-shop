@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const db = require('../db')
+const Review = require('./reviews')
 
 const Product = db.define('product', {
   title: {
@@ -44,5 +45,16 @@ Product.beforeValidate((instance) => {
   instance.photoUrl = instance.photoUrl || undefined
 })
 
-module.exports = Product
+Product.prototype.getAvgRating = async () => {
+  const productId = this.productId
+  const ratings = await Review.findAll({
+    where: productId
+  })
+  let sumOfRatings = 0
+  ratings.forEach(rating => {
+    sumOfRatings += rating
+  })
+  return sumOfRatings/ratings.length
+}
 
+module.exports = Product
