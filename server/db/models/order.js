@@ -7,15 +7,10 @@ const Order = db.define('order', {
     type: Sequelize.BOOLEAN,
     allowNull: false
   },
-  // subtotal: {
-  //   type: Sequelize.INTEGER,
-  //   get() {
-  //     return this.getDataValue('totalPrice')
-  //   },
-  //   set(value) {
-  //     this.setDataValue('totalPrice', value * 100)
-  //   }
-  // },
+  finalTotal: {
+    type: Sequelize.INTEGER,
+    defaultValue: null
+  },
   hasShipped: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
@@ -31,8 +26,9 @@ const Order = db.define('order', {
 
 Order.prototype.getTotal = async () => {
   const lineItems = await LineItem.findAll({
-    where: {orderId : this.id}
+    where: { orderId : this.id }
   })
+
   const subtotal = lineItems.reduce((total, lineItem) => {
     return (lineItem.price * lineItem.quantity) + total
   }, 0)
@@ -40,8 +36,9 @@ Order.prototype.getTotal = async () => {
   if (this.summerPromo) {
     // 50% off!!
     return (subtotal * 0.50) / 100
+  } else {
+    return subtotal / 100
   }
-  return subtotal / 100
 }
 
 module.exports = Order
