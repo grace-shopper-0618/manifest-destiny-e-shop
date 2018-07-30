@@ -21,29 +21,36 @@ class UserHome extends React.Component {
         <h2>Welcome, {email}</h2>
         <div id="userReviews">
           <h4>Your Reviews:</h4>
-          {
-            reviews.length ?
-            reviews.map(review => {
-              return (
-                <div id="review" key={review.id}>
-                  <p>{review.text}</p>
-                </div>
-              )
-            }) :
-            <h5>You have not reviewed any products.</h5>
-          }
+          <ul>
+            {
+              reviews.length ?
+              reviews.map(review => {
+                return (
+                  <div id="review" key={review.id}>
+                    {
+                      review.rating > 1? <p>{review.rating} STARS:</p> : <p>{review.rating} STAR:</p>
+                    }
+                    <p>{review.text}</p>
+                  </div>
+                )
+              }) :
+              <h5>You have not reviewed any products.</h5>
+            }
+          </ul>
         </div>
         <div id="userOrders">
           <h4>Your Order History:</h4>
-          {
-            userOrders.length ?
-            userOrders.map(order => {
-              return (
-                <Order order={order} key={order.id} />
-              )
-            }) :
-            <h5>You have not placed any orders with Oregon Trail Outfitters. Get shopping!</h5>
-          }
+          <ul>
+            {
+              userOrders.length ?
+              userOrders.map(order => {
+                return (
+                  <Order order={order} key={order.id} />
+                )
+              }) :
+              <h5>You have not placed any orders with Oregon Trail Outfitters. Get shopping!</h5>
+            }
+          </ul>
         </div>
       </div>
     )
