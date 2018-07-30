@@ -25,14 +25,19 @@ class SingleProduct extends Component {
   async componentDidMount () {
     const id = this.props.match.params.id
     await this.props.getProduct(id)
-    const reviews = this.props.reviews
-    let sumOfRatings = 0    
-    reviews.forEach(review => {
-      sumOfRatings += review.rating
-    })
-    const avgRating = sumOfRatings / reviews.length
-    console.log('Average rating: ', avgRating)
-    this.setState(avgRating)
+    if (this.props.product.reviews) {
+      const reviews = this.props.product.reviews
+      let sumOfRatings = 0    
+      reviews.forEach(review => {
+        sumOfRatings += review.rating
+      })
+      const avgRating = sumOfRatings / reviews.length
+      console.log('Average rating: ', avgRating)
+      this.setState({
+        avgRating
+      })      
+    }
+
   }
 
   handleEdit(evt) {
@@ -128,16 +133,18 @@ class SingleProduct extends Component {
         <div>
           <h4>Reviews</h4>
           <p>Average Rating: {this.state.avgRating}</p>
+          <ul id="reviews-list">
           {
             product.reviews && product.reviews.map(review => {
               return (
-                <div key={review.id} className="singleReview">
+                <li key={review.id}><div className="singleReview">
                   <p>{review.rating} STARS:</p>
                   <p>{review.text}</p>
-                </div>
+                </div></li>
               )
             })
           }
+          </ul>
         </div>
       </div>
     )

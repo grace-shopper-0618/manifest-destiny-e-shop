@@ -43,7 +43,6 @@ class ProductCategoryForm extends Component {
 
     const id = this.props.product.id
     const category = this.props.allCategories.find(element => element.id === this.state.selectedCategory)
-    console.log('=== category in handlesubmit', category)
 
     this.props.addCategory(id, category)
 
@@ -54,7 +53,6 @@ class ProductCategoryForm extends Component {
 
   componentDidMount() {
     this.props.fetchCategories()
-    console.log('== component mounted ==')
     this.setState({
       isLoaded: true,
       categories: this.props.productCategories || []
@@ -67,8 +65,7 @@ class ProductCategoryForm extends Component {
     if (this.props.isAdmin) {
       const { allCategories } = this.props
       const { categories, isLoaded } = this.state
-      let filteredCategories;
-      console.log('**', this.state)
+      let filteredCategories
       if (isLoaded) {
         const ids = categories.map(category => category.id)
         filteredCategories = allCategories.filter(category => ids.indexOf(category.id) === -1)
