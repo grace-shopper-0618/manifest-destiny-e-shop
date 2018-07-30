@@ -18,15 +18,16 @@ class Routes extends Component {
 
     return (
       <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route exact path="/shop" component={AllProducts} />
         {/* Routes placed here are available to all visitors */}
-        <Route exact path="/shop/add" component={AddForm} />
-        <Route path="/shop/:id/edit" component={EditForm} />
-        <Route exact path="/shop/:id" component={SingleProduct} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/shop/add" component={AddForm} />
+        <Route path="/shop/:id/edit" component={EditForm} />
+        <Route path="/shop/:id" component={SingleProduct} />
+        <Route path="/shop" component={AllProducts} />
         <Route path='/cart' component={Cart} />
+        <Route exact path='/' component={HomePage} />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
