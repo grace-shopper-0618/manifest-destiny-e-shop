@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 import { getCartFromUser, addItemToCart, removeItemFromCart, getTotalPrice } from '../store/cart'
+import { me } from '../store/user'
 
 class Cart extends Component {
   constructor() {
@@ -14,9 +17,8 @@ class Cart extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount')
     const { user, cart } = this.props
-    // not remounting after mapState
-    if (user.orders) this.props.getCart(user)
 
     // if (cart.id) this.props.fetchTotalPrice(cart.id)
 
@@ -25,6 +27,15 @@ class Cart extends Component {
       totalPrice: cart.totalPrice || 0,
       user: user || {}
     })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.user !== this.props.user) {
+      this.props.getCart(this.props.user)
+    }
+    if (prevProps.cart.id !== this.props.cart.id) {
+      this.props.fetchTotalPrice(this.props.cart.id)
+    }
   }
 
   handleDelete(evt, product) {
@@ -45,8 +56,8 @@ class Cart extends Component {
   // }
 
   render() {
-    // const products = this.props.cart.products
-    const { products } = this.state
+    const products = this.props.cart.products
+    // const { products } = this.state
 
     return (
       <div id='shopping-cart'>
@@ -68,6 +79,7 @@ class Cart extends Component {
             })
           }
         </ul>
+        <Link to='/checkout'>Proceed to Checkout</Link>
         <h4> Total price: ${this.state.totalPrice} </h4>
       </div>
     )
@@ -90,8 +102,9 @@ const mapDispatch = (dispatch) => {
         dispatch(getCartFromUser(user))
     },
     deleteFromCart: (product) => dispatch(removeItemFromCart(product)),
-    fetchTotalPrice: (orderId) => dispatch(getTotalPrice(orderId))
+    fetchTotalPrice: (orderId) => dispatch(getTotalPrice(orderId)),
+    fetchUser: () => dispatch(me())
   }
 }
 
-export default connect(mapState, mapDispatch)(Cart)
+export default withRouter(connect(mapState, mapDispatch)(Cart))
