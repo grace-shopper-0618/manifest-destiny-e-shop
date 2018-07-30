@@ -18,7 +18,7 @@ class UserHome extends React.Component {
     const { reviews } = this.props.user
     return (
       <div id="userHome">
-        {/* <h2>Welcome, {email}</h2> */}
+        <h2>Welcome, {email}</h2>
         <div id="userReviews">
           <h4>Your Reviews:</h4>
           {
