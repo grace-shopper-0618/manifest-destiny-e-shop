@@ -90,7 +90,7 @@ class SingleProduct extends Component {
         <h1>${product.price}</h1>
         <img src={product.photoUrl} />
         <p>{product.description}</p>
-        {/* {
+        {
           product.categories && product.categories.map(category => {
             return (
               <div key={category.name}>
@@ -98,7 +98,7 @@ class SingleProduct extends Component {
               </div>
             )
           })
-        } */}
+        }
         <p>{product.inventory} in stock</p>
 
         <form id="add-to-cart-form" onSubmit={this.handleAddToCart} >
@@ -111,19 +111,22 @@ class SingleProduct extends Component {
           </select>
           <button type="submit">Add to cart</button>
         </form>
-
-        {
-          product.reviews && product.reviews.map(review => {
-            return (
-              <div key={review.id}>
-                <p>{review.text}</p>
-              </div>
-            )
-          })
-        }
         {
           this.renderButtons()
         }
+        <div>
+          <h4>Reviews</h4>
+          {
+            product.reviews && product.reviews.map(review => {
+              return (
+                <div key={review.id} className="singleReview">
+                  <p>{review.rating} STARS:</p>
+                  <p>{review.text}</p>
+                </div>
+              )
+            })
+          }
+        </div>
         <ProductCategoryForm />
       </div>
     )
