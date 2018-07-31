@@ -47,8 +47,7 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.put('/:id', async (req, res, next) => {
- // this route will be used for updating an order status to inactive, updating a 'hasshipped', and adding shipping info
-
+  // this route will be used for updating an order status to inactive, updating a 'hasshipped', and adding shipping info
   try {
     const order = await Order.findById(+req.params.id, {
       include: [{
@@ -58,7 +57,6 @@ router.put('/:id', async (req, res, next) => {
     })
     const updatedOrder = await order.update(req.body)
     res.status(201).json(updatedOrder)
-
 
   } catch (err) { next(err) }
 

@@ -5,7 +5,7 @@ import { removeProductFromDb } from '../store/products'
 import { addItemToCart, updateLineItem } from '../store/cart'
 import ProductCategoryForm from './product-category-form'
 import ReviewForm from './review-form';
-import { addItemToGuestCart } from '../store/sessionCart';
+import { addItemToGuestCart } from '../store/sessionCart'
 
 //COMPONENT
 
@@ -24,7 +24,7 @@ class SingleProduct extends Component {
     this.handleAddToCart = this.handleAddToCart.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const id = this.props.match.params.id
     this.props.getProduct(id)
 
@@ -40,7 +40,6 @@ class SingleProduct extends Component {
         avgRating
       })
     }
-
   }
 
   handleEdit(evt) {
@@ -62,8 +61,8 @@ class SingleProduct extends Component {
     })
   }
 
-  renderButtons () {
-    const {user} = this.props
+  renderButtons() {
+    const { user } = this.props
     if (user.isAdmin) {
       return (
         <div id='buttons'>
@@ -74,7 +73,7 @@ class SingleProduct extends Component {
     }
   }
 
-  renderDropDown (inventory) {
+  renderDropDown(inventory) {
     const quantities = []
     for (let i = 1; i <= inventory; i++) {
       if (i > 5) {
@@ -95,10 +94,10 @@ class SingleProduct extends Component {
     }
     if (this.props.isLoggedIn) {
       item.orderId = this.props.cart.id
-      const existingItem = this.props.cart['line-items'].find(item => {
-        return item.productId === +this.props.match.params.id
+      const existingItem = this.props.cart['line-items'].find(lineItem => {
+        return lineItem.productId === +this.props.match.params.id
       })
-  
+
       if (existingItem) {
         this.props.updateCartQuantity(existingItem, item.quantity)
       } else {
@@ -115,13 +114,14 @@ class SingleProduct extends Component {
     }
   }
 
-  render () {
+  render() {
     const { product } = this.props
+    const newPhotoUrl = __dirname + product.photoUrl
     return (
       <div key={product.id}>
         <h3>{product.title}</h3>
         <h1>${product.price}</h1>
-        <img src={product.photoUrl} />
+        <img className='singleProductPhoto' src={newPhotoUrl} width='500px' height='500px' />
         <p>Product Description: {product.description}</p>
         <p>Categories:</p>
         <ul id='categories-list'>
@@ -142,9 +142,9 @@ class SingleProduct extends Component {
         <form id="add-to-cart-form" onSubmit={this.handleAddToCart} >
           <select value={this.state.value} onChange={this.handleChange} >
             {
-             this.renderDropDown(product.inventory).map(quantity => {
-               return <option value={quantity} key={quantity} > {quantity} </option>
-             })
+              this.renderDropDown(product.inventory).map(quantity => {
+                return <option value={quantity} key={quantity} > {quantity} </option>
+              })
             }
           </select>
           <button type="submit">Add to cart</button>
@@ -155,18 +155,18 @@ class SingleProduct extends Component {
           <p>Average Rating: {this.state.avgRating}</p>
           <ReviewForm />
           <ul id="reviews-list">
-          {
-            product.reviews && product.reviews.map(review => {
-              return (
-                <li key={review.id}><div className="singleReview">
-                  {
-                    review.rating > 1? <p>{review.rating} STARS:</p> : <p>{review.rating} STAR:</p>
-                  }
-                  <p>{review.text}</p>
-                </div></li>
-              )
-            })
-          }
+            {
+              product.reviews && product.reviews.map(review => {
+                return (
+                  <li key={review.id}><div className="singleReview">
+                    {
+                      review.rating > 1 ? <p>{review.rating} STARS:</p> : <p>{review.rating} STAR:</p>
+                    }
+                    <p>{review.text}</p>
+                  </div></li>
+                )
+              })
+            }
           </ul>
         </div>
       </div>
@@ -174,15 +174,20 @@ class SingleProduct extends Component {
   }
 }
 
+
 // can we use a higher-order component here?
 
-const mapState = state => ({
-  product: state.product,
-  user: state.user,
-  cart: state.cart.currentOrder,
-  isLoggedIn: !!state.user.id,
-  guestCart: state.sessionCart
-})
+const mapState = state => {
+  console.log('state:', state)
+  return ({
+    product: state.product,
+    user: state.user,
+
+    cart: state.cart.currentOrder,
+    isLoggedIn: !!state.user.id,
+    guestCart: state.sessionCart
+  })
+}
 
 const mapDispatch = (dispatch) => ({
   getProduct: (id) => dispatch(getProductFromDb(id)),
@@ -195,5 +200,3 @@ const mapDispatch = (dispatch) => ({
 })
 
 export default connect(mapState, mapDispatch)(SingleProduct)
-
-

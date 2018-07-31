@@ -78,7 +78,7 @@ class Cart extends Component {
           }
         </ul>
         <h4>Total Price: ${totalPrice}</h4>
-        <Link to='/checkout'>Proceed to Checkout</Link>
+        <Link to='/checkout/address'>Proceed to Checkout</Link>
       </div>
     )
   }
@@ -96,7 +96,7 @@ const mapState = state => {
 const mapDispatch = (dispatch) => {
   return {
     getCart: (user) => {
-        dispatch(getCartFromUser(user))
+      dispatch(getCartFromUser(user))
     },
     deleteFromCart: (item) => dispatch(removeItemFromCart(item)),
     increaseByOne: (item, oldQuantity) => {
