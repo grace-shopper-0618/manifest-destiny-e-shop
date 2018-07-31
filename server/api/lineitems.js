@@ -48,7 +48,7 @@ router.post('/:orderId', async (req, res, next) => {
 })
 
 router.put('/guestCart', (req, res, next) => {
-  req.session.cart.map(item => {
+  req.session.cart = req.session.cart.map(item => {
     if (item.productId === req.body.productId) {
       return req.body
     } else return item
@@ -87,9 +87,14 @@ router.put('/:orderId/:productId', async (req, res, next) => {
 router.delete('/guestCart/:productId', (req, res, next) => {
   // sending the item to delete as req.body
   const { productId } = req.params
-  req.session.cart = req.session.cart.filter(item => item.productId !== +productId)
-  console.log('=== cart after filter ===', req.session.cart)
-  res.status(204)
+
+  const item = req.session.cart.find(item => item.productId === +productId),
+  index = req.session.cart.indexOf(item)
+  req.session.cart.splice(index, 1)
+  console.log('req session before', req.session)
+  console.log('=== cart after splice ===', req.session.cart)
+  console.log('req session after', req.session)
+  res.sendStatus(204)
 })
 
 // req.body must have orderId and productId
