@@ -34,10 +34,7 @@ const Product = db.define('product', {
   },
   photoUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://www.crystalinks.com/wagonwheel.jpg',
-    validate: {
-      isUrl: true
-    }
+    defaultValue: 'http://www.crystalinks.com/wagonwheel.jpg'
   }
 })
 
