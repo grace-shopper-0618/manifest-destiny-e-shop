@@ -62,25 +62,30 @@ const products = [
     title: 'Palomino Horse',
     description: 'Short in the tooth or your money back',
     price: 99999,
-    inventory: 3
+    inventory: 3,
   }
 ]
 
 const categories = [
   {
-    name: 'Wagon & Transportation Needs'
+    name: 'Wagon & Transportation Needs',
+    id: 1
   },
   {
-    name: 'Cleanliness is Next to Godliness'
+    name: 'Cleanliness is Next to Godliness',
+    id: 2
   },
   {
-    name: 'Food & Rations'
+    name: 'Food & Rations',
+    id: 3
   },
   {
-    name: 'Pastimes & Entertainment'
+    name: 'Pastimes & Entertainment',
+    id: 4
   },
   {
-    name: 'Livestock'
+    name: 'Livestock',
+    id: 5
   }
 ]
 
@@ -127,35 +132,35 @@ const users = [
 
 const tags = [
   {
-    productId: 1,
-    categoryId: 3
-  },
-  {
-    productId: 2,
-    categoryId: 3
-  },
-  {
-    productId: 3,
-    categoryId: 1
-  },
-  {
-    productId: 4,
-    categoryId: 1
-  },
-  {
-    productId: 5,
+    productId: 1, //conestoga wagon
     categoryId: 2
   },
   {
-    productId: 6,
+    productId: 2, //wagon wheel
     categoryId: 2
   },
   {
-    productId: 7,
+    productId: 3, //soap
+    categoryId: 1
+  },
+  {
+    productId: 4, //washboard
+    categoryId: 1
+  },
+  {
+    productId: 5, //oats
+    categoryId: 3
+  },
+  {
+    productId: 6, //flour
+    categoryId: 3
+  },
+  {
+    productId: 7, //team of oxen
     categoryId: 5
   },
   {
-    productId: 8,
+    productId: 8, //horse
     categoryId: 5
   }
 ]
@@ -192,10 +197,10 @@ async function seed() {
   const oats = await Product.findById(6)
   const oxen = await Product.findById(7)
   const palomino = await Product.findById(8)
-  const rations = await Category.findById(4)
-  const pastimes = await Category.findById(2)
+  const rations = await Category.findById(3)
+  const pastimes = await Category.findById(4)
   const transportation = await Category.findById(1)
-  const cleanliness = await Category.findById(3)
+  const cleanliness = await Category.findById(2)
   const livestock = await Category.findById(5)
   await conestogaWagon.setCategories(transportation)
   await wagonWheel.setCategories(transportation)
@@ -205,8 +210,8 @@ async function seed() {
   await oats.setCategories(rations)
   await oxen.setCategories(livestock)
   await palomino.setCategories(livestock)
-  await oxen.setCategories(transportation)
-  await palomino.setCategories(transportation)
+  await oxen.setCategories(livestock)
+  await palomino.setCategories(livestock)
   // let updatedWagon = await Product.findOne({where: {id: 1}}, {include: [{model: Category}]})
 
 }
