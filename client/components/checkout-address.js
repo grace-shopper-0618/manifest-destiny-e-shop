@@ -15,6 +15,7 @@ class CheckoutAddress extends Component {
         state: '',
         zip: ''
       }
+      // summerPromo: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -22,8 +23,11 @@ class CheckoutAddress extends Component {
 
   handleChange(evt) {
     evt.preventDefault()
+    console.log('THIS IS THE STATE IN HANDLE CHANGE', this.state)
+
     this.setState({
-      shippingAddress: { ...this.state.shippingAddress, [evt.target.name]: evt.target.value }
+      shippingAddress: { ...this.state.shippingAddress, [evt.target.name]: evt.target.value },
+      // summerPromo: evt.target.summerPromo
     })
   }
 
@@ -71,6 +75,10 @@ class CheckoutAddress extends Component {
             <label htmlFor='zip'>ZIP Code</label>
             <input name='zip' type='string' onChange={handleChange} value={this.state.shippingAddress.zip} />
           </div>
+          {/* <div>
+            <label htmlFor='promo'>Promo Code</label>
+            <input name='promo' type='string' onChange={handleChange} value={this.state.summerPromo} />
+          </div> */}
           <div>
             <button type='submit'>Submit and Continue Checkout</button>
           </div>

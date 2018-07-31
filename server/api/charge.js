@@ -4,16 +4,16 @@ module.exports = router
 
 router.post('/charge', async (req, res) => {
   try {
-    let {status} = await stripe.charges.create({
+    let { status } = await stripe.charges.create({
       amount: 2000,
       currency: "usd",
       description: "An example charge",
       source: req.body
-    });
+    })
 
-    res.json({status});
+    res.json({ status })
   } catch (err) {
-    res.status(500).end();
+    res.status(500).end()
   }
 });
 
