@@ -2,26 +2,54 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getCartFromUser, removeItemFromCart, updateLineItem } from '../store/cart'
+import { updateGuestCart, removeItemFromSessionCart } from '../store/sessionCart';
 
 class Cart extends Component {
   constructor() {
     super()
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleDecrement = this.handleDecrement.bind(this)
+    this.handleIncrement = this.handleIncrement.bind(this)
   }
 
   handleDelete(evt, item) {
     evt.preventDefault()
-    this.props.deleteFromCart(item)
+    const { isLoggedIn } = this.props
+    if (isLoggedIn) {
+      this.props.deleteFromCart(item)
+    } else {
+      console.log('=== this should run when we hit delete while logged out ===')
+      this.props.removeSessionItem(item)
+    }
+  }
+
+  handleDecrement(evt, item, oldQuantity) {
+    evt.preventDefault()
+    const { isLoggedIn } = this.props
+    if (isLoggedIn) {
+      this.props.decreaseByOne(item, oldQuantity)
+    } else {
+      this.props.decreaseSessionCart(item, oldQuantity)
+    }
+  }
+
+  handleIncrement(evt, item, oldQuantity) {
+    evt.preventDefault()
+    const { isLoggedIn } = this.props
+    if (isLoggedIn) {
+      this.props.increaseByOne(item, oldQuantity)
+    } else {
+      this.props.increaseSessionCart(item, oldQuantity)
+    }
   }
 
   render() {
-    const cart = this.props.cart
-    const lineItems = cart['line-items'] ? cart['line-items'] : []
+    const { cart, isLoggedIn, guestCart } = this.props
+    const lineItems = cart['line-items'] ? cart['line-items'] : guestCart
     const totalPrice = lineItems.reduce((total, item) => {
-      return (item.product.price * item.quantity) + total
+      return (item.price * item.quantity) + total
     }, 0)
-
-    const { increaseByOne, decreaseByOne } = this.props
+    console.log('==== lineItems ===', lineItems)
     return (
       <div id='shopping-cart'>
         <h3>Your Cart</h3> 
@@ -29,22 +57,22 @@ class Cart extends Component {
           {
             lineItems && lineItems.map((item) => {
 
-              return (
-                <div key={item.productId} >
-                  <li>
-                    <Link to={`/shop/${item.product.id}`}>{item.product.title}</Link>
-                    <h5>Price: ${item.product.price}</h5>
-                    <h5>Quantity: {item.quantity}</h5>
-                  </li>
-                  <button onClick={(evt) => this.handleDelete(evt, item)} > Remove from order </button>
-                  {
-                    item.quantity + 1 <= item.product.inventory ? <button onClick={(evt) => increaseByOne(evt, item, item.quantity)}> + </button> : null
-                  }
-                  {
-                    item.quantity - 1 > 0 ? <button onClick={(evt) => decreaseByOne(evt, item, item.quantity)}> - </button> : null
-                  }
-                </div>
-              )
+                return (
+                  <div key={item.productId} >
+                    <li>
+                      <Link to={`/shop/${item.productId}`}>{item.product.title}</Link>
+                      <h5>Price: ${item.price}</h5>
+                      <h5>Quantity: {item.quantity}</h5>
+                    </li>
+                    <button onClick={(evt) => this.handleDelete(evt, item)} > Remove from order </button>
+                    {
+                      item.quantity + 1 <= item.product.inventory ? <button onClick={(evt) => this.handleIncrement(evt, item, item.quantity)}> + </button> : null
+                    }
+                    {
+                      item.quantity - 1 > 0 ? <button onClick={(evt) => this.handleDecrement(evt, item, item.quantity)}> - </button> : null
+                    }
+                  </div>
+                )
 
             })
           }
@@ -59,7 +87,9 @@ class Cart extends Component {
 const mapState = state => {
   return {
     user: state.user,
-    cart: state.cart.currentOrder
+    cart: state.cart.currentOrder,
+    isLoggedIn: !!state.user.id,
+    guestCart: state.sessionCart
   }
 }
 
@@ -69,13 +99,20 @@ const mapDispatch = (dispatch) => {
       dispatch(getCartFromUser(user))
     },
     deleteFromCart: (item) => dispatch(removeItemFromCart(item)),
-    increaseByOne: (evt, item, oldQuantity) => {
-      evt.preventDefault()
+    increaseByOne: (item, oldQuantity) => {
       dispatch(updateLineItem(item, oldQuantity + 1))
     },
-    decreaseByOne: (evt, item, oldQuantity) => {
-      evt.preventDefault()
+    decreaseByOne: (item, oldQuantity) => {
       dispatch(updateLineItem(item, oldQuantity - 1))
+    },
+    increaseSessionCart: (item, oldQuantity) => {
+      dispatch(updateGuestCart(item, oldQuantity + 1))
+    },
+    decreaseSessionCart: (item, oldQuantity) => {
+      dispatch(updateGuestCart(item, oldQuantity - 1))
+    },
+    removeSessionItem: (item) => {
+      dispatch(removeItemFromSessionCart(item))
     }
   }
 }

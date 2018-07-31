@@ -135,6 +135,12 @@ const users = [
     email: "admin@oregontrailoutfitters.com",
     password: "password",
     isAdmin: true
+  },
+  {
+    id: 101,
+    email: "guest@email.com",
+    password: "guest",
+    isAdmin: false
   }
 ]
 

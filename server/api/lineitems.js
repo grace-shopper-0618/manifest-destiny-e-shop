@@ -2,9 +2,14 @@ const router = require('express').Router()
 const { LineItem, Order, Product } = require('../db/models')
 module.exports = router
 
-router.post('/guestCart', (req, res, next) => {
+router.post('/guestCart', async (req, res, next) => {
   req.session.cart.push(req.body)
+  const { productId } = req.body
+  const product = await Product.findById(productId),
+  inventory = product.inventory
   // make sure that the req.body includes the product info (title/price/id), quantity
+  req.body.product.inventory = inventory
+  // including inventory on req.body to display increment/decrement buttons based on available inventory
   res.json(req.body)
 })
 
@@ -43,13 +48,13 @@ router.post('/:orderId', async (req, res, next) => {
 })
 
 router.put('/guestCart', (req, res, next) => {
-  req.session.cart.map(item => {
+  req.session.cart = req.session.cart.map(item => {
     if (item.productId === req.body.productId) {
       return req.body
     } else return item
   })
   // req.body needs to include product info (title/price/id), quantity
-  res.json(req.session.cart)
+  res.json(req.body)
 })
 
 // req.body must have orderId and productId and new quantity
@@ -77,6 +82,19 @@ router.put('/:orderId/:productId', async (req, res, next) => {
     res.status(201).json(updatedLineItem)
 
   } catch (err) { next(err) }
+})
+
+router.delete('/guestCart/:productId', (req, res, next) => {
+  // sending the item to delete as req.body
+  const { productId } = req.params
+
+  const item = req.session.cart.find(item => item.productId === +productId),
+  index = req.session.cart.indexOf(item)
+  req.session.cart.splice(index, 1)
+  console.log('req session before', req.session)
+  console.log('=== cart after splice ===', req.session.cart)
+  console.log('req session after', req.session)
+  res.sendStatus(204)
 })
 
 // req.body must have orderId and productId

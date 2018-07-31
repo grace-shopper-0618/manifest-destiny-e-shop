@@ -19,9 +19,11 @@ class Navbar extends React.Component {
 
   componentDidUpdate(prevProps){
     const { id } = this.props.user
-    if (!prevProps.cart['line-items']) {
-      this.props.getUserOrders(id)
-      this.props.getUserCart(id)
+    if (id) {
+      if (!prevProps.cart['line-items']) {
+        this.props.getUserOrders(id)
+        this.props.getUserCart(id)
+      }
     }
   }
 
