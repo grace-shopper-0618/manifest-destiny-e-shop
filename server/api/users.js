@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { User, Order, LineItem, Product } = require('../db/models')
 module.exports = router
 
-// GET /api/users/:id/orders --> getting all previous orders for a specific user (history)
+// GET all orders for a user
 router.get('/:id/orders', async (req, res, next) => {
   try {
     const userId = +req.params.id
@@ -14,12 +14,13 @@ router.get('/:id/orders', async (req, res, next) => {
         include: [{ model: Product }]
       }]
     })
-    console.log('**** orders inside /users/userid/orders', orders)
+
     if(!orders) {
       const err = new Error(`User with id ${userId} has not made any purchases.`)
       err.status = 404
       return next(err)
     }
+
     res.status(200).json(orders)
   } catch (err) {
     next(err)
