@@ -26,7 +26,7 @@ class UserHome extends React.Component {
           <h4>Your Reviews:</h4>
           <ul>
             {
-              reviews.length ?
+              reviews && reviews.length ?
               reviews.map(review => {
                 return (
                   <div id="review" key={review.id}>
