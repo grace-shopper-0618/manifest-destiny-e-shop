@@ -103,3 +103,19 @@ form div {
    margin-left: auto;
    margin-right: auto;
  }
+
+ #single-product {
+   display: flex;
+   flex-wrap: wrap;
+   flex-direction: row;
+   border: 1px solid black;
+ }
+
+ #product-details, #title-and-photo {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  text-align: left;
+  border: 1px solid black;
+  padding: 10px;
+ }

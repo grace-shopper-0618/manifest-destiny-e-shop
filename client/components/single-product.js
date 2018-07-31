@@ -118,56 +118,60 @@ class SingleProduct extends Component {
     const { product } = this.props
     const newPhotoUrl = __dirname + product.photoUrl
     return (
-      <div key={product.id}>
-        <h3>{product.title}</h3>
-        <h1>${product.price}</h1>
-        <img className='singleProductPhoto' src={newPhotoUrl} width='500px' height='500px' />
-        <p>Product Description: {product.description}</p>
-        <p>Categories:</p>
-        <ul id='categories-list'>
-          {
-            product.categories && product.categories.map(category => {
-              return (
-                <li key={category.name}>
-                  <p>{category.name}</p>
-                </li>
-              )
-            })
-          }
-        </ul>
-        <p>Inventory: {product.inventory} in stock</p>
-        {
-          this.renderButtons()
-        }
-        <form id="add-to-cart-form" onSubmit={this.handleAddToCart} >
-          <select value={this.state.value} onChange={this.handleChange} >
+      <div key={product.id} id='single-product'>
+        <div id='title-and-photo'>
+          <h3>{product.title}</h3>
+          <h1>${product.price}</h1>
+          <img className='singleProductPhoto' src={newPhotoUrl} width='500px' height='500px' />
+          </div>
+        <div id='product-details'>
+          <p>Product Description: {product.description}</p>
+          <p>Categories:</p>
+          <ul id='categories-list'>
             {
-              this.renderDropDown(product.inventory).map(quantity => {
-                return <option value={quantity} key={quantity} > {quantity} </option>
-              })
-            }
-          </select>
-          <button type="submit">Add to cart</button>
-        </form>
-        <ProductCategoryForm />
-        <div>
-          <h4>Reviews</h4>
-          <p>Average Rating: {this.state.avgRating}</p>
-          <ReviewForm />
-          <ul id="reviews-list">
-            {
-              product.reviews && product.reviews.map(review => {
+              product.categories && product.categories.map(category => {
                 return (
-                  <li key={review.id}><div className="singleReview">
-                    {
-                      review.rating > 1 ? <p>{review.rating} STARS:</p> : <p>{review.rating} STAR:</p>
-                    }
-                    <p>{review.text}</p>
-                  </div></li>
+                  <li key={category.name}>
+                    <p>{category.name}</p>
+                  </li>
                 )
               })
             }
           </ul>
+          <p>Inventory: {product.inventory} in stock</p>
+          {
+            this.renderButtons()
+          }
+          <form id="add-to-cart-form" onSubmit={this.handleAddToCart} >
+            <select value={this.state.value} onChange={this.handleChange} >
+              {
+                this.renderDropDown(product.inventory).map(quantity => {
+                  return <option value={quantity} key={quantity} > {quantity} </option>
+                })
+              }
+            </select>
+            <button type="submit">Add to cart</button>
+          </form>
+          <ProductCategoryForm />
+          <div>
+            <h4>Reviews</h4>
+            <p>Average Rating: {this.state.avgRating}</p>
+            <ReviewForm />
+            <ul id="reviews-list">
+              {
+                product.reviews && product.reviews.map(review => {
+                  return (
+                    <li key={review.id}><div className="singleReview">
+                      {
+                        review.rating > 1 ? <p>{review.rating} STARS:</p> : <p>{review.rating} STAR:</p>
+                      }
+                      <p>{review.text}</p>
+                    </div></li>
+                  )
+                })
+              }
+            </ul>
+          </div>
         </div>
       </div>
     )
