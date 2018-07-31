@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateAddressinDb } from '../store/cart'
+import { updateOrderinDb } from '../store/cart'
 import { Link } from 'react-router-dom'
 
 class CheckoutAddress extends Component {
@@ -24,11 +24,8 @@ class CheckoutAddress extends Component {
 
   handleChange(evt) {
     evt.preventDefault()
-    this.setState({
-      shippingAddress: { [evt.target.name]: evt.target.value }
-    })
-
     // const firstName = evt.target.firstName
+    // console.log('HANDLE CHANGE FIRST NAME', firstName)
     // const lastName = evt.target.lastName
     // const address1 = evt.target.address1
     // const address2 = evt.target.address2
@@ -46,28 +43,32 @@ class CheckoutAddress extends Component {
     //     zip
     //   }
     // })
+    this.setState({
+      shippingAddress: { ...this.state.shippingAddress, [evt.target.name]: evt.target.value }
+    })
+
     console.log(this.state.shippingAddress)
   }
 
   handleSubmit(evt) {
     evt.preventDefault()
-    console.log(this.state)
-    this.props.submitAddress(this.state.shippingAddress, this.props.cart.id)
+    const shippAd = this.state.shippingAddress
+    const concatAddress = `${shippAd.firstName} ${shippAd.lastName} ${shippAd.address1} ${shippAd.address2} ${shippAd.city}, ${shippAd.state} ${shippAd.zip}`
+    const updatedOrder = { ...this.props.cart, shippingAddress: concatAddress }
+    console.log('HERE IS YOUR UPDATED ORDER', updatedOrder)
+    this.props.submitAddress(updatedOrder, updatedOrder.id)
+    this.props.history.push('/checkout/payment')
   }
 
-  // componentDidMount() {
-  //   console.log('cart in CDM:', this.props.cart)
-  //   const cartId = this.props.cart.id
-  //   console.log('cartId in CDM props: ', this.props.cart.id)
-  //   // this.setState({ cartId })
-  //   // console.log('cartId in CDM state: ', this.state.cartId)
-  // }
+  componentDidUpdate() {
+
+  }
 
   render() {
     const handleChange = this.handleChange
     const handleSubmit = this.handleSubmit
     return (
-      <div id='checkout-form'>
+      <div id='checkout-form' >
         <h3>Shipping Address:</h3>
         <form id="shipping-address" onSubmit={handleSubmit}>
           <div>
@@ -99,17 +100,9 @@ class CheckoutAddress extends Component {
             <input name='zip' type='string' onChange={handleChange} value={this.state.shippingAddress.zip} />
           </div>
           <div>
-            <button type='submit'>Submit</button>
+            <button type='submit'>Submit and Continue Checkout</button>
           </div>
         </form>
-        <h3>Current Shipping Address:</h3>
-        <div id='display-address'>
-          <p>{this.state.firstName} {this.state.lastName}</p>
-          <p>{this.state.address1}</p>
-          <p>{this.state.address2}</p>
-          <p>{this.state.city}, {this.state.state} {this.state.zip}</p>
-          <Link to='/checkout-payment'>Confirm Shipping Address and Continue to Credit Card Details</Link>
-        </div>
       </div>
     )
   }
@@ -117,14 +110,15 @@ class CheckoutAddress extends Component {
 
 const mapState = state => {
   return ({
-    cart: state.cart.currentOrder
+    cart: state.cart.currentOrder,
+    address: state.cart.shippingAddress
   })
 }
 
 const mapDispatch = dispatch => {
   return {
-    submitAddress: (shippingAddress, orderId) => {
-      dispatch(updateAddressinDb(shippingAddress, orderId))
+    submitAddress: (updatedOrder, orderId) => {
+      dispatch(updateOrderinDb(updatedOrder, orderId))
     }
   }
 }
