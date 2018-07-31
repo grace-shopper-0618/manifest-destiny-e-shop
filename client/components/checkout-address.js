@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateOrderinDb } from '../store/cart'
+import axios from 'axios'
 
 class CheckoutAddress extends Component {
   constructor() {
@@ -27,12 +28,18 @@ class CheckoutAddress extends Component {
     })
   }
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault()
+    const { isLoggedIn } = this.props
     const shippAd = this.state.shippingAddress
     const concatAddress = `${shippAd.firstName} ${shippAd.lastName} ${shippAd.address1} ${shippAd.address2} ${shippAd.city}, ${shippAd.state} ${shippAd.zip}`
-    const updatedOrder = { ...this.props.cart, shippingAddress: concatAddress }
-    this.props.submitAddress(updatedOrder, updatedOrder.id)
+    
+    if (isLoggedIn) {
+      const updatedOrder = { ...this.props.cart, shippingAddress: concatAddress }
+      this.props.submitAddress(updatedOrder, updatedOrder.id)
+    } else {
+      await axios.put('/api/users/guest/cart', shippAd)
+    }
     this.props.history.push('/checkout/payment')
   }
 
@@ -83,7 +90,9 @@ class CheckoutAddress extends Component {
 const mapState = state => {
   return ({
     cart: state.cart.currentOrder,
-    address: state.cart.shippingAddress
+    address: state.cart.shippingAddress,
+    user: state.user,
+    isLoggedIn: !!state.user.id
   })
 }
 
