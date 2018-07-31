@@ -10,9 +10,9 @@ export const Order = (props) => {
         const product = item.product
         return (
           <div id="product" key={product.id}>
-            <p>{product.title}</p>
-            <p>{product.price}</p>
-            <p>{item.quantity}</p>
+            <p>Item: {product.title}</p>
+            <p>Price: ${product.price}</p>
+            <p>Quantity: {item.quantity}</p>
           </div>
         )
       })

@@ -62,16 +62,16 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', async (req, res) => {
-  // res.json(req.user)
+  res.json(req.user)
 
-  const user = await User.findOne({
-    where: { email: req.user.email },
-    include: [{
-        model: Review
-    }]
-  })
+  // const user = await User.findOne({
+  //   where: { email: req.user.email },
+  //   include: [{
+  //       model: Review
+  //   }]
+  // })
 
-  res.json(user)
+  // res.json(user)
 
 })
 
