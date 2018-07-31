@@ -7,10 +7,14 @@ import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
 
 class Navbar extends React.Component {
 
+  componentDidMount(){
+    this.props.getUserOrders()
+    this.props.getUserCart()
+  }
+
   componentDidUpdate(prevProps){
     const { id } = this.props.user
     if (!prevProps.cart['line-items']) {
-      // this is resulting in an infinite loop of get requests...
       this.props.getUserOrders(id)
       this.props.getUserCart(id)
     }
