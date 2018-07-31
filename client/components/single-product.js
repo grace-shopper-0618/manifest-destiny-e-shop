@@ -87,6 +87,7 @@ class SingleProduct extends Component {
 
   handleAddToCart(evt) {
     evt.preventDefault()
+    console.log('inside of handleAdd')
     let item = {
       productId: +this.props.match.params.id,
       quantity: this.state.quantity,
@@ -104,8 +105,12 @@ class SingleProduct extends Component {
         this.props.addToCart(item)
       }
     } else {
+      console.log('logged in is false, entering else statement')
       // does this create a nested object with property title?
-      item.product.title = this.props.product.title
+      item.product = {
+        title: this.props.product.title
+      }
+      console.log('the item object', item)
       this.props.addToSessionCart(item)
     }
   }
