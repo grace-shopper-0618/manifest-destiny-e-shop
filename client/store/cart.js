@@ -7,7 +7,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const UPDATE_CART = 'UPDATE_CART' //updates line item quantity - rename?
 const GET_USER_ORDERS = 'GET_USER_ORDERS'
-const UPDATE_ORDER = 'UPDATE_ORDER'
+const UPDATE_ORDER = 'UPDATE_ORDER' // for admin to update order properties
 
 
 // INITIAL STATE
@@ -65,9 +65,14 @@ export const getCartFromUser = (userId) => {
   }
 }
 
-// export const getCartFromSession = () => {
-// }
-
+export const getCartFromOrderId = (orderId) => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.get(`/api/orders/${orderId}`)
+      dispatch(getCart(data))
+    } catch (err) { console.log(err) }
+  }
+}
 
 export const removeItemFromCart = (lineItem) => {
   return async dispatch => {
@@ -115,10 +120,10 @@ export const getUserOrdersFromDb = userId => {
 }
 
 //use to update orders in db - need to send full order object
-export const updateOrderinDb = (updatedOrder, orderId) => {
+export const updateOrderinDb = (updates, orderId) => {
   return async dispatch => {
     try {
-      const { data } = await axios.put(`/api/orders/${orderId}`, updatedOrder)
+      const { data } = await axios.put(`/api/orders/${orderId}`, updates)
       dispatch(updateOrder(data))
     } catch (err) {
       console.error(err.message)

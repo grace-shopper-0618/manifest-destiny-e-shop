@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { CardElement, injectStripe } from 'react-stripe-elements'
 import { connect } from 'react-redux'
+import { getCartFromOrderId, updateOrderinDb, getCartFromUser } from '../store/cart'
+import { editProductInDb } from '../store/product';
+import { updateProductInDb } from '../store/products';
 // import axios from 'axios'
 
 class CheckoutForm extends Component {
@@ -27,17 +30,47 @@ class CheckoutForm extends Component {
       complete: true
     })
 
-    // send PUT request to change orders isActiveCart property
+    // send PUT request to change orders isActiveCart property and set finalTotal, new active cart created automatically
+    const updates = {
+      isActiveCart: false,
+      finalTotal: this.props.cart.total
+    }
+
+    const lineItems = this.props.cart['line-items']
+    lineItems.forEach(item => {
+      const inStock = item.product.inventory
+      const numOrdered = item.quantity
+      const productUpdates = {
+        "inventory": inStock - numOrdered
+      }
+      this.props.updateProductInventory(productUpdates, item.productId)
+    })
+
+    this.props.orderCheckout(updates, this.props.cart.id)
+  }
+
+  componentDidMount(){
+    // fetch updated order in case promo code got added!
+    console.log('componentDidUpdate')
+    this.props.fetchUserCart(this.props.cart.id)
+  }
+
+  componentDidUpdate(prevProps) {
+    // have this component re-fetch the user cart so it grabs the new active one
+    console.log('componentDidUpdate')
+    if (prevProps.cart.isActiveCart !== this.props.cart.isActiveCart) {
+      this.props.fetchNewUserCart(this.props.user.id)
+    }
   }
 
   render() {
-    console.log('this is the state after clicking', this.state)
+
     const cart = this.props.cart
-    console.log('CART', cart)
+
     if (this.state.complete) return <h1>Purchase Complete</h1>
     return (
       <div>
-        <h2>Cart Total</h2>
+        <h2>Cart Total: ${cart.total ? cart.total : null}</h2>
         <div className="checkout">
           <p>Would you like to complete the purchase?</p>
           <CardElement />
@@ -50,9 +83,20 @@ class CheckoutForm extends Component {
 
 const mapState = state => {
   return ({
-    cart: state.cart.currentOrder
+    cart: state.cart.currentOrder,
+    user: state.user,
+    isLoggedIn: !!state.user.id
   })
 }
 
+const mapDispatch = dispatch => {
+  return {
+    fetchUserCart: (orderId) => dispatch(getCartFromOrderId(orderId)),
+    orderCheckout: (updates, orderId) => dispatch(updateOrderinDb(updates, orderId)),
+    fetchNewUserCart: (userId) => dispatch(getCartFromUser(userId)),
+    updateProductInventory: (productUpdate, productId) => dispatch(updateProductInDb(productUpdate, productId))
+  }
+}
+
 const CheckoutFormWithStripe = injectStripe(CheckoutForm)
-export default connect(mapState, null)(CheckoutFormWithStripe)
+export default connect(mapState, mapDispatch)(CheckoutFormWithStripe)

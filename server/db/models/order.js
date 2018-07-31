@@ -26,15 +26,15 @@ const Order = db.define('order', {
 
 Order.getTotal = async (order) => {
   // for getting the total before order is submitted (then we can just check the finalPrice property on the model instance)
+
   const lineItems = await LineItem.findAll({
     where: { orderId: order.id }
   })
 
   const subtotal = lineItems.reduce((total, lineItem) => {
-    // lineItem.price already in decimal
-    return (lineItem.price * lineItem.quantity) + total
+    console.log('lineitem price format?', lineItem.price)
+    return (lineItem.price * 100 * lineItem.quantity) + total
   }, 0)
-
   if (this.summerPromo) {
     // 50% off!!
     return subtotal * 0.50

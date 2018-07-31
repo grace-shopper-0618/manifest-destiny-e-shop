@@ -47,12 +47,12 @@ class Cart extends Component {
     const { cart, isLoggedIn, guestCart } = this.props
     const lineItems = cart && cart['line-items'] ? cart['line-items'] : guestCart
     const totalPrice = lineItems.reduce((total, item) => {
-      return (item.price * item.quantity) + total
+      return (item.price * 100 * item.quantity) + total
     }, 0)
     console.log('==== lineItems ===', lineItems)
     return (
       <div id='shopping-cart'>
-        <h3>Your Cart</h3> 
+        <h3>Your Cart</h3>
         <ul id='cart-items'>
           {
             lineItems && lineItems.map((item) => {
@@ -61,7 +61,7 @@ class Cart extends Component {
                   <div key={item.productId} >
                     <li>
                       <Link to={`/shop/${item.productId}`}>{item.product.title}</Link>
-                      <h5>Price: ${item.price}</h5>
+                      <h5>Price: ${item.price * 100}</h5>
                       <h5>Quantity: {item.quantity}</h5>
                     </li>
                     <button onClick={(evt) => this.handleDelete(evt, item)} > Remove from order </button>
