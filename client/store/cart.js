@@ -5,8 +5,9 @@ import history from '../history'
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
-const UPDATE_CART = 'UPDATE_CART'
+const UPDATE_CART = 'UPDATE_CART' //updates line item quantity - rename?
 const GET_USER_ORDERS = 'GET_USER_ORDERS'
+const UPDATE_ADDRESS = 'UPDATE_ADDRESS'
 
 
 // INITIAL STATE
@@ -36,9 +37,14 @@ const deleteFromCart = item => ({
   item
 })
 
-const updateCart = (item) => ({
+const updateCart = item => ({
   type: UPDATE_CART,
   item
+})
+
+const updateAddress = address => ({
+  type: UPDATE_ADDRESS,
+  address
 })
 
 // THUNK CREATORS
@@ -108,11 +114,22 @@ export const getUserOrdersFromDb = userId => {
   }
 }
 
+export const updateAddressinDb = (address, orderId) => {
+  return async dispatch => {
+    try {
+      await axios.put(`/api/orders/${orderId}`, address)
+      dispatch(updateAddress(address))
+    } catch (err) {
+      console.error(err.message)
+    }
+  }
+}
+
 // REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CART:
-      return {...state, currentOrder: action.cart }
+      return { ...state, currentOrder: action.cart }
     case ADD_TO_CART:
       return {
         ...state,
@@ -141,6 +158,15 @@ const reducer = (state = initialState, action) => {
           ...state.currentOrder,
           'line-items': state.currentOrder['line-items'].map(item => item.productId === action.item.productId ? action.item : item)
         }
+      }
+    case UPDATE_ADDRESS:
+      return {
+        ...state,
+        currentOrder: {
+          ...state.currentOrder,
+          shippingAddress: action.address
+        }
+
       }
     default:
       return state

@@ -29,28 +29,28 @@ class Cart extends Component {
           {
             lineItems && lineItems.map((item) => {
 
-                return (
-                  <div key={item.productId} >
-                    <li>
-                      <Link to={`/shop/${item.product.id}`}>{item.product.title}</Link>
-                      <h5>Price: ${item.product.price}</h5>
-                      <h5>Quantity: {item.quantity}</h5>
-                    </li>
-                    <button onClick={(evt) => this.handleDelete(evt, item)} > Remove from order </button>
-                    {
-                      item.quantity + 1 <= item.product.inventory ? <button onClick={(evt) => increaseByOne(evt, item, item.quantity)}> + </button> : null
-                    }
-                    {
-                      item.quantity - 1 > 0 ? <button onClick={(evt) => decreaseByOne(evt, item, item.quantity)}> - </button> : null
-                    }
-                  </div>
-                )
+              return (
+                <div key={item.productId} >
+                  <li>
+                    <Link to={`/shop/${item.product.id}`}>{item.product.title}</Link>
+                    <h5>Price: ${item.product.price}</h5>
+                    <h5>Quantity: {item.quantity}</h5>
+                  </li>
+                  <button onClick={(evt) => this.handleDelete(evt, item)} > Remove from order </button>
+                  {
+                    item.quantity + 1 <= item.product.inventory ? <button onClick={(evt) => increaseByOne(evt, item, item.quantity)}> + </button> : null
+                  }
+                  {
+                    item.quantity - 1 > 0 ? <button onClick={(evt) => decreaseByOne(evt, item, item.quantity)}> - </button> : null
+                  }
+                </div>
+              )
 
             })
           }
         </ul>
         <h4>Total Price: ${totalPrice}</h4>
-        <Link to='/checkout'>Proceed to Checkout</Link>
+        <Link to='/checkout/address'>Proceed to Checkout</Link>
       </div>
     )
   }
@@ -66,7 +66,7 @@ const mapState = state => {
 const mapDispatch = (dispatch) => {
   return {
     getCart: (user) => {
-        dispatch(getCartFromUser(user))
+      dispatch(getCartFromUser(user))
     },
     deleteFromCart: (item) => dispatch(removeItemFromCart(item)),
     increaseByOne: (evt, item, oldQuantity) => {
