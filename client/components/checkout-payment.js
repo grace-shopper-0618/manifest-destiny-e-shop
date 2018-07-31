@@ -53,5 +53,6 @@ const mapState = state => {
     cart: state.cart.currentOrder
   })
 }
+
 const CheckoutFormWithStripe = injectStripe(CheckoutForm)
 export default connect(mapState, null)(CheckoutFormWithStripe)
