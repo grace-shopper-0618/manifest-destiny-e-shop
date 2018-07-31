@@ -10,6 +10,7 @@ import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
 class UserHome extends React.Component {
   componentDidMount () {
     const { id } = this.props.user
+    console.log('\n inside componentDidMount \n')
     this.props.getUserOrders(id)
     this.props.getUserCart(id)
   }

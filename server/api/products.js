@@ -84,7 +84,7 @@ router.get('/:id/reviews', async (req, res, next) => {
   try {
       const productId = req.params.id
       const reviews = await Review.findAll({
-          where: {productId}
+          where: { productId }
       })
       if (!reviews) {
           const err = new Error(`Unable to find any reviews for the product with ID ${productId}.`)
@@ -94,6 +94,24 @@ router.get('/:id/reviews', async (req, res, next) => {
   } catch (err) {
       next(err)
   }
+})
+
+// POST new review for a product
+router.post('/:id/reviews', async (req, res, next) => {
+  try {
+    console.log('\n===req.body in review post', req.body)
+    // make sure req.body has rating, text, and userId
+    const newReview = await Review.create({
+      rating: req.body.rating,
+      text: req.body.text,
+      productId: +req.params.id,
+      userId: req.body.userId
+    })
+
+    // we will need to update this product in the store so it holds the correct review -- all products and selected product must update
+    // products are also eagerly loaded on user -- must make sure the user's reviews get updated on the store
+    res.status(201).json(newReview)
+  } catch (err) { next(err) }
 })
 
 router.put('/:id/categories', async (req, res, next) => {
