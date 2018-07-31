@@ -2,6 +2,15 @@ const router = require('express').Router()
 const { User, Order, LineItem, Product } = require('../db/models')
 module.exports = router
 
+router.get('/guest/cart', (req, res, next) => {
+  try {
+    if (!req.session.cart) {
+      req.session.cart = []
+    }
+    res.json(req.session.cart)
+  } catch (err) { next(err) }
+})
+
 // GET all orders for a user
 router.get('/:id/orders', async (req, res, next) => {
   try {

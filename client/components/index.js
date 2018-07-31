@@ -11,4 +11,8 @@ export { default as SingleProduct } from './single-product'
 export { AddForm, EditForm } from './product-form'
 export { HomePage } from './homepage'
 export { default as Cart } from './cart'
+<<<<<<< HEAD
 export { default as CheckoutAddress } from './checkout-address'
+=======
+export { default as CheckoutFormWithStripe } from './checkout'
+>>>>>>> 8602a2a524f96d433a58bfa3a1ad9a6791f31832

@@ -2,6 +2,12 @@ const router = require('express').Router()
 const { LineItem, Order, Product } = require('../db/models')
 module.exports = router
 
+router.post('/guestCart', (req, res, next) => {
+  req.session.cart.push(req.body)
+  // make sure that the req.body includes the product info (title/price/id), quantity
+  res.json(req.body)
+})
+
 // posting a new line item for an order
 router.post('/:orderId', async (req, res, next) => {
   try {
@@ -34,6 +40,16 @@ router.post('/:orderId', async (req, res, next) => {
     res.status(201).json(foundLineItem)
 
   } catch (err) { next(err) }
+})
+
+router.put('/guestCart', (req, res, next) => {
+  req.session.cart.map(item => {
+    if (item.productId === req.body.productId) {
+      return req.body
+    } else return item
+  })
+  // req.body needs to include product info (title/price/id), quantity
+  res.json(req.session.cart)
 })
 
 // req.body must have orderId and productId and new quantity

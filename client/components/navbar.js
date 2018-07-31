@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
 import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
+import { fetchSessionCart } from '../store/sessionCart'
 
 class Navbar extends React.Component {
 
@@ -11,6 +12,8 @@ class Navbar extends React.Component {
     if (this.props.isLoggedIn) {
       this.props.getUserOrders()
       this.props.getUserCart()
+    } else {
+      this.props.getGuestCart()
     }
   }
 
@@ -23,11 +26,15 @@ class Navbar extends React.Component {
   }
 
   render() {
-    const { handleClick, isLoggedIn, email } = this.props
+    const { handleClick, isLoggedIn, email, guestCart } = this.props
 
     let cartQuantity = 0;
-    if (this.props.cart['line-items']) {
+    if (isLoggedIn && this.props.cart['line-items']) {
       cartQuantity = this.props.cart['line-items'].reduce((total, item) => {
+        return total + item.quantity
+      }, 0)
+    } else {
+      cartQuantity = guestCart.reduce((total, item) => {
         return total + item.quantity
       }, 0)
     }
@@ -45,8 +52,6 @@ class Navbar extends React.Component {
             <li>
               <p>Welcome,<Link to='/home'>{email}</Link></p>
               <a href='#' onClick={handleClick}>Logout</a>
-              <h5>Items in cart: {cartQuantity}</h5>
-              <Link to='/cart'>View Cart</Link>
             </li>
           ) : (
               <li>
@@ -54,6 +59,8 @@ class Navbar extends React.Component {
                 <Link to='/signup'>Sign Up</Link>
               </li>
             )}
+            <h5>Items in cart: {cartQuantity}</h5>
+            <Link to='/cart'>View Cart</Link>
         </ul>
       </nav>
     </div>)
@@ -68,7 +75,8 @@ const mapState = state => {
     isLoggedIn: !!state.user.id,
     email: state.user.email || '',
     user: state.user,
-    cart: state.cart.currentOrder
+    cart: state.cart.currentOrder,
+    guestCart: state.sessionCart
   }
 }
 
@@ -78,7 +86,8 @@ const mapDispatch = dispatch => {
       dispatch(logout())
     },
     getUserOrders: (userId) => dispatch(getUserOrdersFromDb(userId)),
-    getUserCart: (userId) => dispatch(getCartFromUser(userId))
+    getUserCart: (userId) => dispatch(getCartFromUser(userId)),
+    getGuestCart: () => dispatch(fetchSessionCart())
   }
 }
 
