@@ -34,8 +34,19 @@ router.get('/:id', async (req, res, next) => {
       }]
     })
 
+    const total = await Order.getTotal(order)
+
     if (order) {
-      res.status(200).send(order)
+      // const data = {
+      //   "id": order.id,
+      //   "isActiveCart": order.isActiveCart,
+      //   "finalTotal": order.finalTotal,
+      //   "hasShipped": order.hasShipped,
+      //   "summerPromo": order.summerPromo
+      // }
+
+      order.dataValues.total = total
+      res.status(200).json(order)
     } else {
       const err = new Error('Unable to locate the order')
       err.status = 404
@@ -56,6 +67,22 @@ router.put('/:id', async (req, res, next) => {
       }]
     })
     const updatedOrder = await order.update(req.body)
+
+    // are we closing an order? if so, instantiate an new active cart for the user
+
+    if (req.body.isActiveCart === false) {
+      // make new cart for the user
+      const newCart = await Order.create({
+        isActiveCart: true,
+        userId: order.userId
+      })
+      // closed order -- time to update product inventories?
+
+
+
+    }
+
+
     res.status(201).json(updatedOrder)
 
   } catch (err) { next(err) }

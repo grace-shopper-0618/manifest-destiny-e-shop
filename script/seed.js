@@ -19,7 +19,7 @@ const products = [
   {
     title: 'Conestoga Wagon',
     description: 'For getting where you need to go',
-    price: 99999,
+    price: 99900,
     inventory: 15,
     photoUrl: 'conestoga_wagon.jpg'
   },
@@ -33,42 +33,42 @@ const products = [
   {
     title: 'Soap',
     description: 'Stay clean',
-    price: 50,
+    price: 100,
     inventory: 1000,
     photoUrl: 'soap.jpg'
   },
   {
     title: 'Washboard',
     description: 'Keep your clothes fresh',
-    price: 150,
+    price: 200,
     inventory: 200,
     photoUrl: 'washboard.jpg'
   },
   {
     title: 'Flour',
     description: 'For your baking needs',
-    price: 30,
+    price: 100,
     inventory: 2000,
     photoUrl: 'flour.jpg'
   },
   {
     title: 'Oats',
     description: 'For people and livestock',
-    price: 20,
+    price: 100,
     inventory: 2000,
     photoUrl: 'oats.jpg'
   },
   {
     title: 'Team of Oxen',
     description: 'Trained with the same model of wagon we sell in order to maximize compatibility',
-    price: 99999,
+    price: 99900,
     inventory: 5,
     photoUrl: 'team_of_oxen.jpg'
   },
   {
     title: 'Palomino Horse',
     description: 'Short in the tooth or your money back',
-    price: 99999,
+    price: 99900,
     inventory: 3,
     photoUrl: 'palomino.jpg'
   }

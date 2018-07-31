@@ -6,6 +6,7 @@ import { EDIT_PRODUCT } from './product'
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 //INITIAL STATE
 const initialState = []
@@ -28,6 +29,10 @@ const deleteProduct = (productId) => {
   }
 }
 
+const updateProduct = (product) => ({
+  type: UPDATE_PRODUCT,
+  product
+})
 
 //THUNK CREATORS
 export const getProductsFromDb = () => {
@@ -66,6 +71,15 @@ export const removeProductFromDb = (productId) => {
   }
 }
 
+export const updateProductInDb = (productUpdate, productId) => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.put(`/api/products/${productId}`, productUpdate)
+      dispatch(updateProduct(data))
+    } catch (error) { console.error(error) }
+  }
+}
+
 //REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -79,6 +93,8 @@ const reducer = (state = initialState, action) => {
       return state.filter(product => {
         return product.id === action.product.id ? action.product : product
       })
+    case UPDATE_PRODUCT:
+      return state.map(product => product.id === action.product.id ? action.product : product)
     default:
       return state
   }
