@@ -106,11 +106,12 @@ class SingleProduct extends Component {
 
   render () {
     const { product } = this.props
+    console.log('photoUrl:', product.photoUrl)
     return (
       <div key={product.id}>
         <h3>{product.title}</h3>
         <h1>${product.price}</h1>
-        <img src={product.photoUrl} />
+        <img className='singleProductPhoto' src={product.photoUrl} />
         <p>Product Description: {product.description}</p>
         <p>Categories:</p>
         <ul id='categories-list'>
@@ -165,11 +166,13 @@ class SingleProduct extends Component {
 
 // can we use a higher-order component here?
 
-const mapState = state => ({
+const mapState = state => {
+  console.log('state:', state)
+  return ({
   product: state.product,
   user: state.user,
   cart: state.cart.currentOrder
-})
+})}
 
 const mapDispatch = (dispatch) => ({
   getProduct: (id) => dispatch(getProductFromDb(id)),
