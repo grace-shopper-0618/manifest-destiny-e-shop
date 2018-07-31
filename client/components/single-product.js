@@ -5,6 +5,7 @@ import { removeProductFromDb } from '../store/products'
 import { addItemToCart, updateLineItem } from '../store/cart'
 import ProductCategoryForm from './product-category-form'
 import ReviewForm from './review-form';
+import { addItemToGuestCart } from '../store/sessionCart';
 
 //COMPONENT
 
@@ -86,21 +87,26 @@ class SingleProduct extends Component {
 
   handleAddToCart(evt) {
     evt.preventDefault()
-    const item = {
+    let item = {
       productId: +this.props.match.params.id,
       quantity: this.state.quantity,
-      orderId: this.props.cart.id,
       price: this.props.product.price
     }
-
-    const existingItem = this.props.cart['line-items'].find(item => {
-      return item.productId === +this.props.match.params.id
-    })
-
-    if (existingItem) {
-      this.props.updateCartQuantity(existingItem, item.quantity)
+    if (this.props.isLoggedIn) {
+      item.orderId = this.props.cart.id
+      const existingItem = this.props.cart['line-items'].find(item => {
+        return item.productId === +this.props.match.params.id
+      })
+  
+      if (existingItem) {
+        this.props.updateCartQuantity(existingItem, item.quantity)
+      } else {
+        this.props.addToCart(item)
+      }
     } else {
-      this.props.addToCart(item)
+      // does this create a nested object with property title?
+      item.product.title = this.props.product.title
+      this.props.addToSessionCart(item)
     }
   }
 
@@ -168,7 +174,9 @@ class SingleProduct extends Component {
 const mapState = state => ({
   product: state.product,
   user: state.user,
-  cart: state.cart.currentOrder
+  cart: state.cart.currentOrder,
+  isLoggedIn: !!state.user.id,
+  guestCart: state.sessionCart
 })
 
 const mapDispatch = (dispatch) => ({
@@ -177,7 +185,8 @@ const mapDispatch = (dispatch) => ({
   addToCart: (item) => {
     dispatch(addItemToCart(item))
   },
-  updateCartQuantity: (item, quantity) => dispatch(updateLineItem(item, quantity))
+  updateCartQuantity: (item, quantity) => dispatch(updateLineItem(item, quantity)),
+  addToSessionCart: (item) => dispatch(addItemToGuestCart(item))
 })
 
 export default connect(mapState, mapDispatch)(SingleProduct)
