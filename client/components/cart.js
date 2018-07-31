@@ -14,8 +14,8 @@ class Cart extends Component {
 
   handleDelete(evt, item) {
     evt.preventDefault()
-    const { isLoggedIn } = this.props
-    if (isLoggedIn) {
+    const { isLoggedIn, cart } = this.props
+    if (isLoggedIn && cart) {
       this.props.deleteFromCart(item)
     } else {
       console.log('=== this should run when we hit delete while logged out ===')
@@ -25,8 +25,8 @@ class Cart extends Component {
 
   handleDecrement(evt, item, oldQuantity) {
     evt.preventDefault()
-    const { isLoggedIn } = this.props
-    if (isLoggedIn) {
+    const { isLoggedIn, cart } = this.props
+    if (isLoggedIn && cart) {
       this.props.decreaseByOne(item, oldQuantity)
     } else {
       this.props.decreaseSessionCart(item, oldQuantity)
@@ -35,8 +35,8 @@ class Cart extends Component {
 
   handleIncrement(evt, item, oldQuantity) {
     evt.preventDefault()
-    const { isLoggedIn } = this.props
-    if (isLoggedIn) {
+    const { isLoggedIn, cart } = this.props
+    if (isLoggedIn && cart) {
       this.props.increaseByOne(item, oldQuantity)
     } else {
       this.props.increaseSessionCart(item, oldQuantity)
@@ -45,7 +45,7 @@ class Cart extends Component {
 
   render() {
     const { cart, isLoggedIn, guestCart } = this.props
-    const lineItems = cart['line-items'] ? cart['line-items'] : guestCart
+    const lineItems = cart && cart['line-items'] ? cart['line-items'] : guestCart
     const totalPrice = lineItems.reduce((total, item) => {
       return (item.price * item.quantity) + total
     }, 0)
