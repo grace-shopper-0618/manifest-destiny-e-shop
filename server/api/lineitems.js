@@ -84,6 +84,14 @@ router.put('/:orderId/:productId', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+router.delete('/guestCart/:productId', (req, res, next) => {
+  // sending the item to delete as req.body
+  const { productId } = req.params
+  req.session.cart = req.session.cart.filter(item => item.productId !== +productId)
+  console.log('=== cart after filter ===', req.session.cart)
+  res.status(204)
+})
+
 // req.body must have orderId and productId
 router.delete('/:orderId/:productId', async (req, res, next) => {
   try {

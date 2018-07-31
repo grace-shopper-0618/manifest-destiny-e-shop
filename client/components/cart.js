@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getCartFromUser, removeItemFromCart, updateLineItem } from '../store/cart'
-import { updateGuestCart } from '../store/sessionCart';
+import { updateGuestCart, removeItemFromSessionCart } from '../store/sessionCart';
 
 class Cart extends Component {
   constructor() {
@@ -14,7 +14,13 @@ class Cart extends Component {
 
   handleDelete(evt, item) {
     evt.preventDefault()
-    this.props.deleteFromCart(item)
+    const { isLoggedIn } = this.props
+    if (isLoggedIn) {
+      this.props.deleteFromCart(item)
+    } else {
+      console.log('=== this should run when we hit delete while logged out ===')
+      this.props.removeSessionItem(item)
+    }
   }
 
   handleDecrement(evt, item, oldQuantity) {
@@ -104,6 +110,9 @@ const mapDispatch = (dispatch) => {
     },
     decreaseSessionCart: (item, oldQuantity) => {
       dispatch(updateGuestCart(item, oldQuantity - 1))
+    },
+    removeSessionItem: (item) => {
+      dispatch(removeItemFromSessionCart(item))
     }
   }
 }
