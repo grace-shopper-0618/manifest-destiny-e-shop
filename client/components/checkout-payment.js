@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { CardElement, injectStripe } from 'react-stripe-elements'
+import { connect } from 'react-redux'
 // import axios from 'axios'
 
 class CheckoutForm extends Component {
@@ -31,16 +32,27 @@ class CheckoutForm extends Component {
 
   render() {
     console.log('this is the state after clicking', this.state)
+    const cart = this.props.cart
+    console.log('CART', cart)
     if (this.state.complete) return <h1>Purchase Complete</h1>
     return (
-      <div className="checkout">
-        <p>Would you like to complete the purchase?</p>
-        <CardElement />
-        <button type="submit" onClick={this.submit}>Send</button>
+      <div>
+        <h2>Cart Total</h2>
+        <div className="checkout">
+          <p>Would you like to complete the purchase?</p>
+          <CardElement />
+          <button type="submit" onClick={this.submit}>Send</button>
+        </div>
       </div>
-    );
+    )
   }
 }
 
+const mapState = state => {
+  return ({
+    cart: state.cart.currentOrder
+  })
+}
+
 const CheckoutFormWithStripe = injectStripe(CheckoutForm)
-export default CheckoutFormWithStripe
+export default connect(mapState, null)(CheckoutFormWithStripe)
