@@ -14,8 +14,8 @@ class Cart extends Component {
 
   handleDelete(evt, item) {
     evt.preventDefault()
-    const { isLoggedIn } = this.props
-    if (isLoggedIn) {
+    const { isLoggedIn, cart } = this.props
+    if (isLoggedIn && cart) {
       this.props.deleteFromCart(item)
     } else {
       console.log('=== this should run when we hit delete while logged out ===')
@@ -25,8 +25,8 @@ class Cart extends Component {
 
   handleDecrement(evt, item, oldQuantity) {
     evt.preventDefault()
-    const { isLoggedIn } = this.props
-    if (isLoggedIn) {
+    const { isLoggedIn, cart } = this.props
+    if (isLoggedIn && cart) {
       this.props.decreaseByOne(item, oldQuantity)
     } else {
       this.props.decreaseSessionCart(item, oldQuantity)
@@ -35,8 +35,8 @@ class Cart extends Component {
 
   handleIncrement(evt, item, oldQuantity) {
     evt.preventDefault()
-    const { isLoggedIn } = this.props
-    if (isLoggedIn) {
+    const { isLoggedIn, cart } = this.props
+    if (isLoggedIn && cart) {
       this.props.increaseByOne(item, oldQuantity)
     } else {
       this.props.increaseSessionCart(item, oldQuantity)
