@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import { getCartFromUser, addItemToCart, removeItemFromCart, getTotalPrice } from '../store/cart'
 import { me } from '../store/user'
+import Axios from '../../node_modules/axios';
 
 class Cart extends Component {
   constructor() {
@@ -18,6 +19,8 @@ class Cart extends Component {
 
   componentDidMount() {
     console.log('componentDidMount')
+    let me = await Axios.get('/me')
+    
     const { user, cart } = this.props
 
     // if (cart.id) this.props.fetchTotalPrice(cart.id)
@@ -61,7 +64,7 @@ class Cart extends Component {
 
     return (
       <div id='shopping-cart'>
-        <h3>Your Cart</h3>
+        <h3>Your Cart</h3> 
         <ul id='cart-items'>
           {
             products.map((product) => {
