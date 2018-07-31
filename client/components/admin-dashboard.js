@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchAllOrders, changeOrderToShipped } from '../store/orders';
 import { Order } from './order'
+import CategoryForm from './new-category-form'
 
 class Dashboard extends Component {
 
@@ -18,6 +19,8 @@ class Dashboard extends Component {
     return (
     <div>
       <h2>Welcome to the Admin Dashboard!</h2>
+      <h3> Submit a New Category </h3>
+      <CategoryForm />
 
       <h3> All Orders: </h3>
 

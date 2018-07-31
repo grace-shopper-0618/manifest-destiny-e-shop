@@ -95,7 +95,7 @@ class ProductCategoryForm extends Component {
               })
             }
             </select>
-            <button type="submit" > Add Category </button>
+            <button type="submit" > Add Category To Product </button>
           </form>
 
         </div>
