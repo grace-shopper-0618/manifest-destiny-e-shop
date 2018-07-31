@@ -57,7 +57,7 @@ const mapSignup = state => {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
@@ -65,6 +65,7 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(email, password, formName))
+      if (formName === 'signup') ownProps.history.push('/login')
     }
   }
 }
