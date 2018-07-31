@@ -8,8 +8,10 @@ import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
 class Navbar extends React.Component {
 
   componentDidMount(){
-    this.props.getUserOrders()
-    this.props.getUserCart()
+    if (this.props.isLoggedIn) {
+      this.props.getUserOrders()
+      this.props.getUserCart()
+    }
   }
 
   componentDidUpdate(prevProps){
@@ -43,6 +45,8 @@ class Navbar extends React.Component {
             <li>
               <p>Welcome,<Link to='/home'>{email}</Link></p>
               <a href='#' onClick={handleClick}>Logout</a>
+              <h5>Items in cart: {cartQuantity}</h5>
+              <Link to='/cart'>View Cart</Link>
             </li>
           ) : (
               <li>
@@ -50,10 +54,6 @@ class Navbar extends React.Component {
                 <Link to='/signup'>Sign Up</Link>
               </li>
             )}
-          <li>
-            <h5>Items in cart: {cartQuantity}</h5>
-            <Link to='/cart'>View Cart</Link>
-            </li>
         </ul>
       </nav>
     </div>)
@@ -66,7 +66,7 @@ class Navbar extends React.Component {
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    email: state.user.email,
+    email: state.user.email || '',
     user: state.user,
     cart: state.cart.currentOrder
   }
