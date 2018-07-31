@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getUserOrdersFromDb } from '../store/userOrders'
 import { Order } from './order'
+import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
 
 /**
  * COMPONENT
@@ -11,6 +11,7 @@ class UserHome extends React.Component {
   componentDidMount () {
     const { id } = this.props.user
     this.props.getUserOrders(id)
+    this.props.getUserCart(id)
   }
 
   render () {
@@ -64,13 +65,14 @@ const mapState = state => {
   return {
     email: state.user.email,
     user: state.user,
-    userOrders: state.userOrders
+    userOrders: state.cart.pastOrders
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getUserOrders: (userId) => dispatch(getUserOrdersFromDb(userId))
+    getUserOrders: (userId) => dispatch(getUserOrdersFromDb(userId)),
+    getUserCart: (userId) => dispatch(getCartFromUser(userId))
   }
 }
 

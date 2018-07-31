@@ -11,6 +11,9 @@ Order.belongsToMany(Product, { through: 'line-item' })
 Order.hasMany(LineItem)
 LineItem.belongsTo(Order)
 
+Product.hasMany(LineItem)
+LineItem.belongsTo(Product)
+
 Order.belongsTo(User)
 User.hasMany(Order)
 

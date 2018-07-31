@@ -6,12 +6,13 @@ const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const UPDATE_CART = 'UPDATE_CART'
-const GET_PRICE = 'GET_PRICE'
+const GET_USER_ORDERS = 'GET_USER_ORDERS'
+
 
 // INITIAL STATE
 const initialState = {
-  products: [],
-  totalPrice: 0
+  currentOrder: {},
+  pastOrders: []
 }
 
 // ACTION CREATORS
@@ -20,14 +21,19 @@ const getCart = cart => ({
   cart
 })
 
+const getUserOrders = orders => ({
+  type: GET_USER_ORDERS,
+  orders
+})
+
 const addToCart = item => ({
   type: ADD_TO_CART,
   item
 })
 
-const deleteFromCart = lineItem => ({
+const deleteFromCart = item => ({
   type: DELETE_FROM_CART,
-  id: lineItem.productId
+  item
 })
 
 const updateCart = (item) => ({
@@ -35,24 +41,18 @@ const updateCart = (item) => ({
   item
 })
 
-const getPrice = (price) => ({
-  type: GET_PRICE,
-  price
-})
-
 // THUNK CREATORS
 
 // What axios route am I using here? Do I need to write one?
 // Wrote route in api/users.js, need to test
 
-export const getCartFromUser = (user) => {
+export const getCartFromUser = (userId) => {
   return async dispatch => {
     try {
-      console.log('===', user)
-      const id = user.orders[0].id // id of the active cart for this user
-      const { data } = await axios.get(`/api/orders/${id}`)
-      console.log('***cart obejct being added to store', data)
-      dispatch(getCart(data))
+
+      const { data } = await axios.get(`/api/users/${userId}/orders`) // return cart with line-items
+      const activeOrder = data.find(order => order.isActiveCart)
+      dispatch(getCart(activeOrder))
     } catch (err) {
       console.log(err)
     }
@@ -60,20 +60,8 @@ export const getCartFromUser = (user) => {
 }
 
 // export const getCartFromSession = () => {
-
 // }
 
-export const addItemToCart = (item, user) => {
-  return async dispatch => {
-    try {
-      const id = user.orders[0].id
-      const { data } = await axios.post(`/api/orders/${id}/`, item)
-      dispatch(addToCart(data))
-    } catch (err) {
-      console.log(err.message)
-    }
-  }
-}
 
 export const removeItemFromCart = (lineItem) => {
   return async dispatch => {
@@ -89,23 +77,34 @@ export const removeItemFromCart = (lineItem) => {
 export const updateLineItem = (item, quantity) => {
   return async dispatch => {
     try {
-      const { orderId, productId } = item['line-item']
-      // line item quantity gets updated in the database
-      const updatedLineItem = await axios.put(`/${orderId}/${productId}`, quantity)
-      // product item object gets updated in the store
-      item['line-item'].quantity = quantity
-      dispatch(updateCart(item))
+      const { orderId, productId } = item
+      const { data } = await axios.put(`/api/lineitems/${orderId}/${productId}`, { "quantity": quantity })
+      dispatch(updateCart(data))
     } catch (err) { console.error(err.message) }
   }
 }
 
-export const getTotalPrice = (orderId) => {
+export const addItemToCart = (item) => {
   return async dispatch => {
     try {
-      const totalPrice = await axios.get(`/api/orders/${orderId}/total`)
-      console.log('just got total price for order', totalPrice)
-      dispatch(getPrice(totalPrice))
-    } catch (err) { console.error(err.message) }
+      const { data } = await axios.post(`/api/lineitems/${item.orderId}/`, item)
+      dispatch(addToCart(data))
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+}
+
+export const getUserOrdersFromDb = userId => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.get(`/api/users/${userId}/orders`)
+
+      const pastOrders = data.filter(order => !order.isActiveCart)
+      dispatch(getUserOrders(pastOrders))
+    } catch (err) {
+      console.error(err.message)
+    }
   }
 }
 
@@ -113,21 +112,35 @@ export const getTotalPrice = (orderId) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CART:
-      return {...state, ...action.cart}
+      return {...state, currentOrder: action.cart }
     case ADD_TO_CART:
       return {
         ...state,
-        products: [...state.products, action.item]
+        currentOrder: {
+          ...state.currentOrder,
+          'line-items': [...state.currentOrder['line-items'], action.item]
+        }
       }
     case DELETE_FROM_CART:
       return {
         ...state,
-        products: state.products.filter(product => product.id !== action.id)
+        currentOrder: {
+          ...state.currentOrder,
+          'line-items': state.currentOrder['line-items'].filter(item => item.productId !== action.item.productId)
+        }
       }
-    case GET_PRICE:
+    case GET_USER_ORDERS:
       return {
         ...state,
-        totalPrice: action.price
+        pastOrders: action.orders
+      }
+    case UPDATE_CART:
+      return {
+        ...state,
+        currentOrder: {
+          ...state.currentOrder,
+          'line-items': state.currentOrder['line-items'].map(item => item.productId === action.item.productId ? action.item : item)
+        }
       }
     default:
       return state
