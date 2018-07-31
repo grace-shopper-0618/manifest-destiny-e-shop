@@ -1,12 +1,12 @@
-const {expect} = require('chai')
+const { expect } = require('chai')
 const request = require('supertest')
-const db = require('../db')
-const app = require('../index')
+const db = require('../../db')
+const app = require('../../index')
 const Product = db.model('product')
 
 describe('Product routes', () => {
   beforeEach(() => {
-    return db.sync({force: true})
+    return db.sync({ force: true })
   })
 
   describe('/api/products/', () => {
@@ -24,8 +24,8 @@ describe('Product routes', () => {
         .get('/api/products')
         .expect(200)
 
-      expect (res.body).to.be.an('array')
-      expect (res.body[0].title).to.be.equal('Set of Four Horseshoes')
+      expect(res.body).to.be.an('array')
+      expect(res.body[0].title).to.be.equal('Set of Four Horseshoes')
     })
 
     //These tests don't pass!! Apparently it's a known Sequelize bug?? https://github.com/sequelize/sequelize/issues/4708
@@ -68,6 +68,6 @@ describe('Product routes', () => {
         .delete('/api/products/1')
         .expect(204)
     })
-    
+
   }) // end describe('/api/products')
 }) // end describe('Product routes')
