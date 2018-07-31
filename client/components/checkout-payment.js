@@ -18,20 +18,19 @@ class CheckoutForm extends Component {
 
   async submit(ev) {
     ev.preventDefault()
+    let { token } = await this.props.stripe.createToken({ name: "Name" });
+    let response = await fetch("/charge", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: token.id
+    });
+
+    if (response.ok) this.setState({
+      complete: true
+    })
 
     if (this.props.isLoggedIn) {
-      let { token } = await this.props.stripe.createToken({ name: "Name" });
-      let response = await fetch("/charge", {
-        method: "POST",
-        headers: { "Content-Type": "text/plain" },
-        body: token.id
-      });
 
-      if (response.ok) this.setState({
-        complete: true
-      })
-
-      // send PUT request to change orders isActiveCart property and set finalTotal, new active cart created automatically
       const updates = {
         isActiveCart: false,
         finalTotal: this.props.cart.total
@@ -49,19 +48,18 @@ class CheckoutForm extends Component {
 
       this.props.orderCheckout(updates, this.props.cart.id)
     } else {
+      const total = this.props.guestCart.reduce((acc, item) => {
+        return acc + (item.quantity * item.price)
+      }, 0)
 
-
-
-      // it's a guest user
-      // add up total price?
-      this.props.submitGuestOrder()
+      this.props.submitGuestOrder(total)
     }
   }
 
   componentDidMount(){
     // fetch updated order in case promo code got added!
     console.log('componentDidUpdate')
-    this.props.fetchUserCart(this.props.cart.id)
+    if (this.props.isLoggedIn) this.props.fetchUserCart(this.props.cart.id)
   }
 
   componentDidUpdate(prevProps) {

@@ -77,6 +77,7 @@ export const removeItemFromSessionCart = item => {
 
 export const checkoutGuestOrder = (finalPrice) => {
   return async dispatch => {
+    console.log('inside thunk creator')
     try {
       await axios.post('/api/orders/guest', {"finalTotal": finalPrice})
       dispatch(guestCheckout())

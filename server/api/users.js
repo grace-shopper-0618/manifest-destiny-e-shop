@@ -14,7 +14,7 @@ router.get('/guest/cart', (req, res, next) => {
 // PUT that updates guest shipping information on the session
 router.put('/guest/cart', (req, res, next) => {
   // adding address property to req.session
-  req.session.address = req.body
+  req.session.address = req.body.concatAddress
   // sends back the edited req.session
   res.send(req.session)
 })

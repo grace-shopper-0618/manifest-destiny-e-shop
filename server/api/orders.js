@@ -61,8 +61,9 @@ router.get('/:id', async (req, res, next) => {
 router.post('/guest', async (req, res, next) => {
   // req.session => cart ('line-items'), address, promocode
   // req.body => finalTotal
+  console.log('===shipping address', req.session.address)
   try {
-    // create guest order in database
+    // create guest order in database!
     const guestOrder = await Order.create({
       userId: 101,
       isActiveCart: false,
@@ -70,7 +71,7 @@ router.post('/guest', async (req, res, next) => {
       finalTotal: req.body.finalTotal
     })
 
-    // create line items
+    // create line items!
     let lineItems = req.session.cart
     await Promise.all(lineItems.map(item => {
       return LineItem.create({
@@ -87,15 +88,16 @@ router.post('/guest', async (req, res, next) => {
       const updatedInventory = {
         "inventory": item.product.inventory - item.quantity
       }
-      return Product.update({
+      return Product.update(updatedInventory, {
         where: {
           id: item.productId
         }
-      }, updatedInventory)
+      })
     }))
 
     // destroy session object
-    req.session.destroy()
+    req.session.cart = []
+    req.session.address = ''
     res.status(201).send(guestOrder)
 
   } catch (err) { next(err) }
