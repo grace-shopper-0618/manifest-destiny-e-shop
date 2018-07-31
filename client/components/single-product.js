@@ -4,6 +4,7 @@ import { getProductFromDb } from '../store/product'
 import { removeProductFromDb } from '../store/products'
 import { addItemToCart, updateLineItem } from '../store/cart'
 import ProductCategoryForm from './product-category-form'
+import ReviewForm from './review-form';
 
 //COMPONENT
 
@@ -104,7 +105,7 @@ class SingleProduct extends Component {
   }
 
   render () {
-    const {product} = this.props
+    const { product } = this.props
     return (
       <div key={product.id}>
         <h3>{product.title}</h3>
@@ -141,6 +142,7 @@ class SingleProduct extends Component {
         <div>
           <h4>Reviews</h4>
           <p>Average Rating: {this.state.avgRating}</p>
+          <ReviewForm />
           <ul id="reviews-list">
           {
             product.reviews && product.reviews.map(review => {

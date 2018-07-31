@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import { NEW_REVIEW_FOR_PRODUCT } from './product'
 
 /**
  * ACTION TYPES
@@ -66,6 +67,11 @@ export default function (state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case NEW_REVIEW_FOR_PRODUCT:
+      return {
+        ...state,
+        reviews: [...state.reviews, action.review]
+      }
     default:
       return state
   }
