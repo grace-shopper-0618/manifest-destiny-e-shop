@@ -24,7 +24,7 @@ class Cart extends Component {
     const { increaseByOne, decreaseByOne } = this.props
     return (
       <div id='shopping-cart'>
-        <h3>Your Cart</h3>
+        <h3>Your Cart</h3> 
         <ul id='cart-items'>
           {
             lineItems && lineItems.map((item) => {
