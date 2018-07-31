@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getProductFromDb } from '../store/product'
 import { removeProductFromDb } from '../store/products'
-import { addItemToCart } from '../store/cart'
+import { addItemToCart, updateLineItem } from '../store/cart'
 import ProductCategoryForm from './product-category-form'
 
 //COMPONENT
@@ -33,7 +33,7 @@ class SingleProduct extends Component {
         sumOfRatings += review.rating
       })
       const avgRating = sumOfRatings / reviews.length
-      console.log('Average rating: ', avgRating)
+
       this.setState({
         avgRating
       })
@@ -55,7 +55,6 @@ class SingleProduct extends Component {
 
   handleChange(evt) {
     evt.preventDefault()
-    console.log('** value we are submitting for quantity', evt.target.value)
     this.setState({
       quantity: +evt.target.value
     })
@@ -86,14 +85,22 @@ class SingleProduct extends Component {
 
   handleAddToCart(evt) {
     evt.preventDefault()
-    console.log('*****', this.state)
     const item = {
       productId: +this.props.match.params.id,
       quantity: this.state.quantity,
-      orderId: this.props.user.orders[0].id,
+      orderId: this.props.cart.id,
       price: this.props.product.price
     }
-    this.props.addToCart(item, this.props.user)
+
+    const existingItem = this.props.cart['line-items'].find(item => {
+      return item.productId === +this.props.match.params.id
+    })
+
+    if (existingItem) {
+      this.props.updateCartQuantity(existingItem, item.quantity)
+    } else {
+      this.props.addToCart(item)
+    }
   }
 
   render () {
@@ -159,16 +166,18 @@ class SingleProduct extends Component {
 const mapState = state => ({
   product: state.product,
   user: state.user,
-  cart: state.cart
+  cart: state.cart.currentOrder
 })
 
 const mapDispatch = (dispatch) => ({
   getProduct: (id) => dispatch(getProductFromDb(id)),
   deleteProduct: (productId) => dispatch(removeProductFromDb(productId)),
-  addToCart: (item, user) => dispatch(addItemToCart(item, user))
+  addToCart: (item) => {
+    dispatch(addItemToCart(item))
+  },
+  updateCartQuantity: (item, quantity) => dispatch(updateLineItem(item, quantity))
 })
 
 export default connect(mapState, mapDispatch)(SingleProduct)
 
-// adding a product to the cart must create a new line item with the right information
 

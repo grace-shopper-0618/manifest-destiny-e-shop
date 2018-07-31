@@ -1,6 +1,40 @@
 const router = require('express').Router()
-const { LineItem } = require('../db/models')
+const { LineItem, Order, Product } = require('../db/models')
 module.exports = router
+
+// posting a new line item for an order
+router.post('/:orderId', async (req, res, next) => {
+  try {
+    // make sure this order is active
+    const order = await Order.findOne({
+      where: {
+        id: +req.params.orderId
+      }
+    })
+
+    if (!order) {
+      const err = new Error('Unable to find order')
+      err.status = 404
+      return next(err)
+    }
+
+    if (!order.isActiveCart) {
+      res.status(400).send('This order cannot be edited')
+    }
+
+    const newLineItem = await LineItem.create(req.body)
+    const foundLineItem = await LineItem.findOne({
+      where: {
+        orderId: newLineItem.orderId,
+        productId: newLineItem.productId
+      },
+      include: [{ model: Product }]
+    })
+
+    res.status(201).json(foundLineItem)
+
+  } catch (err) { next(err) }
+})
 
 // req.body must have orderId and productId and new quantity
 router.put('/:orderId/:productId', async (req, res, next) => {
@@ -12,7 +46,8 @@ router.put('/:orderId/:productId', async (req, res, next) => {
       where: {
         orderId,
         productId
-      }
+      },
+      include: [{ model: Product }]
     })
 
     if (!lineItem) {
@@ -51,3 +86,22 @@ router.delete('/:orderId/:productId', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+router.get('/:orderId/:productId', async (req, res, next) => {
+  try {
+    const { orderId, productId } = req.params
+    const lineItem = await LineItem.findOne({
+      where: {
+        orderId,
+        productId
+      }
+    })
+
+    if (!lineItem) {
+      res.status(404)
+      return
+    }
+
+    res.json(lineItem)
+
+  } catch (err) { next(err) }
+})
