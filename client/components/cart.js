@@ -45,7 +45,7 @@ class Cart extends Component {
 
   render() {
     const { cart, isLoggedIn, guestCart } = this.props
-    const lineItems = cart['line-items'] ? cart['line-items'] : guestCart
+    const lineItems = cart && cart['line-items'] ? cart['line-items'] : guestCart
     const totalPrice = lineItems.reduce((total, item) => {
       return (item.price * item.quantity) + total
     }, 0)

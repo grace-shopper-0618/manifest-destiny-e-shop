@@ -92,7 +92,7 @@ class SingleProduct extends Component {
       quantity: this.state.quantity,
       price: this.props.product.price
     }
-    if (this.props.isLoggedIn) {
+    if (this.props.isLoggedIn && this.props.cart) {
       item.orderId = this.props.cart.id
       const existingItem = this.props.cart['line-items'].find(lineItem => {
         return lineItem.productId === +this.props.match.params.id
@@ -182,7 +182,6 @@ const mapState = state => {
   return ({
     product: state.product,
     user: state.user,
-
     cart: state.cart.currentOrder,
     isLoggedIn: !!state.user.id,
     guestCart: state.sessionCart

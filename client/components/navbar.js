@@ -20,7 +20,7 @@ class Navbar extends React.Component {
   componentDidUpdate(prevProps){
     const { id } = this.props.user
     if (id) {
-      if (!prevProps.cart['line-items']) {
+      if (prevProps.cart && !prevProps.cart['line-items']) {
         this.props.getUserOrders(id)
         this.props.getUserCart(id)
       }
@@ -31,7 +31,7 @@ class Navbar extends React.Component {
     const { handleClick, isLoggedIn, email, guestCart } = this.props
 
     let cartQuantity = 0;
-    if (isLoggedIn && this.props.cart['line-items']) {
+    if (isLoggedIn && this.props.cart && this.props.cart['line-items']) {
       cartQuantity = this.props.cart['line-items'].reduce((total, item) => {
         return total + item.quantity
       }, 0)
