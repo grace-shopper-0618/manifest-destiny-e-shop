@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Order } from './order'
 import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
+import Dashboard from './admin-dashboard'
 
 /**
  * COMPONENT
@@ -53,6 +54,10 @@ class UserHome extends React.Component {
               <h5>You have not placed any orders with Oregon Trail Outfitters. Get shopping!</h5>
             }
           </ul>
+          {
+            this.props.user.isAdmin ? <Dashboard /> : null
+          }
+
         </div>
       </div>
     )

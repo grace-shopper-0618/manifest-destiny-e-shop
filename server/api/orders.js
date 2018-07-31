@@ -2,11 +2,30 @@ const router = require('express').Router()
 module.exports = router
 const { User, Order, Product, LineItem } = require('../db/models')
 
-// find a specific user's orders is in /api/users/
+// getting all orders
+router.get('/', async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({
+      include: [{
+        model: LineItem,
+        include: [{ model: Product }]
+      }, {
+        model: User
+      }]
+    })
+    if (!orders) {
+      const err = new Error('Unable to retrieve orders from the database')
+      err.status = 404
+      return next(err)
+    }
 
-// getting an active order (cart) by its id
+    res.status(200).json(orders)
+  } catch (err) { next(err) }
+})
+
+// getting an order by id
 router.get('/:id', async (req, res, next) => {
-  // check req.body for userid to see if anyone is logged in
+  // check req.body for userid to see if anyone is logged in?
   try {
     const order = await Order.findById(+req.params.id, {
       include: [{
@@ -14,27 +33,6 @@ router.get('/:id', async (req, res, next) => {
         include: [{ model: Product }]
       }]
     })
-
-    // const userId = +req.body.userId
-    // if (userId) {
-    //   const activeCart = await Order.findOne({
-    //     where: {
-    //       isActiveCart: true,
-    //       userId
-    //     },
-    //     include: [{ model: Product }]
-    //   })
-
-    //   if (!activeCart) {
-    //     const err = new Error(`No active cart for user with id of ${userId}`)
-    //     err.status = 404
-    //     return next(err)
-    //   }
-
-    //   res.status(200).json(activeCart)
-    // } else {
-    //   // we have to find the cart by its session
-    // }
 
     if (order) {
       res.status(200).send(order)
@@ -48,28 +46,20 @@ router.get('/:id', async (req, res, next) => {
 
 })
 
-router.get('/:id/total', async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
+ // this route will be used for updating an order status to inactive, updating a 'hasshipped', and adding shipping info
+
   try {
-    const order = await Order.findById(+req.params.id)
-    console.log('ORDER', order)
-
-    if (order) {
-      const totalPrice = await Order.getTotal(order)
-
-      res.json({"totalPrice": totalPrice})
-
-    } else {
-      const err = new Error('Unable to locate the order')
-      err.status = 404
-      return next(err)
-    }
+    const order = await Order.findById(+req.params.id, {
+      include: [{
+        model: LineItem,
+        include: [{ model: Product }]
+      }]
+    })
+    const updatedOrder = await order.update(req.body)
+    res.status(201).json(updatedOrder)
 
 
   } catch (err) { next(err) }
+
 })
-
-
-
-// router.put('/:id', async (req, res, next) => {
-//  // this route will be used for updating an order status to inactive and maybe a hasShipped property
-// })
