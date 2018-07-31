@@ -11,6 +11,14 @@ router.get('/guest/cart', (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+// PUT that updates guest shipping information on the session
+router.put('/guest/cart', (req, res, next) => {
+  // adding address property to req.session
+  req.session.address = req.body
+  // sends back the edited req.session
+  res.send(req.session)
+})
+
 // GET all orders for a user
 router.get('/:id/orders', async (req, res, next) => {
   try {

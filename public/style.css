@@ -33,16 +33,14 @@ form div {
 }
 
 #navbar li {
-  /* display: flex; */
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
   list-style-type: none;
   padding: 10px;
   text-decoration: none;
   float: left;
   font-size: 16px;
-}
-
-#navbar h2 {
-  margin-top: 40px;
 }
 
 #categoryList {
@@ -85,21 +83,59 @@ form div {
   margin: 10px;
   padding: 10px;
   width: 175px;
+  justify-content: flex-start;
+  align-content: space-between;
  }
 
- .product-card img {
-   width: 175px;
-   height: 175px;
-   display: block;
-   margin-left: auto;
+ .product-card-image {
+   display: flex;
+   flex-direction: column;
+   align-content: center;
+   justify-content: center;
+   background-color: white;
+ }
+
+ .product-card-image img {
+   max-width: 175px;
+   max-height: 175px;
+   background-color: white;
+   justify-content: center;
+   align-content: center;
  }
 
  #homepage {
-  background-color: black;
+  background-color: white;
  }
 
  #homepage img {
    display: block;
    margin-left: auto;
    margin-right: auto;
+   margin-top: 10px;
  }
+
+ #single-product {
+   display: flex;
+   flex-wrap: wrap;
+   flex-direction: row;
+   border: 1px solid black;
+   justify-content: center;
+ }
+
+ #product-details, #title-and-photo {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  text-align: left;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 10px;
+  align-content: center;
+ }
+
+ #product-details {
+   width: 300px;
+ }
+
+/* how can we make the flour image have a white background instead of clear? */
+/* how can we make the number in stock display at the bottom of the product card? */
