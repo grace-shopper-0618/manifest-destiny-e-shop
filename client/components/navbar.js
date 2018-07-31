@@ -3,16 +3,14 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
-import { getUserOrdersFromDb } from '../store/userOrders'
-import { getCartFromUser } from '../store/cart';
+import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
 
 class Navbar extends React.Component {
 
-
-
-  componentDidUpdate(){
+  componentDidUpdate(prevProps){
     const { id } = this.props.user
-    if (id) {
+    if (!prevProps.cart['line-items']) {
+      // this is resulting in an infinite loop of get requests...
       this.props.getUserOrders(id)
       this.props.getUserCart(id)
     }
@@ -20,6 +18,14 @@ class Navbar extends React.Component {
 
   render() {
     const { handleClick, isLoggedIn, email } = this.props
+
+    let cartQuantity = 0;
+    if (this.props.cart['line-items']) {
+      cartQuantity = this.props.cart['line-items'].reduce((total, item) => {
+        return total + item.quantity
+      }, 0)
+    }
+
     return (
     <div>
       <nav id='navbar'>
@@ -40,7 +46,10 @@ class Navbar extends React.Component {
                 <Link to='/signup'>Sign Up</Link>
               </li>
             )}
-          <li><Link to='/cart'>View Cart</Link></li>
+          <li>
+            <h5>Items in cart: {cartQuantity}</h5>
+            <Link to='/cart'>View Cart</Link>
+            </li>
         </ul>
       </nav>
     </div>)
@@ -54,7 +63,8 @@ const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
     email: state.user.email,
-    user: state.user
+    user: state.user,
+    cart: state.cart.currentOrder
   }
 }
 
