@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateOrderinDb } from '../store/cart'
-import { Link } from 'react-router-dom'
 
 class CheckoutAddress extends Component {
   constructor() {
     super()
     this.state = {
-      // cartId: 0,
       shippingAddress: {
         firstName: '',
         lastName: '',
@@ -24,30 +22,9 @@ class CheckoutAddress extends Component {
 
   handleChange(evt) {
     evt.preventDefault()
-    // const firstName = evt.target.firstName
-    // console.log('HANDLE CHANGE FIRST NAME', firstName)
-    // const lastName = evt.target.lastName
-    // const address1 = evt.target.address1
-    // const address2 = evt.target.address2
-    // const city = evt.target.city
-    // const state = evt.target.state
-    // const zip = evt.target.zip
-    // this.setState({
-    //   shippingAddress: {
-    //     firstName,
-    //     lastName,
-    //     address1,
-    //     address2,
-    //     city,
-    //     state,
-    //     zip
-    //   }
-    // })
     this.setState({
       shippingAddress: { ...this.state.shippingAddress, [evt.target.name]: evt.target.value }
     })
-
-    console.log(this.state.shippingAddress)
   }
 
   handleSubmit(evt) {
@@ -55,13 +32,8 @@ class CheckoutAddress extends Component {
     const shippAd = this.state.shippingAddress
     const concatAddress = `${shippAd.firstName} ${shippAd.lastName} ${shippAd.address1} ${shippAd.address2} ${shippAd.city}, ${shippAd.state} ${shippAd.zip}`
     const updatedOrder = { ...this.props.cart, shippingAddress: concatAddress }
-    console.log('HERE IS YOUR UPDATED ORDER', updatedOrder)
     this.props.submitAddress(updatedOrder, updatedOrder.id)
     this.props.history.push('/checkout/payment')
-  }
-
-  componentDidUpdate() {
-
   }
 
   render() {
