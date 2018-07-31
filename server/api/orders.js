@@ -57,6 +57,56 @@ router.get('/:id', async (req, res, next) => {
 
 })
 
+// post a guest order to the database
+router.post('/guest', async (req, res, next) => {
+  // req.session => cart ('line-items'), address, promocode
+  // req.body => finalTotal
+  try {
+    // create guest order in database
+    const guestOrder = await Order.create({
+      userId: 101,
+      isActiveCart: false,
+      shippingAddress: req.session.address,
+      finalTotal: req.body.finalTotal
+    })
+
+    // create line items
+    let lineItems = req.session.cart
+    await Promise.all(lineItems.map(item => {
+      return LineItem.create({
+        productId: item.productId,
+        orderId: guestOrder.id,
+        quantity: item.quantity,
+        price: item.price
+      })
+    }))
+
+    // update product inventories
+    await Promise.all(lineItems.map(item => {
+      // update corresponding product inventory
+      const updatedInventory = {
+        "inventory": item.product.inventory - item.quantity
+      }
+      return Product.update({
+        where: {
+          id: item.productId
+        }
+      }, updatedInventory)
+    }))
+
+    // destroy session object
+    req.session.destroy()
+    res.status(201).send(guestOrder)
+
+  } catch (err) { next(err) }
+
+
+
+  // after order and line items created (and product inventory updated), destory the session
+
+
+})
+
 router.put('/:id', async (req, res, next) => {
   // this route will be used for updating an order status to inactive, updating a 'hasshipped', and adding shipping info
   try {

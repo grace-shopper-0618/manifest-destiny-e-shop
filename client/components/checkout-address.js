@@ -37,12 +37,13 @@ class CheckoutAddress extends Component {
     const { isLoggedIn } = this.props
     const shippAd = this.state.shippingAddress
     const concatAddress = `${shippAd.firstName} ${shippAd.lastName} ${shippAd.address1} ${shippAd.address2} ${shippAd.city}, ${shippAd.state} ${shippAd.zip}`
-    
+
     if (isLoggedIn) {
       const updatedOrder = { ...this.props.cart, shippingAddress: concatAddress }
       this.props.submitAddress(updatedOrder, updatedOrder.id)
     } else {
       await axios.put('/api/users/guest/cart', shippAd)
+      // promocode?
     }
     this.props.history.push('/checkout/payment')
   }
