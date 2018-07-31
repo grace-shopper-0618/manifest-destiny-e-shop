@@ -2,9 +2,14 @@ const router = require('express').Router()
 const { LineItem, Order, Product } = require('../db/models')
 module.exports = router
 
-router.post('/guestCart', (req, res, next) => {
+router.post('/guestCart', async (req, res, next) => {
   req.session.cart.push(req.body)
+  const { productId } = req.body
+  const product = await Product.findById(productId),
+  inventory = product.inventory
   // make sure that the req.body includes the product info (title/price/id), quantity
+  req.body.product.inventory = inventory
+  // including inventory on req.body to display increment/decrement buttons based on available inventory
   res.json(req.body)
 })
 
@@ -49,7 +54,7 @@ router.put('/guestCart', (req, res, next) => {
     } else return item
   })
   // req.body needs to include product info (title/price/id), quantity
-  res.json(req.session.cart)
+  res.json(req.body)
 })
 
 // req.body must have orderId and productId and new quantity
