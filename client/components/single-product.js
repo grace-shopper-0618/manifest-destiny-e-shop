@@ -106,12 +106,13 @@ class SingleProduct extends Component {
 
   render () {
     const { product } = this.props
-    console.log('photoUrl:', product.photoUrl)
+    const newPhotoUrl = __dirname + product.photoUrl
+    console.log('newPhotoUrl: ', newPhotoUrl)
     return (
       <div key={product.id}>
         <h3>{product.title}</h3>
         <h1>${product.price}</h1>
-        <img className='singleProductPhoto' src={product.photoUrl} />
+        <img className='singleProductPhoto' src={newPhotoUrl} width='500px' height='500px' />
         <p>Product Description: {product.description}</p>
         <p>Categories:</p>
         <ul id='categories-list'>
