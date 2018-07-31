@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getCartFromOrderId, updateOrderinDb, getCartFromUser } from '../store/cart'
 import { editProductInDb } from '../store/product';
 import { updateProductInDb } from '../store/products';
+import { checkoutGuestOrder } from '../store/sessionCart';
 // import axios from 'axios'
 
 class CheckoutForm extends Component {
@@ -16,8 +17,6 @@ class CheckoutForm extends Component {
   }
 
   async submit(ev) {
-    console.log('clicking send button')
-
     ev.preventDefault()
     let { token } = await this.props.stripe.createToken({ name: "Name" });
     let response = await fetch("/charge", {
@@ -30,29 +29,37 @@ class CheckoutForm extends Component {
       complete: true
     })
 
-    // send PUT request to change orders isActiveCart property and set finalTotal, new active cart created automatically
-    const updates = {
-      isActiveCart: false,
-      finalTotal: this.props.cart.total
-    }
+    if (this.props.isLoggedIn) {
 
-    const lineItems = this.props.cart['line-items']
-    lineItems.forEach(item => {
-      const inStock = item.product.inventory
-      const numOrdered = item.quantity
-      const productUpdates = {
-        "inventory": inStock - numOrdered
+      const updates = {
+        isActiveCart: false,
+        finalTotal: this.props.cart.total
       }
-      this.props.updateProductInventory(productUpdates, item.productId)
-    })
 
-    this.props.orderCheckout(updates, this.props.cart.id)
+      const lineItems = this.props.cart['line-items']
+      lineItems.forEach(item => {
+        const inStock = item.product.inventory
+        const numOrdered = item.quantity
+        const productUpdates = {
+          "inventory": inStock - numOrdered
+        }
+        this.props.updateProductInventory(productUpdates, item.productId)
+      })
+
+      this.props.orderCheckout(updates, this.props.cart.id)
+    } else {
+      const total = this.props.guestCart.reduce((acc, item) => {
+        return acc + (item.quantity * item.price)
+      }, 0)
+
+      this.props.submitGuestOrder(total)
+    }
   }
 
   componentDidMount(){
     // fetch updated order in case promo code got added!
     console.log('componentDidUpdate')
-    this.props.fetchUserCart(this.props.cart.id)
+    if (this.props.isLoggedIn) this.props.fetchUserCart(this.props.cart.id)
   }
 
   componentDidUpdate(prevProps) {
@@ -64,13 +71,21 @@ class CheckoutForm extends Component {
   }
 
   render() {
+    if (this.state.complete) return <h1>Purchase Complete</h1>
 
     const cart = this.props.cart
+    let total;
+    if (this.props.isLoggedIn) {
+      total = cart.total ? cart.total : null
+    } else {
+      total = this.props.guestCart.reduce((acc, item) => {
+        return acc + (item.quantity * item.price * 100)
+      }, 0)
+    }
 
-    if (this.state.complete) return <h1>Purchase Complete</h1>
     return (
       <div>
-        <h2>Cart Total: ${cart.total ? cart.total : null}</h2>
+        <h2>Cart Total: ${total}</h2>
         <div className="checkout">
           <p>Would you like to complete the purchase?</p>
           <CardElement />
@@ -85,7 +100,8 @@ const mapState = state => {
   return ({
     cart: state.cart.currentOrder,
     user: state.user,
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    guestCart: state.sessionCart
   })
 }
 
@@ -94,7 +110,8 @@ const mapDispatch = dispatch => {
     fetchUserCart: (orderId) => dispatch(getCartFromOrderId(orderId)),
     orderCheckout: (updates, orderId) => dispatch(updateOrderinDb(updates, orderId)),
     fetchNewUserCart: (userId) => dispatch(getCartFromUser(userId)),
-    updateProductInventory: (productUpdate, productId) => dispatch(updateProductInDb(productUpdate, productId))
+    updateProductInventory: (productUpdate, productId) => dispatch(updateProductInDb(productUpdate, productId)),
+    submitGuestOrder: (finalPrice) => dispatch(checkoutGuestOrder(finalPrice))
   }
 }
 
