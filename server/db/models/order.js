@@ -27,7 +27,7 @@ const Order = db.define('order', {
 Order.getTotal = async (order) => {
   // for getting the total before order is submitted (then we can just check the finalPrice property on the model instance)
   const lineItems = await LineItem.findAll({
-    where: { orderId : order.id }
+    where: { orderId: order.id }
   })
 
   const subtotal = lineItems.reduce((total, lineItem) => {
