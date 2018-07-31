@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Order, Review} = require('../db/models')
+const {User, Order, Review, LineItem, Product} = require('../db/models')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -63,15 +63,9 @@ router.get('/me', async (req, res) => {
 
   const user = await User.findOne({
     where: { email: req.user.email },
-    include: [
-      { model: Order,
-        where: { isActiveCart: true },
-        required: false
-      },
-      {
+    include: [{
         model: Review
-      }
-    ]
+    }]
   })
 
   res.json(user)
