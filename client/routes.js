@@ -2,11 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-<<<<<<< HEAD
-import { Login, Signup, UserHome, AllProducts, SingleProduct, AddForm, EditForm, HomePage, Cart, CheckoutAddress } from './components'
-=======
 import { Login, Signup, UserHome, AllProducts, SingleProduct, AddForm, EditForm, HomePage, Cart, CheckoutFormWithStripe } from './components'
->>>>>>> 8602a2a524f96d433a58bfa3a1ad9a6791f31832
 import { me } from './store'
 
 /**
