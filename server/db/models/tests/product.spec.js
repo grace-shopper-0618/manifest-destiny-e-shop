@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const db = require('../index')
+const db = require('../../index')
 const Product = db.model('product')
 
 describe('Product model', () => {
@@ -10,27 +10,28 @@ describe('Product model', () => {
 
   describe('Validations', () => {
     it('requires title', async () => {
-      const product = Product.create()
       try {
+        const product = await Product.create()
         await product.validate()
         throw Error('validation was successful but should have failed without name')
       }
       catch (err) {
-        expect(err.message).to.contain('notNull Violation:')
+        expect(err.message).to.contain('title cannot be null')
       }
     })
     it('successfully creates new instance', async () => {
-      const product = await Product.create({
-        title: 'oxen',
-        price: 40,
-        inventory: 2,
-      })
-      await product.validate()
-      expect(product).to.equal({
-        title: 'oxen',
-        price: 40,
-        inventory: 2,
-      })
+      try {
+        const product = await Product.create({
+          title: 'oxen',
+          price: 40,
+          inventory: 2,
+        })
+        await product.validate()
+        expect(product.title).to.equal('oxen')
+      }
+      catch (err) {
+        console.error(err)
+      }
     })
   })
 })
