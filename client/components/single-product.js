@@ -122,7 +122,7 @@ class SingleProduct extends Component {
         <div id='title-and-photo'>
           <h3>{product.title}</h3>
           <h1>${product.price}</h1>
-          <img className='singleProductPhoto' src={newPhotoUrl} width='500px' height='500px' />
+          <img className='singleProductPhoto' src={newPhotoUrl} width='500px' />
           </div>
         <div id='product-details'>
           <p>Product Description: {product.description}</p>
