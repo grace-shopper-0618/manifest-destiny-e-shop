@@ -49,7 +49,7 @@ const products = [
     description: 'For your baking needs',
     price: 100,
     inventory: 2000,
-    photoUrl: 'flour.jpg'
+    photoUrl: 'flour.png'
   },
   {
     title: 'Oats',
