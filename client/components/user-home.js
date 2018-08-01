@@ -5,9 +5,6 @@ import { Order } from './order'
 import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
 import Dashboard from './admin-dashboard'
 
-/**
- * COMPONENT
- */
 class UserHome extends React.Component {
   componentDidMount() {
     const { id } = this.props.user
@@ -63,9 +60,6 @@ class UserHome extends React.Component {
   }
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
     email: state.user.email,
@@ -83,9 +77,6 @@ const mapDispatch = dispatch => {
 
 export default connect(mapState, mapDispatch)(UserHome)
 
-/**
- * PROP TYPES
- */
 UserHome.propTypes = {
   email: PropTypes.string
 }

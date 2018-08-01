@@ -7,7 +7,7 @@ class ProductCategoryForm extends Component {
   constructor() {
     super()
     this.state = {
-      selectedCategory: 0, //id of category
+      selectedCategory: 0,
       categories: [],
       isLoaded: false
     }
@@ -60,7 +60,6 @@ class ProductCategoryForm extends Component {
   }
 
   render() {
-    // render a special drop down menu only for admins to edit the categories for this product
 
     if (this.props.isAdmin) {
       const { allCategories } = this.props
@@ -101,13 +100,11 @@ class ProductCategoryForm extends Component {
         </div>
       )
     } else {
-      // user is not an admin, so we don't display this form to them
       return null
     }
   }
 }
 
-// CONNECTED COMPONENT
 const mapState = state => {
   return {
     allCategories: state.categories,
@@ -126,6 +123,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(ProductCategoryForm)
-
-
-// notes: we don't always finish fetching the categories before we try to set our state with those fetched categories...

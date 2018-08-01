@@ -10,7 +10,6 @@ import categories from './categories'
 import cart from './cart'
 import orders from './orders'
 import sessionCart from './sessionCart'
-// use them in combinereducers
 
 const reducer = combineReducers({user, products, product, categories, selectedCategory, cart, orders, sessionCart})
 const middleware = composeWithDevTools(

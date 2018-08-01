@@ -16,7 +16,7 @@ class AllProducts extends React.Component {
 
   handleEdit(evt, productId) {
     evt.preventDefault()
-    this.props.history.push(`/shop/${productId}/edit`) // will redirect to make the edit form for that product
+    this.props.history.push(`/shop/${productId}/edit`)
   }
 
   handleDelete(evt, productId) {
@@ -26,7 +26,6 @@ class AllProducts extends React.Component {
   }
 
   renderButtons(productId) {
-    // add id to the buttons div? there is an id in shelby's code
     const { user } = this.props
     if (user && user.isAdmin) {
       return (
@@ -58,7 +57,6 @@ class AllProducts extends React.Component {
     this.props.fetchProducts()
   }
 
-  //may need refactoring to remove use of var
   render() {
     const selectedCategory = this.props.selectedCategory
     if (selectedCategory.name) {
@@ -79,7 +77,6 @@ class AllProducts extends React.Component {
                 <div className="product-card-image">
                   <img src={product.photoUrl} max-width='175px' max-heigh='175px'/>
                 </div>
-                {/* does product.price give the correct price? also show part of description? show 'sold out' or similar comments to shopper based on inventory? */}
                 <h4>${product.price}</h4>
                 <div id='product-card-footer'> 
                   <h4>Number in stock: {product.inventory}</h4>

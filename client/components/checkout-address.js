@@ -24,7 +24,6 @@ class CheckoutAddress extends Component {
 
   handleChange(evt) {
     evt.preventDefault()
-    console.log('THIS IS THE STATE IN HANDLE CHANGE', this.state)
 
     this.setState({
       shippingAddress: { ...this.state.shippingAddress, [evt.target.name]: evt.target.value },
@@ -37,7 +36,6 @@ class CheckoutAddress extends Component {
     const { isLoggedIn } = this.props
     const shippAd = this.state.shippingAddress
     const concatAddress = `${shippAd.firstName} ${shippAd.lastName} ${shippAd.address1} ${shippAd.address2} ${shippAd.city}, ${shippAd.state} ${shippAd.zip}`
-    console.log('address before route', concatAddress)
     if (isLoggedIn) {
       const updatedOrder = { ...this.props.cart, shippingAddress: concatAddress }
       this.props.submitAddress(updatedOrder, updatedOrder.id)

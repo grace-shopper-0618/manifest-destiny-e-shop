@@ -22,10 +22,8 @@ class ProductForm extends Component {
   }
 
   componentDidMount() {
-    // fetch categories from database
     if (this.props.edit) {
       this.props.getProduct(Number(this.props.match.params.id))
-      // eager load categories in the get single product?
 
       this.unsubscribe = store.subscribe(() => {
         this.setState({
@@ -43,8 +41,6 @@ class ProductForm extends Component {
   componentWillUnmount() {
     if (this.state.edit) {
       this.unsubscribe()
-      // for some reason this is throwing errors when we submit for add but not for edit
-      // being kind of hacky right now with the conditional to sidestep this bug...
     }
   }
 
@@ -59,7 +55,7 @@ class ProductForm extends Component {
     const updates = Object.assign({}, this.state, { price: Number(this.state.price) * 100 })
 
     if (this.props.edit === true) {
-      this.props.editProduct(updates, Number(this.props.match.params.id)) //passes in local state and product id
+      this.props.editProduct(updates, Number(this.props.match.params.id))
     }
     else {
       this.props.addProduct(updates)
@@ -67,7 +63,6 @@ class ProductForm extends Component {
   }
 
   renderRequiredFlag(field) {
-    // we pass this method the part of state we are checking
     return field ? null : <span>required</span>
   }
 
@@ -171,8 +166,3 @@ const mapDispatch = (dispatch) => {
 
 export const EditForm = connect(mapPropsForEdit, mapDispatch)(ProductForm)
 export const AddForm = connect(mapPropsForAdd, mapDispatch)(ProductForm)
-
-// note to consider: a product needs a category, but what happens if we try to submit without a category? need form validation?
-// error when trying to add a new product --> getting this.unsubscribe is not a function
-
-// still need to fix the overall submit button to do something about the categories...

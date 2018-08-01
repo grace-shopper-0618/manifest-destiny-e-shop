@@ -29,7 +29,6 @@ class CategoryList extends React.Component {
   }
 }
 
-//CONNECTED COMPONENT
 const mapState = state => ({
   categories: state.categories,
   selectedCategory: state.selectedCategory

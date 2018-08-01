@@ -24,9 +24,7 @@ export const deselectCategory = () => {
 export const setSelectedCategory = (categoryId) => {
   return async (dispatch) => {
     try {
-      console.log('id', categoryId)
       const {data} = await axios.get(`/api/categories/${categoryId}`)
-      console.log('category', data)
       dispatch(selectCategory(data))
     } catch (err) {
       console.error(err)

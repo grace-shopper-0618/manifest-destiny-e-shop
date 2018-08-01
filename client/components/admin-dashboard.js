@@ -11,11 +11,7 @@ class Dashboard extends Component {
   }
 
   render(){
-    // admin dash will show all orders with a button for each that says 'ship' (unless they are already shipped')
-    // admin dash has form for making a new category
-    // admin dash has data about summer promo code performance
     const { orders, sendOutOrder } = this.props
-    console.log('inside render', orders)
     return (
     <div>
       <h2>Welcome to the Admin Dashboard!</h2>

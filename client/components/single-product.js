@@ -173,9 +173,6 @@ class SingleProduct extends Component {
   }
 }
 
-
-// can we use a higher-order component here?
-
 const mapState = state => {
   return ({
     product: state.product,
