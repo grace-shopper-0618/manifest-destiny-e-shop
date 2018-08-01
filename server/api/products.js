@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {Product, Category, Review} = require('../db/models')
 const db = require('../db')
+const { userMid } = require('../../secureHelpers')
 module.exports = router
 
 //get all products from the db
@@ -38,7 +39,7 @@ router.get('/:id', async (req, res, next) => {
 })
 
 //add a product to the db
-router.post('/', async (req, res, next) => {
+router.post('/', userMid, async (req, res, next) => {
   try {
     const product = await Product.create(req.body)
     if (!product) {
@@ -69,7 +70,7 @@ router.put('/:id', async (req, res, next) => {
 })
 
 //delete a product from the db
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', userMid, async (req, res, next) => {
   try {
     const id = req.params.id
     await Product.destroy({where: {id}})
