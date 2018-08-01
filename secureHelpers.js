@@ -12,4 +12,13 @@ const userMid = (req, res, next) => {
   }
 }
 
-module.exports = { userMid }
+const userOnly = (req, res, next) => {
+  if (req.user) {
+    next()
+  } else {
+    const err = new Error('Only logged in users may review a product')
+    next(err)
+  }
+}
+
+module.exports = { userMid, userOnly }

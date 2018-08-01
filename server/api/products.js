@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {Product, Category, Review} = require('../db/models')
 const db = require('../db')
-const { userMid } = require('../../secureHelpers')
+const { userMid, userOnly } = require('../../secureHelpers')
 module.exports = router
 
 //get all products from the db
@@ -98,28 +98,20 @@ router.get('/:id/reviews', async (req, res, next) => {
 })
 
 // POST new review for a product
-router.post('/:id/reviews', async (req, res, next) => {
+router.post('/:id/reviews', userOnly, async (req, res, next) => {
   try {
-    console.log('\n===req.body in review post', req.body)
-    // make sure req.body has rating, text, and userId
     const newReview = await Review.create({
       rating: req.body.rating,
       text: req.body.text,
       productId: +req.params.id,
       userId: req.body.userId
     })
-
-    // we will need to update this product in the store so it holds the correct review -- all products and selected product must update
-    // products are also eagerly loaded on user -- must make sure the user's reviews get updated on the store
     res.status(201).json(newReview)
   } catch (err) { next(err) }
 })
 
 router.put('/:id/categories', async (req, res, next) => {
-  // add a category-product relationship
-  // category is in req.body
   try {
-    // find the product
     const product = await Product.findOne({
       where: {
         id: +req.params.id
@@ -131,7 +123,6 @@ router.put('/:id/categories', async (req, res, next) => {
       err.status = 404
       return next(err)
     }
-    // await product.addCategory(req.body)
 
     const newTag = await db.model('tags').create({
       productId: +req.params.id,
