@@ -5,9 +5,9 @@ import history from '../history'
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
-const UPDATE_CART = 'UPDATE_CART' //updates line item quantity - rename?
+const UPDATE_CART = 'UPDATE_CART'
 const GET_USER_ORDERS = 'GET_USER_ORDERS'
-const UPDATE_ORDER = 'UPDATE_ORDER' // for admin to update order properties
+const UPDATE_ORDER = 'UPDATE_ORDER'
 
 
 // INITIAL STATE
@@ -55,8 +55,7 @@ const updateOrder = order => ({
 export const getCartFromUser = (userId) => {
   return async dispatch => {
     try {
-
-      const { data } = await axios.get(`/api/users/${userId}/orders`) // return cart with line-items
+      const { data } = await axios.get(`/api/users/${userId}/orders`)
       const activeOrder = data.find(order => order.isActiveCart)
       dispatch(getCart(activeOrder))
     } catch (err) {
@@ -110,7 +109,6 @@ export const getUserOrdersFromDb = userId => {
   return async dispatch => {
     try {
       const { data } = await axios.get(`/api/users/${userId}/orders`)
-
       const pastOrders = data.filter(order => !order.isActiveCart)
       dispatch(getUserOrders(pastOrders))
     } catch (err) {
@@ -119,7 +117,6 @@ export const getUserOrdersFromDb = userId => {
   }
 }
 
-//use to update orders in db - need to send full order object
 export const updateOrderinDb = (updates, orderId) => {
   return async dispatch => {
     try {

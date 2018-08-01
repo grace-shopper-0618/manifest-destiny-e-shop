@@ -35,7 +35,6 @@ export const submitNewCategory = (category) => {
   return async dispatch => {
     try {
       const { data } = await axios.post('/api/categories', category)
-      // we are getting our data here
       dispatch(addCategory(data))
     } catch (err) {
       console.error(err)
@@ -48,9 +47,6 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CATEGORIES:
       return action.categories
-    // case ADD_CATEGORY:
-    //   console.log('past categories', state.categories, 'new addition', action.category)
-    //   return [...state.categories, action.category]
     default:
       return state
   }

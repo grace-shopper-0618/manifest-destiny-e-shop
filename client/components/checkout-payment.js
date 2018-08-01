@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import { CardElement, injectStripe } from 'react-stripe-elements'
 import { connect } from 'react-redux'
 import { getCartFromOrderId, updateOrderinDb, getCartFromUser } from '../store/cart'
-import { editProductInDb } from '../store/product';
 import { updateProductInDb } from '../store/products';
 import { checkoutGuestOrder } from '../store/sessionCart';
-// import axios from 'axios'
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -57,15 +55,11 @@ class CheckoutForm extends Component {
   }
 
   componentDidMount() {
-    // fetch updated order in case promo code got added!
-    console.log('componentDidMount', this.props.cart)
     if (this.props.isLoggedIn) this.props.fetchUserCart(this.props.cart.id)
   }
 
   componentDidUpdate(prevProps) {
-    // have this component re-fetch the user cart so it grabs the new active one
-    console.log('componentDidUpdate', this.props.cart)
-    if (prevProps.cart.isActiveCart !== this.props.cart.isActiveCart) { //if isActive changed on cart, re-fetch and get Activecart on state
+    if (prevProps.cart.isActiveCart !== this.props.cart.isActiveCart) {
       this.props.fetchNewUserCart(this.props.user.id)
     }
 

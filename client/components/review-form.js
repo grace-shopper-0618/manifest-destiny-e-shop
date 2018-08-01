@@ -73,13 +73,10 @@ class ReviewForm extends Component {
       </div>
       )
     } else {
-      // no user logged in (works with oauth?), so no form
       return null
     }
   }
 }
-
-// CONNECTED COMPONENT
 
 const mapState = state => {
   return {

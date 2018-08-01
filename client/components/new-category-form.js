@@ -20,7 +20,6 @@ class CategoryForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault()
-    // make a new category
     this.props.createNewCategory(this.state)
     this.setState({
       name: ''
@@ -48,7 +47,6 @@ class CategoryForm extends Component {
   }
 }
 
-// CONNECTED COMPONENT
 
 const mapState = state => ({
   categories: state.categories

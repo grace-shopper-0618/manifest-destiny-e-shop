@@ -33,7 +33,6 @@ export const changeOrderToShipped = (order) => {
     try {
       const { data } = await axios.put(`/api/orders/${order.id}`, { "hasShipped": true })
       dispatch(shipOrder(data))
-
     } catch (err) { console.error(err) }
   }
 }

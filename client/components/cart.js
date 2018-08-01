@@ -18,7 +18,6 @@ class Cart extends Component {
     if (isLoggedIn && cart) {
       this.props.deleteFromCart(item)
     } else {
-      console.log('=== this should run when we hit delete while logged out ===')
       this.props.removeSessionItem(item)
     }
   }
@@ -44,7 +43,7 @@ class Cart extends Component {
   }
 
   render() {
-    const { cart, isLoggedIn, guestCart, user } = this.props
+    const { cart, guestCart } = this.props
     const lineItems = cart && cart['line-items'] ? cart['line-items'] : guestCart
     let totalPrice = 0
     totalPrice = lineItems.reduce((total, item) => {
