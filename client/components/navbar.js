@@ -8,7 +8,7 @@ import { fetchSessionCart } from '../store/sessionCart'
 
 class Navbar extends React.Component {
 
-  componentDidMount(){
+  componentDidMount() {
     if (this.props.isLoggedIn) {
       this.props.getUserOrders()
       this.props.getUserCart()
@@ -17,7 +17,7 @@ class Navbar extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     const { id } = this.props.user
     if (id) {
       if (prevProps.cart && !prevProps.cart['line-items']) {
@@ -42,27 +42,27 @@ class Navbar extends React.Component {
     }
 
     return (
-    <div>
-      <nav id='navbar'>
-        <ul>
-          <li><Link to='/'>Home</Link></li>
-          <li><Link to='/shop'>Shop</Link></li>
-          <li><h2>Oregon Trail Outfitters</h2></li>
-          {isLoggedIn ? (
-            <li><p>Welcome,<Link to='/home'>{email}</Link></p></li>
-          ) : (
-            <li><Link to='/login'>Login</Link></li>
-          )}
-          {isLoggedIn ? (
-            <li><a href='#' onClick={handleClick}>Logout</a></li>
-          ) : (
-            <li><Link to='/signup'>Sign Up</Link></li>
-          )}
-          <li><h5>Items in cart: {cartQuantity}</h5></li>
-          <li><Link to='/cart'>View Cart</Link></li>
-        </ul>
-      </nav>
-    </div>)
+      <div>
+        <nav id='navbar'>
+          <h2 id='title'>Oregon Trail Outfitters</h2>
+          <ul id='nav-items'>
+            <li><Link to='/'>Home</Link></li>
+            <li><Link to='/shop'>Shop</Link></li>
+            {isLoggedIn ? (
+              <li><Link to='/home'>Profile</Link></li>
+            ) : (
+                <li><Link to='/login'>Login</Link></li>
+              )}
+            {isLoggedIn ? (
+              <li><a href='#' onClick={handleClick}>Logout</a></li>
+            ) : (
+                <li><Link to='/signup'>Sign Up</Link></li>
+              )}
+            <li><h5>Items in cart: {cartQuantity}</h5></li>
+            <li><Link to='/cart'>View Cart</Link></li>
+          </ul>
+        </nav>
+      </div>)
   }
 }
 
