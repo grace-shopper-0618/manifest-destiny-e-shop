@@ -24,21 +24,21 @@ class SingleProduct extends Component {
     this.handleAddToCart = this.handleAddToCart.bind(this)
   }
 
-  // componentWillMount() {
-  //   const id = this.props.match.params.id
-  //   this.props.getProduct(id)
-  //   const { reviews } = this.props.product
-  //   if (reviews && reviews.length) {
-  //     let sumOfRatings = 0
-  //     reviews.forEach(review => {
-  //       sumOfRatings += review.rating
-  //     })
-  //     const avgRating = sumOfRatings / reviews.length
-  //     this.setState({
-  //       avgRating
-  //     })
-  //   }
-  // }
+  componentDidMount() {
+    const id = this.props.match.params.id
+    this.props.getProduct(id)
+    const { reviews } = this.props.product
+    if (reviews && reviews.length) {
+      let sumOfRatings = 0
+      reviews.forEach(review => {
+        sumOfRatings += review.rating
+      })
+      const avgRating = sumOfRatings / reviews.length
+      this.setState({
+        avgRating
+      })
+    }
+  }
 
 
   handleEdit(evt) {
@@ -102,8 +102,6 @@ class SingleProduct extends Component {
         this.props.addToCart(item)
       }
     } else {
-      console.log('logged in is false, entering else statement')
-      // does this create a nested object with property title?
       item.product = {
         title: this.props.product.title
       }
