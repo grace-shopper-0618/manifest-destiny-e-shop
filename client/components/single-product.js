@@ -24,23 +24,22 @@ class SingleProduct extends Component {
     this.handleAddToCart = this.handleAddToCart.bind(this)
   }
 
-  componentDidMount() {
-    const id = this.props.match.params.id
-    this.props.getProduct(id)
+  // componentWillMount() {
+  //   const id = this.props.match.params.id
+  //   this.props.getProduct(id)
+  //   const { reviews } = this.props.product
+  //   if (reviews && reviews.length) {
+  //     let sumOfRatings = 0
+  //     reviews.forEach(review => {
+  //       sumOfRatings += review.rating
+  //     })
+  //     const avgRating = sumOfRatings / reviews.length
+  //     this.setState({
+  //       avgRating
+  //     })
+  //   }
+  // }
 
-    if (this.props.product.reviews) {
-      const reviews = this.props.product.reviews
-      let sumOfRatings = 0
-      reviews.forEach(review => {
-        sumOfRatings += review.rating
-      })
-      const avgRating = sumOfRatings / reviews.length
-
-      this.setState({
-        avgRating
-      })
-    }
-  }
 
   handleEdit(evt) {
     evt.preventDefault()
@@ -86,7 +85,6 @@ class SingleProduct extends Component {
 
   handleAddToCart(evt) {
     evt.preventDefault()
-    console.log('inside of handleAdd')
     let item = {
       productId: +this.props.match.params.id,
       quantity: this.state.quantity,
@@ -109,7 +107,6 @@ class SingleProduct extends Component {
       item.product = {
         title: this.props.product.title
       }
-      console.log('the item object', item)
       this.props.addToSessionCart(item)
     }
   }
@@ -123,7 +120,7 @@ class SingleProduct extends Component {
           <h3>{product.title}</h3>
           <h1>${product.price}</h1>
           <img className='singleProductPhoto' src={newPhotoUrl} width='500px' />
-          </div>
+        </div>
         <div id='product-details'>
           <p>Product Description: {product.description}</p>
           <p>Categories:</p>
@@ -155,7 +152,7 @@ class SingleProduct extends Component {
           <ProductCategoryForm />
           <div>
             <h4>Reviews</h4>
-            <p>Average Rating: {this.state.avgRating}</p>
+            {/* <p>Average Rating: {this.state.avgRating}</p> */}
             <ReviewForm />
             <ul id="reviews-list">
               {
@@ -182,7 +179,6 @@ class SingleProduct extends Component {
 // can we use a higher-order component here?
 
 const mapState = state => {
-  console.log('state:', state)
   return ({
     product: state.product,
     user: state.user,
