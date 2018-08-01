@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Category, Product} = require('../db/models')
+const { userMid } = require('../../secureHelpers')
 module.exports = router
 
 //get for path /api/categories
@@ -32,7 +33,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', userMid, async (req, res, next) => {
   try {
     const newCategory = await Category.create(req.body)
     res.status(201).json(newCategory)
