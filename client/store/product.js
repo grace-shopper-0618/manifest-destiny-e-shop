@@ -54,7 +54,7 @@ export const addCategoryToProduct = (productId, category) => {
     try {
       const { data } = await axios.put(`/api/products/${productId}/categories`, category)
       dispatch(editProduct(data))
-    } catch (err) { console.error(err)}
+    } catch (err) { console.error(err) }
   }
 }
 
@@ -72,8 +72,9 @@ export const deleteCategoryFromProduct = (productId, categoryId) => {
 
 export const submitNewReview = (reviewBody, productId, userId) => {
   return async dispatch => {
-    const newReview = {...reviewBody, productId, userId}
-    const { data }= await axios.post(`/api/products/${productId}/reviews`, newReview)
+    console.log('ReviewBody:', reviewBody)
+    const newReview = { ...reviewBody, productId, userId }
+    const { data } = await axios.post(`/api/products/${productId}/reviews`, newReview)
     dispatch(newReviewForProduct(data))
   }
 }

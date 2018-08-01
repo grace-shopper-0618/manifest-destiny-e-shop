@@ -3,10 +3,12 @@ const { LineItem, Order, Product } = require('../db/models')
 module.exports = router
 
 router.post('/guestCart', async (req, res, next) => {
+  console.log('PRICE IN GUESTCART', req.body.price)
+  req.body.price = req.body.price / 100
   req.session.cart.push(req.body)
   const { productId } = req.body
   const product = await Product.findById(productId),
-  inventory = product.inventory
+    inventory = product.inventory
   // make sure that the req.body includes the product info (title/price/id), quantity
   req.body.product.inventory = inventory
   // including inventory on req.body to display increment/decrement buttons based on available inventory
@@ -89,7 +91,7 @@ router.delete('/guestCart/:productId', (req, res, next) => {
   const { productId } = req.params
 
   const item = req.session.cart.find(item => item.productId === +productId),
-  index = req.session.cart.indexOf(item)
+    index = req.session.cart.indexOf(item)
   req.session.cart.splice(index, 1)
   console.log('req session before', req.session)
   console.log('=== cart after splice ===', req.session.cart)

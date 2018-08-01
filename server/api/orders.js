@@ -61,14 +61,13 @@ router.get('/:id', async (req, res, next) => {
 router.post('/guest', async (req, res, next) => {
   // req.session => cart ('line-items'), address, promocode
   // req.body => finalTotal
-  console.log('===shipping address', req.session.address)
   try {
     // create guest order in database!
     const guestOrder = await Order.create({
       userId: 101,
       isActiveCart: false,
       shippingAddress: req.session.address,
-      finalTotal: req.body.finalTotal
+      finalTotal: req.body.finalTotal * 100
     })
 
     // create line items!

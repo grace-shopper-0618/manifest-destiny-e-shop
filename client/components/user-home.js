@@ -9,13 +9,13 @@ import Dashboard from './admin-dashboard'
  * COMPONENT
  */
 class UserHome extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     const { id } = this.props.user
     this.props.getUserOrders(id)
     this.props.getUserCart(id)
   }
 
-  render () {
+  render() {
     const { email, userOrders } = this.props
     const { reviews } = this.props.user
     return (
@@ -26,17 +26,17 @@ class UserHome extends React.Component {
           <ul>
             {
               reviews && reviews.length ?
-              reviews.map(review => {
-                return (
-                  <div id="review" key={review.id}>
-                    {
-                      review.rating > 1? <p>{review.rating} STARS:</p> : <p>{review.rating} STAR:</p>
-                    }
-                    <p>{review.text}</p>
-                  </div>
-                )
-              }) :
-              <h5>You have not reviewed any products.</h5>
+                reviews.map(review => {
+                  return (
+                    <div id="review" key={review.id}>
+                      {
+                        review.rating > 1 ? <p>{review.rating} STARS:</p> : <p>{review.rating} STAR:</p>
+                      }
+                      <p>{review.text}</p>
+                    </div>
+                  )
+                }) :
+                <h5>You have not reviewed any products.</h5>
             }
           </ul>
         </div>
@@ -45,12 +45,12 @@ class UserHome extends React.Component {
           <ul>
             {
               userOrders.length ?
-              userOrders.map(order => {
-                return (
-                  <Order order={order} key={order.id} />
-                )
-              }) :
-              <h5>You have not placed any orders with Oregon Trail Outfitters. Get shopping!</h5>
+                userOrders.map(order => {
+                  return (
+                    <Order order={order} key={order.id} />
+                  )
+                }) :
+                <h5>You have not placed any orders with Oregon Trail Outfitters. Get shopping!</h5>
             }
           </ul>
           {
