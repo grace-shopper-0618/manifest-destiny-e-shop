@@ -25,6 +25,7 @@ form div {
   flex-wrap: wrap;
   flex-direction: row;
   border: 2px solid black;
+  padding: 10px;
   font-size: 22px;
   list-style-type: none;
   font-weight: bold;
