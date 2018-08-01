@@ -56,18 +56,19 @@ class CheckoutForm extends Component {
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // fetch updated order in case promo code got added!
-    console.log('componentDidUpdate')
+    console.log('componentDidMount', this.props.cart)
     if (this.props.isLoggedIn) this.props.fetchUserCart(this.props.cart.id)
   }
 
   componentDidUpdate(prevProps) {
     // have this component re-fetch the user cart so it grabs the new active one
-    console.log('componentDidUpdate')
-    if (prevProps.cart.isActiveCart !== this.props.cart.isActiveCart) {
+    console.log('componentDidUpdate', this.props.cart)
+    if (prevProps.cart.isActiveCart !== this.props.cart.isActiveCart) { //if isActive changed on cart, re-fetch and get Activecart on state
       this.props.fetchNewUserCart(this.props.user.id)
     }
+
   }
 
   render() {
