@@ -1,9 +1,9 @@
-#Welcome to Oregon Trail Outfitters!
+# Welcome to Oregon Trail Outfitters!
 
-#Description:
+# Description:
 An e-commerce store for all of your Oregon Trail needs!
 
-#Instructions
+# Instructions
 To run this locally, follow the below instructions: 
 1. Run 'npm install' to install required packages 
 2. Run 'create db oregon-trail' to create database
@@ -11,11 +11,11 @@ To run this locally, follow the below instructions:
 4. Run 'npm run start-dev' to run the program locally
 5. Navigate to localhost:8080 in your browser 
 
-#Deployed app:
+# Deployed app:
 https://oregon-trail-outfitters.herokuapp.com/
 
-#Contributors:
--Amy Berg
--Kara Hirschman
--Shelby Smitherman
--Alicia Dinkel
+# Contributors:
+* Amy Berg
+* Kara Hirschman
+* Shelby Smitherman
+* Alicia Dinkel
