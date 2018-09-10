@@ -110,7 +110,6 @@ form div {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  width: calc(100% - 270px);
 }
 
 .title {
@@ -129,6 +128,7 @@ form div {
   .wholePage {
     display: flex;
     flex-direction: row;
+    align-content: space-between;
   }  
 }
 
