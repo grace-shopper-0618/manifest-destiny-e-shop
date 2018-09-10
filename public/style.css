@@ -60,6 +60,7 @@ form div {
     flex-flow: column wrap;
     align-content: center;
     justify-content: space-around;
+    margin-bottom: 10px;
   }
 
   #nav-title {
@@ -94,35 +95,43 @@ form div {
 }
 
 #categoryList {
-  display: flex;
-  border: 2px solid black;
-  left: 20px;
-  width: 20%;
-  flex-wrap: wrap;
-  flex-direction: column;
+  width: 270px;
+  margin: 0px;
 }
 
 #category-list {
   list-style-type: none;
+  width: 250px;
+  padding: 0px;
+  margin: 10px;
 }
 
 #all-products {
   display: flex;
-  border: 2px solid black;
   flex-wrap: wrap;
   flex-direction: row;
-  width: 79.33%;
+  width: calc(100% - 270px);
 }
 
 .title {
   font-weight: bold;
 }
 
-.wholePage {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+@media (max-width: 700px) {
+  .wholePage {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
 }
+
+@media (min-width: 700px) {
+  .wholePage {
+    display: flex;
+    flex-direction: row;
+  }  
+}
+
 
 .product-card, #add {
   display: flex;
