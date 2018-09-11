@@ -42,25 +42,25 @@ class Navbar extends React.Component {
     }
 
     return (
-      <div id='navbar-container'>
+      <div>
         <nav id='navbar'>
-          <h2 id='nav-title'>Oregon Trail Outfitters</h2>
-          <div id='nav-items'>
-            <div className='nav-item'><Link to='/'>Home</Link></div>
-            <div className='nav-item'><Link to='/shop'>Shop</Link></div>
+          <h2 id='title'>Oregon Trail Outfitters</h2>
+          <ul id='nav-items'>
+            <li><Link to='/'>Home</Link></li>
+            <li><Link to='/shop'>Shop</Link></li>
             {isLoggedIn ? (
-              <div className='nav-item'><Link to='/home'>Profile</Link></div>
+              <li><Link to='/home'>Profile</Link></li>
             ) : (
-                <div className='nav-item'><Link to='/login'>Login</Link></div>
+                <li><Link to='/login'>Login</Link></li>
               )}
             {isLoggedIn ? (
-              <div className='nav-item'><a href='#' onClick={handleClick}>Logout</a></div>
+              <li><a href='#' onClick={handleClick}>Logout</a></li>
             ) : (
-                <div className='nav-item'><Link to='/signup'>Sign Up</Link></div>
+                <li><Link to='/signup'>Sign Up</Link></li>
               )}
-            <div className='nav-item'><a>Items in cart: {cartQuantity}</a></div>
-            <div className='nav-item'><Link to='/cart'>View Cart</Link></div>
-          </div>
+            <li><h5>Items in cart: {cartQuantity}</h5></li>
+            <li><Link to='/cart'>View Cart</Link></li>
+          </ul>
         </nav>
       </div>)
   }
