@@ -1,9 +1,15 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Roboto', "Helvetica Neue", Helvetica, sans-serif;
 }
 
 a {
   text-decoration: none;
+  color: black;
+}
+
+a:hover{
+  text-decoration: none;
+  color: orange
 }
 
 label {
@@ -20,11 +26,17 @@ form div {
   display: inline-block;
 }
 
+h5{
+  color:#767676;
+  font-size: 11px;
+
+}
+
 #navbar {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  border: 2px solid black;
+  border: none;
   padding: 10px;
   font-size: 22px;
   list-style-type: none;
@@ -59,7 +71,7 @@ form div {
 
 #categoryList {
   display: flex;
-  border: 2px solid black;
+  border: none;
   left: 20px;
   width: 20%;
   flex-wrap: wrap;
@@ -72,14 +84,31 @@ form div {
 
 #all-products {
   display: flex;
-  border: 2px solid black;
+  /* border: 2px solid white; */
   flex-wrap: wrap;
   flex-direction: row;
   width: 79.33%;
 }
 
-.title {
+/*selected category in left sidebar*/
+.selected-category {
   font-weight: bold;
+  font-size: 20px;
+  padding-bottom: 20px;
+  color: black
+}
+
+/*filter by heading in left sidebar*/
+#filter-by {
+  font-weight: bold;
+  font-size: 18px;
+  padding-bottom: 15px;
+}
+
+/*category list items inleft sidebar*/
+.category-item {
+  font-size: 16px;
+  padding-top: 10px;
 }
 
 .wholePage {
@@ -93,7 +122,7 @@ form div {
   flex-wrap: wrap;
   flex-direction: column;
   text-align: left;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin: 10px;
   padding: 10px;
   width: 175px;
@@ -116,6 +145,10 @@ form div {
    justify-content: center;
    align-content: center;
  }
+
+ /* .product-card-footer {
+    color: gray;
+ } */
 
  #homepage {
   background-color: white;
