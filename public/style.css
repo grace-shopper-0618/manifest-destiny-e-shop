@@ -16,11 +16,6 @@ label {
   display: block;
 }
 
-nav a {
-  display: inline-block;
-  margin: 1em;
-}
-
 form div {
   margin: 1em;
   display: inline-block;
@@ -32,66 +27,123 @@ h5{
 
 }
 
-#navbar {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  border: none;
-  padding: 10px;
-  font-size: 22px;
-  list-style-type: none;
-  font-weight: bold;
-  /* height: 20vw; */
-  /* justify-content: space-around; */
-  overflow: hidden;
+/*NAVBAR CSS*/
+
+/*wide navbar*/
+@media (min-width: 1200px) {
+  #navbar {
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 5px;
+  }
+
+  #nav-title {
+    padding: 5px;
+    margin-left: 10vw;
+  }
+
+  #nav-items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 10vw;
+    padding: 5px;
+  }
+
+  .nav-item {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
-#nav-items {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  font-size: 22px;
-  list-style-type: none;
-  font-weight: bold;
-  justify-content: left;
-  overflow: hidden;
+/*narrow navbar*/
+@media (max-width: 1200px) {
+  #navbar {
+    font-size: 19px;
+    font-weight: bold;
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+    justify-content: space-around;
+    margin-bottom: 10px;
+  }
+
+  #nav-title {
+    padding: 5px;
+    text-align: center;
+    margin: 0px;
+  }
+
+  #nav-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nav-item {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px;
+  }
 }
 
-#navbar li {
-  display: flex;
-  align-content: center;
-  justify-content: space-around;
-  list-style-type: none;
-  padding: 5px;
-  height: 50px;
-  text-decoration: none;
-  float: left;
-  font-size: 16px;
+@media (min-width: 700px) and (max-width: 1200px) {
+  #navbar {
+    font-size: 30px;
+  }
+  .nav-item {
+    margin-left: 15px;
+    margin-right: 15px;
+    font-size: 20px;
+  }
 }
+
+
 
 #categoryList {
-  display: flex;
-  border: none;
-  left: 20px;
-  width: 20%;
-  flex-wrap: wrap;
-  flex-direction: column;
+  width: 270px;
+  margin: 0px;
 }
 
 #category-list {
   list-style-type: none;
+  width: 250px;
+  padding: 0px;
+  margin: 10px;
 }
 
 #all-products {
   display: flex;
-  /* border: 2px solid white; */
   flex-wrap: wrap;
   flex-direction: row;
-<<<<<<< HEAD
   justify-content: center;
-=======
-  width: 79.33%;
->>>>>>> master
+}
+
+.title {
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  .wholePage {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
+}
+
+@media (min-width: 700px) {
+  .wholePage {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+  }  
 }
 
 /*selected category in left sidebar*/
@@ -113,12 +165,6 @@ h5{
 .category-item {
   font-size: 16px;
   padding-top: 10px;
-}
-
-.wholePage {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
 }
 
 .product-card, #add {
