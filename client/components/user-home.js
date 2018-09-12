@@ -5,7 +5,7 @@ import { Order } from './order'
 import { getCartFromUser, getUserOrdersFromDb } from '../store/cart';
 import Dashboard from './admin-dashboard'
 
-class UserHome extends React.Component {
+export class UserHome extends React.Component {
   componentDidMount() {
     const { id } = this.props.user
     this.props.getUserOrders(id)

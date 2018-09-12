@@ -9,7 +9,7 @@ import { addItemToGuestCart } from '../store/sessionCart'
 
 //COMPONENT
 
-class SingleProduct extends Component {
+export class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
