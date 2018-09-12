@@ -13,7 +13,6 @@ describe('SingleProduct', () => {
   let singleProduct
   let testProduct
   before(async () => {
-    // need to create a product in the test database for us to use to see the single product view
     testProduct = await Product.create({
       title: 'oxen',
       price: 40,
@@ -22,8 +21,7 @@ describe('SingleProduct', () => {
   })
 
   beforeEach(() => {
-    // singleProduct rendered in routes and depends on param in url to find the product...
-    singleProduct = shallow(<SingleProduct />)
+    singleProduct = shallow(<SingleProduct product={testProduct} user={{isAdmin: false}} match={{ params: {id: testProduct.id} }} getProduct={() => {}}/>)
   })
 
   it('renders the product title in an h3', () => {
