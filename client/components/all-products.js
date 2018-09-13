@@ -78,7 +78,7 @@ class AllProducts extends React.Component {
                   <img src={product.photoUrl} max-width='175px' max-heigh='175px' />
                 </div>
                 <h4>${product.price}</h4>
-                <div id='product-card-footer'>
+                <div className='product-card-footer'>
                   <h5>{product.inventory} in stock</h5>
                   {this.renderButtons(product.id)}
                 </div>

@@ -106,24 +106,30 @@ h5{
 }
 
 
+/*SIDEBAR CSS*/
 
-#categoryList {
-  width: 270px;
-  margin: 0px;
-}
+/*wide navbar*/
+  #categoryList {
+    width: 270px;
+    margin: 0px;
+  }
 
-#category-list {
-  list-style-type: none;
-  width: 250px;
-  padding: 0px;
-  margin: 10px;
-}
+  #category-list {
+    list-style-type: none;
+    width: 250px;
+    padding: 0px;
+    margin: 10px;
+  }
+
+
+/*narrow navbar*/
+
 
 #all-products {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
 }
 
 .title {
@@ -143,7 +149,7 @@ h5{
     display: flex;
     flex-direction: row;
     align-content: space-between;
-  }  
+  }
 }
 
 /*selected category in left sidebar*/
