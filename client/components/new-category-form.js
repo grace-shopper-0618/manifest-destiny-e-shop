@@ -32,7 +32,7 @@ class CategoryForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="name">
             New Category Name
-            {!this.state.name.length ? <span>required</span> : null}
+            {!this.state.name.length ? <span> Required</span> : null}
           </label>
           <input
             name="name"

@@ -153,6 +153,11 @@ h5{
   font-weight: bold;
 }
 
+.wholePage{
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
+
 @media (max-width: 700px) {
   .wholePage {
     display: flex;
@@ -190,16 +195,16 @@ h5{
   padding-top: 10px;
 }
 
-.product-card {
+.product-card{
   align-items: center;
+  justify-content: center;
 }
 
 .product-card, #add {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  text-align: left;
-  /* border: 1px solid black; */
+  text-align: center;
   margin: 10px;
   padding: 10px;
   width: 175px;
@@ -235,7 +240,7 @@ h5{
    display: block;
    margin-left: auto;
    margin-right: auto;
-   margin-top: 10px;
+   margin-top: 15px;
  }
 
  #single-product {
@@ -257,4 +262,10 @@ h5{
 
  #product-details {
    width: 300px;
+ }
+
+ #userHome {
+  text-align: center;
+  align-items: center;
+
  }
