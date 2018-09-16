@@ -20,7 +20,6 @@ class UserHome extends React.Component {
         <h2>Welcome, {email}</h2>
         <div id="userReviews">
           <h4>Your Reviews:</h4>
-          {/* <ul> */}
           {
             reviews && reviews.length ?
               reviews.map(review => {
@@ -35,7 +34,6 @@ class UserHome extends React.Component {
               }) :
               <h5>You have not reviewed any products.</h5>
           }
-          {/* </ul> */}
         </div>
         <div id="userOrders">
           <h4>Your Order History:</h4>
