@@ -21,25 +21,36 @@ a:hover{
 
 button {
   background-color: orange;
-  border-radius: 18px;
+  border-radius: 7px;
   color: white;
   font-size: 14px;
   margin-top: 10px;
+  padding: 2px 5px 2px 5px;
 }
 
 label {
   display: block;
 }
 
+
 form div {
   margin: 1em;
   display: inline-block;
 }
 
+form label {
+  font-size: 16px;
+}
+
+form input {
+  width: 175px;
+  border-radius: 4px;
+  padding: 2px 5px 2px 5px;
+}
+
 h5{
   color:#767676;
   font-size: 11px;
-
 }
 
 /*NAVBAR CSS*/
@@ -147,6 +158,10 @@ h5{
     width: 250px;
     padding: 0px;
     margin: 10px;
+  }
+
+  .category-item {
+    color: #5e5d5d;
   }
 
 /*ALL PRODUCTS CSS*/

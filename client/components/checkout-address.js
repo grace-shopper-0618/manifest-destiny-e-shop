@@ -55,38 +55,38 @@ class CheckoutAddress extends Component {
         <form id="shipping-address" onSubmit={handleSubmit}>
           <div>
             <label htmlFor='firstName'>First Name</label>
-            <input name='firstName' type='string' onChange={handleChange} value={this.state.shippingAddress.firstName} />
+            <input name='firstName' type='string' onChange={handleChange} value={this.state.shippingAddress.firstName} required />
           </div>
           <div>
             <label htmlFor='lastName'>Last Name</label>
-            <input name='lastName' type='string' onChange={handleChange} value={this.state.shippingAddress.lastName} />
+            <input name='lastName' type='string' onChange={handleChange} value={this.state.shippingAddress.lastName} required />
           </div>
           <div>
             <label htmlFor='address1'>Address</label>
-            <input name='address1' type='text' onChange={handleChange} value={this.state.shippingAddress.address1} />
+            <input name='address1' type='text' onChange={handleChange} value={this.state.shippingAddress.address1} required />
           </div>
           <div>
-            <label htmlFor='address2'>Address</label>
+            <label htmlFor='address2'>Address 2</label>
             <input name='address2' type='text' onChange={handleChange} value={this.state.shippingAddress.address2} />
           </div>
           <div>
             <label htmlFor='city'>City</label>
-            <input name='city' type='string' onChange={handleChange} value={this.state.shippingAddress.city} />
+            <input name='city' type='string' onChange={handleChange} value={this.state.shippingAddress.city} required />
           </div>
           <div>
             <label htmlFor='state'>State</label>
-            <input name='state' type='string' onChange={handleChange} value={this.state.shippingAddress.state} />
+            <input name='state' type='string' onChange={handleChange} value={this.state.shippingAddress.state} required />
           </div>
           <div>
             <label htmlFor='zip'>ZIP Code</label>
-            <input name='zip' type='string' onChange={handleChange} value={this.state.shippingAddress.zip} />
+            <input name='zip' type='string' onChange={handleChange} value={this.state.shippingAddress.zip} required />
           </div>
           {/* <div>
             <label htmlFor='promo'>Promo Code</label>
             <input name='promo' type='string' onChange={handleChange} value={this.state.summerPromo} />
           </div> */}
           <div>
-            <button type='submit'>Submit and Continue Checkout</button>
+            <button type='submit'>Continue Checkout</button>
           </div>
         </form>
       </div>

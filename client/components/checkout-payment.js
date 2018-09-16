@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getCartFromOrderId, updateOrderinDb, getCartFromUser } from '../store/cart'
 import { updateProductInDb } from '../store/products';
 import { checkoutGuestOrder } from '../store/sessionCart';
+import { Link } from 'react-router-dom'
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -66,7 +67,14 @@ class CheckoutForm extends Component {
   }
 
   render() {
-    if (this.state.complete) return <h1>Purchase Complete</h1>
+    if (this.state.complete) {
+      return (
+        <div className="page-left">
+          <h1>Purchase Complete</h1>
+          <Link to="/home">Return to Profile</Link>
+        </div>
+      )
+    }
 
     const cart = this.props.cart
     let total;
@@ -84,7 +92,7 @@ class CheckoutForm extends Component {
         <div className="checkout">
           <p>Would you like to complete the purchase?</p>
           <CardElement />
-          <button type="submit" onClick={this.submit}>Send</button>
+          <button type="submit" onClick={this.submit}>Submit</button>
         </div>
       </div>
     )

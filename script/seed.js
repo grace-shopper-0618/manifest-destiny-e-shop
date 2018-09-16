@@ -80,7 +80,7 @@ const categories = [
     id: 1
   },
   {
-    name: 'Cleanliness is Next to Godliness',
+    name: 'Hygiene & Cleanliness',
     id: 2
   },
   {
@@ -111,7 +111,7 @@ const reviews = [
     userId: 1
   },
   {
-    text: "The oxen healthy and strong but don't respond well to direction.",
+    text: "The oxen are healthy and strong but don't respond well to direction.",
     rating: 3,
     productId: 7,
     userId: 1
