@@ -79,7 +79,7 @@ class CheckoutForm extends Component {
     }
 
     return (
-      <div>
+      <div className="page-left">
         <h2>Cart Total: ${total}</h2>
         <div className="checkout">
           <p>Would you like to complete the purchase?</p>

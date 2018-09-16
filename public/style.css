@@ -19,6 +19,14 @@ a:hover{
   color: orange
 }
 
+button {
+  background-color: orange;
+  border-radius: 18px;
+  color: white;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
 label {
   display: block;
 }
@@ -174,6 +182,24 @@ h5{
   }
 }
 
+/* CSS for pages with centered content */
+
+.page-center {
+  text-align: center;
+  align-items: center;
+  margin-left: 5vw;
+  margin-right: 5vw;
+ }
+
+ /* CSS for pages with left-aligned content */
+
+ .page-left{
+  text-align: left;
+  align-items: left;
+  margin-left: 5vw;
+  margin-right: 5vw;
+ }
+
 /*selected category in left sidebar*/
 .selected-category {
   font-weight: bold;
@@ -264,16 +290,8 @@ h5{
    width: 300px;
  }
 
- #userHome {
-  text-align: center;
-  align-items: center;
- }
 
- #shopping-cart{
-  text-align: center;
-  align-items: center;
-  margin-left: 20vw;
-  margin-right: 20vw;
-  border: 5px black;
-  border-radius: 20px;
+
+ #cart-item{
+   margin-bottom: 15px;
  }

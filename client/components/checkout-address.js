@@ -40,7 +40,7 @@ class CheckoutAddress extends Component {
       const updatedOrder = { ...this.props.cart, shippingAddress: concatAddress }
       this.props.submitAddress(updatedOrder, updatedOrder.id)
     } else {
-      await axios.put('/api/users/guest/cart', {"concatAddress":concatAddress})
+      await axios.put('/api/users/guest/cart', { "concatAddress": concatAddress })
       // promocode?
     }
     this.props.history.push('/checkout/payment')
@@ -50,7 +50,7 @@ class CheckoutAddress extends Component {
     const handleChange = this.handleChange
     const handleSubmit = this.handleSubmit
     return (
-      <div id='checkout-form' >
+      <div className="page-left" >
         <h3>Shipping Address:</h3>
         <form id="shipping-address" onSubmit={handleSubmit}>
           <div>
