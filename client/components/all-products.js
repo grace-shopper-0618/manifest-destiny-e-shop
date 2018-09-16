@@ -75,7 +75,9 @@ class AllProducts extends React.Component {
               <div className="product-card" key={product.id} >
                 <Link to={`/shop/${product.id}`} >{product.title}</Link>
                 <div className="product-card-image">
-                  <img src={product.photoUrl} max-width='175px' max-heigh='175px' />
+                  <Link to={`/shop/${product.id}`} >
+                    <img src={product.photoUrl} max-width='175px' max-heigh='175px' />
+                  </Link>
                 </div>
                 <h4>${product.price}</h4>
                 <div className='product-card-footer'>
