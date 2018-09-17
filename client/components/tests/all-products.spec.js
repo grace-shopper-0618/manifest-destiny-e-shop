@@ -11,14 +11,17 @@ enzyme.configure({ adapter })
 
 describe('AllProducts', () => {
   let allProducts
+  let allProductsAdmin
 
   const testOxen = {
+    id: 1,
     title: 'oxen',
     price: 40,
     inventory: 2,
   }
 
   const testHorse = {
+    id: 2,
     title: 'horse',
     price: 50,
     inventory: 3
@@ -33,9 +36,20 @@ describe('AllProducts', () => {
       selectedCateogry={{}}
       history={[]}
       match={{}} fetchProducts={() => {}} deleteProduct={() => {}}/>)
+
+    allProductsAdmin = shallow(<AllProducts products={testProducts}
+      user={{isAdmin: true}}
+      selectedCateogry={{}}
+      history={[]}
+      match={{}} fetchProducts={() => {}} deleteProduct={() => {}}/>)
   })
 
   it('renders the product titles h3s', () => {
     expect(allProducts.find('h3').length).to.be.equal(2)
+  })
+
+  it('displays edit, delete, and add buttons only to admins', () => {
+    expect(allProducts.find('button').length).to.be.equal(0)
+    expect(allProductsAdmin.find('button').length).to.be.equal(5)
   })
 })
