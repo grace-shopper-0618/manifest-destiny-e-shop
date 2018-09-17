@@ -25,6 +25,7 @@ describe('SingleProduct', () => {
   })
 
   it('renders the product title in an h3', () => {
-    expect(singleProduct.find('h3').text()).to.be.equal('oxen')
+    expect(singleProduct.find('h1').length).to.be.equal(1)
+    expect(singleProduct.find('h1').text()).to.be.equal('oxen')
   })
 })

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import CategoryList from './category-list'
 
 // COMPONENT
-class AllProducts extends React.Component {
+export class AllProducts extends React.Component {
   constructor() {
     super()
     this.renderButtons = this.renderButtons.bind(this)
@@ -59,7 +59,7 @@ class AllProducts extends React.Component {
 
   render() {
     const selectedCategory = this.props.selectedCategory
-    if (selectedCategory.name) {
+    if (selectedCategory && selectedCategory.name) {
       var { products } = selectedCategory
     }
     else {
