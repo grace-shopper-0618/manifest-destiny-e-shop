@@ -2,6 +2,13 @@ body {
   font-family: 'Roboto', "Helvetica Neue", Helvetica, sans-serif;
 }
 
+#app{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+}
+
 a {
   text-decoration: none;
   color: black;
@@ -12,28 +19,65 @@ a:hover{
   color: orange
 }
 
+button {
+  background-color: orange;
+  border-radius: 7px;
+  color: white;
+  font-size: 14px;
+  margin-top: 10px;
+  padding: 2px 5px 2px 5px;
+}
+
 label {
   display: block;
 }
+
 
 form div {
   margin: 1em;
   display: inline-block;
 }
 
+form label {
+  font-size: 16px;
+}
+
+form input {
+  width: 175px;
+  border-radius: 4px;
+  padding: 2px 5px 2px 5px;
+}
+
 h5{
   color:#767676;
   font-size: 11px;
-
 }
 
 /*NAVBAR CSS*/
+#navbar{
+  background-image: url("wood-background.jpg");
+  color: white;
+  font-weight: normal;
+  padding-bottom: 5px;
+  width: 100vw;
+  top: 0px;
+}
+
+#navbar a{
+  color: white;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+#navbar a:hover{
+  text-decoration: none;
+  color: orange
+}
 
 /*wide navbar*/
 @media (min-width: 1200px) {
   #navbar {
     font-size: 22px;
-    font-weight: bold;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -55,7 +99,6 @@ h5{
 
   .nav-item {
     font-size: 16px;
-    font-weight: bold;
     padding: 5px;
     margin-left: 10px;
     margin-right: 10px;
@@ -66,7 +109,6 @@ h5{
 @media (max-width: 1200px) {
   #navbar {
     font-size: 19px;
-    font-weight: bold;
     display: flex;
     flex-flow: column wrap;
     align-content: center;
@@ -88,7 +130,6 @@ h5{
 
   .nav-item {
     font-size: 11px;
-    font-weight: bold;
     text-align: center;
     padding: 4px;
   }
@@ -106,28 +147,38 @@ h5{
 }
 
 
+/*SIDEBAR CSS*/
+  #categoryList {
+    width: 270px;
+    margin: 0px;
+  }
 
-#categoryList {
-  width: 270px;
-  margin: 0px;
-}
+  #category-list {
+    list-style-type: none;
+    width: 250px;
+    padding: 0px;
+    margin: 10px;
+  }
 
-#category-list {
-  list-style-type: none;
-  width: 250px;
-  padding: 0px;
-  margin: 10px;
-}
+  .category-item {
+    color: #5e5d5d;
+  }
 
+/*ALL PRODUCTS CSS*/
 #all-products {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
 }
 
 .title {
   font-weight: bold;
+}
+
+.wholePage{
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 
 @media (max-width: 700px) {
@@ -143,8 +194,26 @@ h5{
     display: flex;
     flex-direction: row;
     align-content: space-between;
-  }  
+  }
 }
+
+/* CSS for pages with centered content */
+
+.page-center {
+  text-align: center;
+  align-items: center;
+  margin-left: 5vw;
+  margin-right: 5vw;
+ }
+
+ /* CSS for pages with left-aligned content */
+
+ .page-left{
+  text-align: left;
+  align-items: left;
+  margin-left: 5vw;
+  margin-right: 5vw;
+ }
 
 /*selected category in left sidebar*/
 .selected-category {
@@ -167,12 +236,16 @@ h5{
   padding-top: 10px;
 }
 
+.product-card{
+  align-items: center;
+  justify-content: center;
+}
+
 .product-card, #add {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  text-align: left;
-  /* border: 1px solid black; */
+  text-align: center;
   margin: 10px;
   padding: 10px;
   width: 175px;
@@ -208,14 +281,13 @@ h5{
    display: block;
    margin-left: auto;
    margin-right: auto;
-   margin-top: 10px;
+   margin-top: 15px;
  }
 
  #single-product {
    display: flex;
    flex-wrap: wrap;
    flex-direction: row;
-   border: 1px solid black;
    justify-content: center;
  }
 
@@ -224,7 +296,6 @@ h5{
   flex-wrap: wrap;
   flex-direction: column;
   text-align: left;
-  border: 1px solid black;
   margin: 10px;
   padding: 10px;
   align-content: center;
@@ -234,5 +305,8 @@ h5{
    width: 300px;
  }
 
-/* how can we make the flour image have a white background instead of clear? */
-/* how can we make the number in stock display at the bottom of the product card? */
+
+
+ #cart-item{
+   margin-bottom: 15px;
+ }

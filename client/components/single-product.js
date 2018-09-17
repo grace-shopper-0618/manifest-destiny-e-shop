@@ -115,8 +115,8 @@ export class SingleProduct extends Component {
     return (
       <div key={product.id} id='single-product'>
         <div id='title-and-photo'>
-          <h3>{product.title}</h3>
-          <h1>${product.price}</h1>
+          <h1>{product.title}</h1>
+          <h2>${product.price}</h2>
           <img className='singleProductPhoto' src={newPhotoUrl} width='500px' />
         </div>
         <div id='product-details'>
@@ -127,7 +127,7 @@ export class SingleProduct extends Component {
               product.categories && product.categories.map(category => {
                 return (
                   <li key={category.name}>
-                    <p>{category.name}</p>
+                    {category.name}
                   </li>
                 )
               })
