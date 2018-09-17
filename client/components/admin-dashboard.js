@@ -4,7 +4,7 @@ import { fetchAllOrders, changeOrderToShipped } from '../store/orders';
 import { Order } from './order'
 import CategoryForm from './new-category-form'
 
-class Dashboard extends Component {
+export class Dashboard extends Component {
 
   componentDidMount(){
     this.props.fetchOrders()
