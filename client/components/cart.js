@@ -50,14 +50,14 @@ class Cart extends Component {
       return (item.price * 100 * item.quantity) + total
     }, 0)
     return (
-      <div id='shopping-cart'>
+      <div className='page-left'>
         <h3>Your Cart</h3>
         <ul id='cart-items'>
           {
             lineItems && lineItems.map((item) => {
 
               return (
-                <div key={item.productId} >
+                <div key={item.productId} id="cart-item">
                   <li>
                     <Link to={`/shop/${item.productId}`}>{item.product.title}</Link>
                     <h5>Price: ${item.price * 100}</h5>
@@ -77,7 +77,9 @@ class Cart extends Component {
           }
         </ul>
         <h4>Total Price: ${totalPrice}</h4>
-        <Link to='/checkout/address'>Proceed to Checkout</Link>
+        <Link to='/checkout/address'>
+          <button type="Submit">Proceed to Checkout</button>
+        </Link>
       </div>
     )
   }

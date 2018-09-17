@@ -1,35 +1,31 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import { auth } from '../store'
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const { name, displayName, handleSubmit, error } = props
 
   return (
-    <div>
+    <div className="page-left">
       <form onSubmit={handleSubmit} name={name}>
         <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
+          <label htmlFor="email">Email</label>
           <input name="email" type="text" />
         </div>
         <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
+          <label htmlFor="password">Password</label>
           <input name="password" type="password" />
         </div>
         <div>
           <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
+        <a href="/auth/google">Or {displayName} with Google</a>
       </form>
-      <a href="/auth/google">{displayName} with Google</a>
     </div>
   )
 }
